@@ -1,0 +1,6 @@
+controller:
+  additionalPlugins:
+  - blueocean:1.27.16
+  - github:1.40.0
+  - hashicorp-vault-plugin:371.v884a_4dd60fb_6
+  - pipeline-stage-view:2.34

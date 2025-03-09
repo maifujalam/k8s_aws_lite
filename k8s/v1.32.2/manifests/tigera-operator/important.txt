@@ -1,0 +1,19 @@
+To Setup Calico in k8s AWS:-
+
+1. Make sure host destination check should be disabled fro instnce.
+2. Enable IPIPCross Subnet as below:-
+│   Calico Network:                                                                                                                                                                          │
+│     Bgp:         Enabled                                                                                                                                                                   │
+│     Host Ports:  Enabled                                                                                                                                                                   │
+│     Ip Pools:                                                                                                                                                                              │
+│       Block Size:          26                                                                                                                                                              │
+│       Cidr:                192.168.0.0/16                                                                                                                                                  │
+│       Disable BGP Export:  false                                                                                                                                                           │
+│       Encapsulation:       IPIPCrossSubnet                                                                                                                                                 │
+│       Nat Outgoing:        Enabled                                                                                                                                                         │
+│       Node Selector:       all()                                                                                                                                                           │
+│     Linux Dataplane:       Iptables                                                                                                                                                        │
+│     Multi Interface Mode:  None                                                                                                                                                            │
+│     nodeAddressAutodetectionV4:                                                                                                                                                            │
+│       First Found:  true
+3. Validate by deploying hello world app.And curl the cluster IP and its should balance between the nodes.

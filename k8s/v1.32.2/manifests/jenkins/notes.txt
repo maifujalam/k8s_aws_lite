@@ -1,0 +1,1 @@
+1. Create aws secret for accessinh helm chart for jenkins agent:

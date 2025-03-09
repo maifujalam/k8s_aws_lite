@@ -3,8 +3,8 @@
   become: false
   vars:
     PROJECT_PATH: k8s_aws  # File will be  created at home directory
-    KUBERNETES_MAJOR_VERSION: v1.31
-    KUBERNETES_VERSION: 1.31.3  # add 'v' in at prefix whenever required.
+    KUBERNETES_MAJOR_VERSION: v1.32
+    KUBERNETES_VERSION: 1.32.2  # add 'v' in at prefix whenever required.
     PACKAGE_DIRECTORY: packages
     USER: ubuntu
     MASTER_NODE_IP: 172.31.0.37

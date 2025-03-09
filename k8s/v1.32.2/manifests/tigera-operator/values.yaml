@@ -15,6 +15,9 @@ installation:
 apiServer:
   enabled: true
 
+defaultFelixConfiguration:
+  enabled: false
+
 certs:
   node:
     key:
@@ -29,6 +32,9 @@ certs:
 # Resource requests and limits for the tigera/operator pod.
 resources: {}
 
+# Common labels for all resources created by this chart
+additionalLabels: {}
+
 # Tolerations for the tigera/operator pod.
 tolerations:
 - effect: NoExecute
@@ -40,6 +46,12 @@ tolerations:
 nodeSelector:
   kubernetes.io/os: linux
 
+# Affinity for the tigera/operator pod.
+affinity: {}
+
+# PriorityClassName for the tigera/operator pod.
+priorityClassName: ""
+
 # Custom annotations for the tigera/operator pod.
 podAnnotations: {}
 
@@ -49,8 +61,15 @@ podLabels: {}
 # Image and registry configuration for the tigera/operator pod.
 tigeraOperator:
   image: tigera/operator
-  version: v1.30.4
+  version: v1.36.5
   registry: quay.io
 calicoctl:
   image: docker.io/calico/ctl
-  tag: v3.26.1
+  tag: v3.29.2
+
+kubeletVolumePluginPath: /var/lib/kubelet
+
+# Optionally configure the host and port used to access the Kubernetes API server.
+kubernetesServiceEndpoint:
+  host: ""
+  port: "6443"

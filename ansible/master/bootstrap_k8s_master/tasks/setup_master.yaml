@@ -1,0 +1,21 @@
+- name: Copy master init templates
+  template:
+    src: init-default.yaml.j2
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/init-default.yaml
+
+- name: Reset kubernetes
+  become: true
+  shell: kubeadm reset --force
+
+- name: Init cluster
+  become: true
+  shell:  kubeadm init --config /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/init-default.yaml
+
+
+- name: Copy Config File
+  shell: |
+    mkdir -p $HOME/.kube;
+    sudo cp -vf /etc/kubernetes/admin.conf $HOME/.kube/config;
+    sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+

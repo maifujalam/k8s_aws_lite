@@ -1,0 +1,6 @@
+---
+- name: Update system and install packages
+  include_tasks:  update_os.yaml
+
+- name: Download kubernetes package for version {{KUBERNETES_VERSION}}
+  include_tasks: download_k8s_packages.yaml

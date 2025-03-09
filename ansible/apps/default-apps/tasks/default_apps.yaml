@@ -1,0 +1,92 @@
+- name: Check helm s3 plugin version
+  shell: helm s3 version
+  register: r1
+  ignore_errors: true
+
+- name: Install helm s3 plugin
+  shell: |
+     helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.16.2;
+  when: r1.rc != 0
+
+- name: Add Red Hat Helm charts repository
+  kubernetes.core.helm_repository:
+    name: public-helm-repository
+    repo_url: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/ #
+
+- name: Update repository
+  command: helm repo update
+
+- name: Check if calico already installed
+  shell: helm list -A | grep calico
+  register: r2
+  ignore_errors: true
+
+- name: Install calico
+  kubernetes.core.helm:
+    name: calico
+    chart_ref: public-helm-repository/tigera-operator
+    release_namespace: tigera-operator
+    create_namespace: true
+    chart_version: 3.29.1
+    values_files:
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/tigera-operator/values.yaml
+  when: r2.rc != 0
+
+- name: Check if cert-manager already installed
+  shell: helm list -A | grep cert-manager
+  register: r3
+  ignore_errors: true
+
+- name: Install cert-manager
+  kubernetes.core.helm:
+    name: cert-manager
+    chart_ref: public-helm-repository/cert-manager
+    release_namespace: cert-manager
+    create_namespace: true
+    chart_version: 1.16.2-aws
+    values_files:
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/cert-manager/values.yaml
+  when: r3.rc != 0
+
+- name: Install self signed certs
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
+  when: r3.rc != 0
+
+- name: Check if ingress-nginx already installed
+  shell: helm list -A | grep ingress-nginx
+  register: r4
+  ignore_errors: true
+
+- name: Install ingress-nginx
+  kubernetes.core.helm:
+    name: ingress-nginx
+    chart_ref: public-helm-repository/ingress-nginx
+    release_namespace: ingress-nginx
+    create_namespace: true
+    chart_version: 4.11.2-aws
+    values_files:
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/ingress-nginx/values.yaml
+  when: r4.rc != 0
+
+- name: Sleep fo 30 sec
+  shell: sleep 30;
+  when: r4.rc != 0
+
+- name: Check if argo-cd already installed
+  shell: helm list -A | grep argo-cd
+  register: r5
+  ignore_errors: true
+
+- name: Install argo-cd
+  kubernetes.core.helm:
+    name: argo-cd
+    chart_ref: /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/argo-cd
+    release_namespace: argo-cd
+    create_namespace: true
+    chart_version: 7.7.7-aws
+    values_files:
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/argo-cd/values.yaml
+  when: r5.rc != 0
+
+- name: Install Default Apps
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/default-applications.yaml

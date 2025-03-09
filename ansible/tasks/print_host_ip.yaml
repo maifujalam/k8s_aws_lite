@@ -1,0 +1,12 @@
+- hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Print hostname
+      shell:  echo "ok"
+    - name: Echo facts
+      debug:
+        msg: "{{ ansible_facts}}"
+    - name: ip
+      debug:
+        msg: "{{ ansible_facts['default_ipv4']['address'] }}"

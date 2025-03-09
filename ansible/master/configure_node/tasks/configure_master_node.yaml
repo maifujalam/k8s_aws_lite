@@ -1,0 +1,52 @@
+
+- name: Create ansible directory
+  become: true
+  file:
+    path: /etc/ansible/
+    state: directory
+    mode: "777"
+
+- name: Copy Worker inventory file
+  template:
+    src: inventory.ini.j2
+    dest: /etc/ansible/inventory.ini
+
+- name: Make ssh login command in master home directory
+  copy:
+    dest: ~/ssh_worker
+    content: "ssh -o ServerAliveInterval=5 -i ~/.ssh/id_rsa ubuntu@{{WORKER_NODE_IP}}"
+
+- name: Make Worker bootstrap command
+  copy:
+    dest: ~/worker_bootstrap
+    content: "ansible-playbook k8s_aws/ansible/worker/worker.yaml -i /etc/ansible/inventory.ini"
+
+- name: Pre-pull kubernetes images v{{KUBERNETES_VERSION}}
+  become: true
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/5_kubernetes_images.sh
+
+- name: Configure helm
+  become: true
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/8_install_helm.sh
+
+- name: Make /etc/hosts entry for mater node to ip {{MASTER_NODE_IP}}
+  become: true
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^master='
+    line: "{{MASTER_NODE_IP}} master"
+    state: present
+
+- name: Make /etc/hosts entry for worker node to ip {{WORKER_NODE_IP}}
+  become: true
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^worker='
+    line: "{{WORKER_NODE_IP}} worker"
+    state: present
+
+- name: Update hostname
+  become: true
+  hostname:
+    name: master
+

@@ -1,0 +1,15 @@
+---
+- hosts: k8s-worker
+  become: false
+  vars:
+    PROJECT_PATH: k8s_aws  # File will be  created at home directory
+    KUBERNETES_MAJOR_VERSION: v1.30
+    KUBERNETES_VERSION: 1.30.5  # add 'v' in at prefix whenever required.
+    PACKAGE_DIRECTORY: packages
+    USER: ubuntu
+    MASTER_NODE_IP: 172.31.0.5
+    WORKER_NODE_IP: 172.31.0.71
+  roles:
+    - download-packages
+    - configure_node
+    - bootstrap_k8s_worker

@@ -1,0 +1,20 @@
+- name: Make /etc/hosts entry for mater node to ip {{MASTER_NODE_IP}}
+  become: true
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^master='
+    line: "{{MASTER_NODE_IP}} master"
+    state: present
+
+- name: Make /etc/hosts entry for worker node to ip {{WORKER_NODE_IP}}
+  become: true
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^worker='
+    line: "{{WORKER_NODE_IP}} worker1"
+    state: present
+
+- name: Reboot the system
+  become: true
+  reboot:
+    reboot_timeout: 600  # Time to wait for the system to reboot (in seconds)

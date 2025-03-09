@@ -1,0 +1,32 @@
+- name: Master playbook to run modules
+  hosts: localhost
+  vars:
+    PROJECT_PATH: k8s_aws  # File will be created in the home directory
+    KUBERNETES_MAJOR_VERSION: v1.31
+    KUBERNETES_VERSION: 1.31.3  # Add 'v' at the prefix whenever required.
+    PACKAGE_DIRECTORY: packages
+    USER: ubuntu
+    MASTER_NODE_IP: 172.31.0.37
+    WORKER_NODE_IP: 172.31.0.38
+  tasks:
+    - name: Setup master
+      shell: ansible-paybook master/master.yaml
+      vars:
+        master_specific_var: "value_for_master"
+      async: 300
+      poll: 0
+      register: master_job
+
+    - name: Wait for 1 minute before setting up worker
+      pause:
+        seconds: 60
+
+    - name: Setup worker
+      shell: ansible-paybook worker/worker.yaml
+      vars:
+        worker_specific_var: "value_for_worker"
+
+    - name: Final setup tasks
+      include_tasks: final-setup/final.yaml
+      vars:
+        final_specific_var: "value_for_final"

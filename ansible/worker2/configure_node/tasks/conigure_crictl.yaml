@@ -1,0 +1,27 @@
+- name: Copy crictl config
+  become: true
+  copy:
+    src: crictl.yaml
+    dest: /etc/
+
+
+- name: Copy containerd config
+  become: true
+  copy:
+    src: config.toml
+    dest: /etc/containerd/
+
+- name: Enable and restart containerd service
+  become: true
+  ansible.builtin.systemd:
+    name: containerd
+    enabled: yes
+    state: restarted
+
+- name: Disable apparmor
+  become: true
+  ansible.builtin.systemd:
+    name: apparmor
+    enabled: no
+    state: stopped
+

@@ -1,0 +1,12 @@
+---
+- name: Configure crictl
+  include_tasks: conigure_crictl.yaml
+
+- name: Configure Network
+  include_tasks: configure_network.yaml
+
+- name: Configure master node
+  include_tasks: configure_master_node.yaml
+
+- name: Configuring tools
+  include_tasks: configure-tools.yaml

@@ -1,0 +1,21 @@
+- name: Copy worker1 join templates
+  template:
+    src: join-default-worker1.yaml.j2
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/join-default-worker1.yaml
+
+- name: Reset worker1 kubernetes
+  become: true
+  shell: kubeadm reset --force
+
+- name: Delete all exited containers.
+  become: true
+  shell: crictl rm  -all
+
+- name: Remove old kubeconfig files.
+  become: true
+  shell: rm /etc/kubernetes/* -rfv
+
+- name: Join cluster
+  become: true
+  shell:  kubeadm join --config /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/join-default-worker1.yaml
+

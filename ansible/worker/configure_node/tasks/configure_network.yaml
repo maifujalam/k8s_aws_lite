@@ -1,0 +1,14 @@
+- name: Copy network script
+  copy:
+    src: "{{ item }}"
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/
+  with_fileglob:
+    - "*"
+
+- name: Run network script
+  become: true
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/3_configure_network.sh
+
+- name: Run firewalld script
+  become: true
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/4-configure_firealld_selinux.sh

@@ -1,0 +1,4 @@
+collections:
+  - name: community.kubernetes
+    version: 2.0.1  # Optional: specify version
+  - name: ansible.posix  # Install another collection

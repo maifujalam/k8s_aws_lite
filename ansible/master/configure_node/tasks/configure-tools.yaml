@@ -1,0 +1,58 @@
+- name: Copy argocd cli script
+  copy:
+    src: argocdctl.sh
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/argocdctl.sh
+  ignore_errors: true
+
+- name: Install Argocd
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/argocdctl.sh
+
+- name: Argocd Auto Completion
+  blockinfile:
+    path: ~/.bashrc
+    block: |
+      source <(argocd completion bash)
+      alias a=argocd
+      complete -o default -F __start_argocd a
+
+- name: Configure kubectl
+  blockinfile:
+    path: ~/.bashrc
+    block: |
+      source <(kubectl completion bash)
+      alias k=kubectl
+      complete -o default -F __start_kubectl k
+
+- name: Download the K9s binary
+  ansible.builtin.get_url:
+    url: https://github.com/derailed/k9s/releases/download/v0.32.5/k9s_linux_amd64.deb
+    dest: /tmp/k9s_linux_amd64.deb
+    mode: '0644'
+
+- name: Download calicoctl binary
+  become: true
+  ansible.builtin.get_url:
+    url:  https://github.com/projectcalico/calico/releases/download/v3.28.2/calicoctl-linux-amd64
+    dest: /usr/local/bin/calicoctl
+    mode: '0755'
+
+- name: Install the K9s package
+  become: true
+  ansible.builtin.apt:
+    deb: /tmp/k9s_linux_amd64.deb
+    update_cache: yes
+
+- name: Ensure K9s binary is installed
+  ansible.builtin.command:
+    cmd: "k9s version"
+  register: result
+  ignore_errors: yes
+
+- name: Display K9s installation result
+  debug:
+    var: result.stdout_lines
+
+- name: Reboot the system
+  become: true
+  reboot:
+    reboot_timeout: 600  # Time to wait for the system to reboot (in seconds)

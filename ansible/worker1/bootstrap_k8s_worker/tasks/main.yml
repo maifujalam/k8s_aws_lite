@@ -1,0 +1,4 @@
+---
+# tasks file for boostrap_k8s_worker
+- name: Setup worker1 node
+  include_tasks: setup_worker.yaml

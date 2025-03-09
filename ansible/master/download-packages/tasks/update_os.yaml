@@ -1,0 +1,29 @@
+- name: Update os with apt update
+  become: true
+  apt:
+    update_cache: true
+
+- name: Update os with apt upgrade
+  become: true
+  apt:
+    upgrade: yes
+
+- name: Install packages
+  become: true
+  apt:
+    name: "{{item}}"
+    state: present
+  with_items :
+    - git
+    - curl
+    - vim
+    - build-essential
+    - wget
+    - unzip
+    - ansible-core
+    - tree
+    - apt-transport-https
+    - gpg
+    - socat
+    - ca-certificates
+    - containerd

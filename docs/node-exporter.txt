@@ -1,0 +1,4 @@
+Configure node exporter:-
+1. ping 127.31.0.10
+2. curl 172.31.0.10:9100/metrics
+3.

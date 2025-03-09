@@ -1,0 +1,9 @@
+1. How to create your own helm chart?
+   a. helm create my-chart
+   b. populate your helm chart templates
+   c. write Chart.yaml
+   d. Write default values for template in values.yaml
+   f. create .helmignore with files like:- .gitignore,.git
+   g. render it by  helm template . --output-dir=abc -f values-1.yaml
+   h. helm install <helm-deployment-name> helmchart-path
+   i. package it by helm package chart

@@ -1,0 +1,9 @@
+K8s metrics configuration:-
+1. Kubeproxy metrics:-
+a.  Make exposure of metrics bya dding : {"data":{"config.conf":"metricsBindAddress: 0.0.0.0:10249"}}'
+b. kubectl rollout restart daemonset kube-proxy -n kube-system
+c. curl http://worker:10249/metrics
+d. If requires ot reset kubeproxy:  kubeadm init phase addon kube-proxy --kubeconfig ~/.kube/config
+
+2. Node Exporter metrics:-
+a.

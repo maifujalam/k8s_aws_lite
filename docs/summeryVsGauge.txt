@@ -1,0 +1,19 @@
+Feature	Summary	Gauge
+Purpose	Measures distributions of values (e.g., request duration, response size) over time with calculated quantiles (percentiles).	Represents a single value that can go up or down (e.g., in-flight requests, current temperature).
+Data Represented	Provides pre-calculated quantiles (e.g., 50th, 90th percentile) and a sum/count of observed events.	Tracks the current state or level of a value, reflecting its real-time condition.
+Use Cases	- Request durations (e.g., http_request_duration_seconds).
+- Sizes of payloads (e.g., http_response_size_bytes).	- Current memory usage.
+- In-flight requests.
+- Number of running jobs.
+Metric Behavior	- Aggregates multiple observations (sum, count, quantiles).
+- Designed for high cardinality or high-frequency metrics.	- Reflects the latest state.
+- Values can increase and decrease over time.
+Aggregation Support	Quantiles (percentiles) are not aggregatable across instances due to client-side calculation. Sum and count are aggregatable.	Fully aggregatable. Values can be summed, averaged, etc., across instances.
+Example Metric	http_request_duration_seconds_count
+http_request_duration_seconds_sum
+http_request_duration_seconds{quantile="0.5"}	http_in_flight_requests
+memory_usage_bytes
+Configuration Complexity	Requires careful configuration of quantiles.
+High-cardinality labels can cause performance issues.	Simpler configuration.
+Less impact from label cardinality.
+Resource Usage	More resource-intensive (storage, computation) due to histograms and quantile calculation.	Lightweight and straightforward.

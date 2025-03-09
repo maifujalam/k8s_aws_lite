@@ -1,0 +1,21 @@
+0. Doc: https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-raft
+1. Initialize vault:
+kubectl -n vault exec vault-0 -- vault operator init \
+    -key-shares=1 \
+    -key-threshold=1 \
+    -format=json > cluster-keys.json
+
+2. Get the unseal key: jq -r ".unseal_keys_b64[]" cluster-keys.json
+3. Create unseal key variable: VAULT_UNSEAL_KEY=$(jq -r ".unseal_keys_b64[]" cluster-keys.json)
+4. Unseal vault on vault-0 pod: kubectl -n vault exec vault-0 -- vault operator unseal $VAULT_UNSEAL_KEY
+5. Join the vault-1: kubectl -n vault exec -it vault-1 -- vault operator raft join http://vault-0.vault-internal:8200
+6. Join the vault-2: kubectl -n vault exec -it vault-2 -- vault operator raft join http://vault-0.vault-internal:8200
+7. Unseal the vault-1 pod: kubectl -n vault exec -it vault-1 -- vault operator unseal $VAULT_UNSEAL_KEY
+8. Unseal the vault-2 pod: kubectl -n vault exec -it vault-2 -- vault operator unseal $VAULT_UNSEAL_KEY
+9. Debug vault conn: kubectl -n vault exec -it vault-1 -- curl -v http://vault-0.vault-internal:8200/v1/sys/health
+10. Vault status: kubectl -n vault exec -it vault-0 -- vault status -address=http://127.0.0.1:8200
+11. nslookup kubernetes.default
+12. nslookup vault-0.vault-internal
+
+
+

@@ -1,0 +1,1 @@
+Create Public NAT Gateway Using AWS Default Elastic IP

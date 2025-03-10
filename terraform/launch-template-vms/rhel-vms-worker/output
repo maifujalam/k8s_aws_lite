@@ -1,0 +1,12 @@
+private-ip = [
+  "172.31.0.69",
+]
+private_ssh_commands = [
+  "ssh -o ServerAliveInterval=5 -i ~/.ssh/id_rsa ec2-user@172.31.0.69",
+]
+public-ip = [
+  "",
+]
+public_ssh_commands = [
+  "ssh -o ServerAliveInterval=5 -i ~/.ssh/id_rsa ec2-user@",
+]

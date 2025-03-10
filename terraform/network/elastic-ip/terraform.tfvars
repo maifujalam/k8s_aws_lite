@@ -1,0 +1,5 @@
+region = "ap-south-1"
+owner = "skalam"
+project = "aws_k8s"
+name = "elastic-ip"
+vm-name = "ubuntu-vm-nat-1"

@@ -2374,7 +2374,7 @@ repoServer:
   ## Repo server Horizontal Pod Autoscaler
   autoscaling:
     # -- Enable Horizontal Pod Autoscaler ([HPA]) for the repo server
-    enabled: false
+    enabled: true
     # -- Minimum number of replicas for the repo server [HPA]
     minReplicas: 1
     # -- Maximum number of replicas for the repo server [HPA]
@@ -2512,9 +2512,12 @@ repoServer:
           value: /helm-working-dir
         - name: HELM_DATA_HOME
           value: /helm-working-dir
+        - name: HELM_PLUGINS
+          value: /helm-working-dir/helm-plugins/
       command: [ "/bin/sh", "-c" ]
       args:
         - apk --no-cache add curl;
+          rm -rf /helm-working-dir/helm-plugins/*
           helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.16.2;
           rm -rf /helm-working-dir/plugins/https-github.com-hypnoglow-helm-s3.git;
           helm repo add public-helm-repository https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/;

@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  labels:
+    app.kubernetes.io/name: hello-kubernetes
+  name: wildcard-certificate-staging
+  namespace: helloworld
+spec:
+  dnsNames:
+  - "*.maifuj.com"
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: letsencrypt-staging-llt
+  secretName: wildcard-certificate-secret-staging
+  usages:
+  - digital signature
+  - key encipherment

@@ -1,0 +1,22 @@
+# clusterissuer-lets-encrypt-staging.yaml
+#This worls with ELK as it required iamService Accoun.
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: sk.maifujalam@gmal.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - dns01:
+        route53:
+          region: ap-south-1
+           # Role is optional
+#          role: arn:aws:iam::${AWS_ACCOUNT_ID}:role/cert-manager-acme-dns01-route53.
+          auth:
+            kubernetes:
+              serviceAccountRef:
+                name: cert-manager-acme-dns01-route53

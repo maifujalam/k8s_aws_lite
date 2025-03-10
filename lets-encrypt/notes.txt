@@ -1,0 +1,7 @@
+1. Create IAM Role: terraform/iam/hosted-zone/lets-encrypt
+2. go ot the dashboard and attach to any IAM user.Here i have attached to IAM user: helm-repo
+3. Create aws credentials secret for iam user 'helm repo':
+  kubectl -n cert-manager create secret generic aws-credentials-secret --from-literal=aws_access_key_id=<access-key-id> --from-literal=aws_secret_access_key=<secret-access-key>
+4. Use the secret and access keys in staging-cluster-issuer-llt.yaml .
+Doc:  https://repost.aws/questions/QUOY5XngCtRyOX4Desaygz8Q/not-authorized-to-perform-sts-assumerole
+5.

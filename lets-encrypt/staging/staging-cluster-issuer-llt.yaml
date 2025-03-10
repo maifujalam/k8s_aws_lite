@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging-llt
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: sk.maifujalam@gmal.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - dns01:
+        route53:
+          region: ap-south-1
+          accessKeyIDSecretRef:
+            name: aws-credentials-secret
+            key: aws_access_key_id
+          secretAccessKeySecretRef:
+            name: aws-credentials-secret
+            key: aws_secret_access_key
+          # (role is optional.Pass correctly with right role else it will give error with 403 ) you can also assume a role with these credentials
+#          role: arn:aws:iam::383886020191:user/helm-repo

@@ -1,7 +1,8 @@
 #!/bin/bash
 CHART_PATH=$1
 CHART_NAME=$(basename $CHART_PATH)
-HELM_REPO_NAME="s3://public-helm-repository-20231023095000508500000001/"  # Replace with your Helm repo name
+HELM_REPO_NAME="public-helm-repository"
+HELM_REPO_URL="s3://public-helm-repository-20231023095000508500000001/"  # Replace with your Helm repo name
 TMP_DIR="/tmp" # temp directory where to keep latest package helm chart.
 
 # Check if Helm chart name is passed as a parameter
@@ -23,6 +24,8 @@ fi
 LATEST_HELM_CHART=$(ls -t ${TMP_DIR}/${CHART_NAME}-*.tgz | head -n 1)
 echo "Latest helm chart build: $LATEST_HELM_CHART"
 
+echo "Adding helm repo  $HELM_REPO_NAME -> $HELM_REPO_URL "
+helm repo add $HELM_REPO_NAME $HELM_REPO_URL
 # Push the chart to Repository
 echo "Pushing the Helm chart: $LATEST_HELM_CHART to the repository $HELM_REPO_NAME"
 helm s3 push --force $LATEST_HELM_CHART $HELM_REPO_NAME

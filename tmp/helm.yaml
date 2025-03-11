@@ -10,7 +10,7 @@ spec:
   - image: alpine/helm:3.17.1
     name: ac
     resources: {}
-    command: ["sleep","3600"]
+    command: ["sleep","infinity"]
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}

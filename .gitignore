@@ -12,7 +12,6 @@ venv
 */service-accounts
 **/*.lock.hcl
 **config
-**.crt
 **secrets
 venv
 .venv

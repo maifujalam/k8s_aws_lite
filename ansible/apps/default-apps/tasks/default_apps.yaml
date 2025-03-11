@@ -21,6 +21,9 @@
   register: r2
   ignore_errors: true
 
+- name: Clone repo
+  shell: cd;git clone https://github.com/maifujalam/{{PROJECT_PATH}}.git
+
 - name: Install calico
   kubernetes.core.helm:
     name: calico

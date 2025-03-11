@@ -27,7 +27,7 @@
     chart_ref: public-helm-repository/tigera-operator
     release_namespace: tigera-operator
     create_namespace: true
-    chart_version: 3.29.2
+    chart_version: 3.29.1
     values_files:
       - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/tigera-operator/values.yaml
   when: r2.rc != 0

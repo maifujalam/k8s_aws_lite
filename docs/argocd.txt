@@ -1,0 +1,1 @@
+1. Issue with remote repo unable to pull for a commit: https://github.com/argoproj/argo-cd/issues/7898

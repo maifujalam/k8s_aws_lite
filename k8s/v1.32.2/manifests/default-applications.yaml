@@ -6,7 +6,7 @@ metadata:
 spec:
  project: default
  destination:
-   namespace: default
+   namespace: argo-cd
    server: https://kubernetes.default.svc
  source:
    repoURL: https://github.com/maifujalam/k8s_aws_lite.git

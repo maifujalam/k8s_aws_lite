@@ -1,7 +1,7 @@
 #!/bin/bash
 CHART_PATH=$1
 CHART_NAME=$(basename $CHART_PATH)
-HELM_REPO_NAME="public-helm-repository"
+HELM_REPO_NAME="public-helm-repository-tmp"
 HELM_REPO_URL="s3://public-helm-repository-20231023095000508500000001/"  # Replace with your Helm repo name
 TMP_DIR="/tmp" # temp directory where to keep latest package helm chart.
 

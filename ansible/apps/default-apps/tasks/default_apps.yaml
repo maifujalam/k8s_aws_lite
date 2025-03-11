@@ -22,7 +22,7 @@
   ignore_errors: true
 
 - name: Clone repo
-  shell: cd;git clone https://github.com/maifujalam/{{PROJECT_PATH}}.git
+  shell: cd;rm -rfv {{PROJECT_PATH}}; git clone https://github.com/maifujalam/{{PROJECT_PATH}}.git
   ignore_errors: true
 
 - name: Install calico

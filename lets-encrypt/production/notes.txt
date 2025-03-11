@@ -1,0 +1,3 @@
+1. First create a aws credntials secret: kubectl -n cert-manager create secret generic aws-credentials-secret \
+--from-literal=aws_access_key_id=<HELM_REOP_ROUTE_53> --from-literal=aws_secret_access_key=<HELM_REOP_ROUTE_53_KEY>
+2. kubectl apply -f .

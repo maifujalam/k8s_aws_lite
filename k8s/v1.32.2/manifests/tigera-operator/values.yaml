@@ -13,7 +13,14 @@ installation:
   # imagePullSecrets are a slice of LocalObjectReferences, which is the same format they appear as on deployments.
   #
   # Example: --set installation.imagePullSecrets[0].name=my-existing-secret
-
+  calicoNetwork:
+    # Note: The ipPools section cannot be modified post-install.
+    ipPools:
+      - blockSize: 26
+        cidr: 192.168.0.0/16
+        encapsulation: IPIPCrossSubnet
+        natOutgoing: Enabled
+        nodeSelector: all()
   imagePullSecrets: []
 
 apiServer:

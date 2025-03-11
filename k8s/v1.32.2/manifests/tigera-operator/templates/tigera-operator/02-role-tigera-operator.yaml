@@ -129,10 +129,12 @@ rules:
     - watch
   - apiGroups:
     - crd.projectcalico.org
+    - projectcalico.org
     resources:
     - ippools
     - kubecontrollersconfigurations
     - bgpconfigurations
+    - ipamconfigurations
     verbs:
     - get
     - list

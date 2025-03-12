@@ -304,7 +304,9 @@ injector:
   # Toleration Settings for injector pods
   # This should be either a multi-line string or YAML matching the Toleration array
   # in a PodSpec.
-  tolerations: []
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
 
   # nodeSelector labels for server pod assignment, formatted as a multi-line string or YAML map.
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
@@ -627,7 +629,9 @@ server:
   # Toleration Settings for server pods
   # This should be either a multi-line string or YAML matching the Toleration array
   # in a PodSpec.
-  tolerations: []
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
 
   # nodeSelector labels for server pod assignment, formatted as a multi-line string or YAML map.
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
@@ -1149,7 +1153,9 @@ csi:
     # Toleration Settings for provider pods
     # This should be either a multi-line string or YAML matching the Toleration array
     # in a PodSpec.
-    tolerations: []
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
 
     # nodeSelector labels for csi pod assignment, formatted as a multi-line string or YAML map.
     # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector

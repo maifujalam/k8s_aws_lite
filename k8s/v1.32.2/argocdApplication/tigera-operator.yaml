@@ -12,7 +12,7 @@ spec:
     chart: tigera-operator
     helm:
       valueFiles:
-      - https://raw.githubusercontent.com/maifujalam/k8s_aws/refs/heads/master/k8s/v1.31.3/manifests/tigera-operator/values.yaml
+      - https://raw.githubusercontent.com/maifujalam/k8s_aws_lite/refs/heads/main/k8s/v1.32.2/manifests/tigera-operator/values.yaml
     repoURL: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/
     targetRevision: v3.26.1
   syncPolicy:

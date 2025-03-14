@@ -2572,10 +2572,10 @@ repoServer:
       command: [ "/bin/sh", "-c" ]
       args:
         - apk --no-cache add curl wget;
-          wget "https://github.com/hypnoglow/helm-s3/releases/download/v${HELM_S3_VERSION}/helm-s3_${HELM_S3_VERSION}_linux_amd64.tar.gz" -O /tmp/helm-s3.tar.gz;
-          mkdir -p /helm-working-dir/helm-plugins/helm-s3;
-          tar -C /helm-working-dir/helm-plugins/helm-s3 -xzvf /tmp/helm-s3.tar.gz;
-          rm /tmp/helm-s3.tar.gz;
+          wget -q "https://github.com/hypnoglow/helm-s3/releases/download/v${HELM_S3_VERSION}/helm-s3_${HELM_S3_VERSION}_linux_amd64.tar.gz" -O /tmp/helm-s3.tar.gz
+          mkdir -p /helm-working-dir/helm-plugins/helm-s3
+          tar -C /helm-working-dir/helm-plugins/helm-s3 -xzvf /tmp/helm-s3.tar.gz
+          rm /tmp/helm-s3.tar.gz
           helm repo add public-helm-repository https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/;
           helm repo update;
 

@@ -12,10 +12,19 @@ kubectl -n vault exec vault-0 -- vault operator init \
 6. Join the vault-2: kubectl -n vault exec -it vault-2 -- vault operator raft join http://vault-0.vault-internal:8200
 7. Unseal the vault-1 pod: kubectl -n vault exec -it vault-1 -- vault operator unseal $VAULT_UNSEAL_KEY
 8. Unseal the vault-2 pod: kubectl -n vault exec -it vault-2 -- vault operator unseal $VAULT_UNSEAL_KEY
+
+Debug:-
 9. Debug vault conn: kubectl -n vault exec -it vault-1 -- curl -v http://vault-0.vault-internal:8200/v1/sys/health
 10. Vault status: kubectl -n vault exec -it vault-0 -- vault status -address=http://127.0.0.1:8200
 11. nslookup kubernetes.default
 12. nslookup vault-0.vault-internal
 
 
+Set Secret in Vault:
+Doc: https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-raft#set-a-secret-in-vault
+1. jq -r ".root_token" cluster-keys.json
+2. Start interactive shell of vault-0: kubectl -n vault exec --stdin=true --tty=true vault-0 -- /bin/sh
+3. login to vault: vault login
+4. Pass the root key: jq -r ".root_token" cluster-keys.json
+5. Enable kv2 secret engine: vault secrets enable -path=secret kv-v2
 

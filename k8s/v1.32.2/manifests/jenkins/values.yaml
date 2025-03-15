@@ -957,7 +957,7 @@ agent:
     # -- Repository to pull the agent jnlp image from
     repository: "docker.io/skmaifujalam/jenkins-agent"
     # -- Tag of the image to pull
-    tag: "1.0.0"
+    tag: "6"
   # -- Configure working directory for default agent
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"

@@ -2485,8 +2485,11 @@ repoServer:
   extraArgs: []
 
   # -- Environment variables to pass to repo server
-  env: []
-
+  env:
+    - name: HELM_PLUGINS
+      value: /helm-working-dir/helm-plugins/
+    - name: HELM_S3_VERSION
+      value: 0.16.3
   # -- envFrom to pass to repo server
   # @default -- `[]` (See [values.yaml])
   envFrom: []

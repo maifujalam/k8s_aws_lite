@@ -23,3 +23,7 @@ spec:
     syncOptions:
     - Validate=false
     - CreateNamespace=true
+  ignoreDifferences: # https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/#application-level-configuration
+    - jsonPointers:
+        - /data
+      kind: Secret

@@ -27,7 +27,3 @@ spec:
     - jsonPointers:
         - /data
       kind: Secret
-    - group: apps
-      kind: Deployment
-      jsonPointers:
-        - /spec/replicas

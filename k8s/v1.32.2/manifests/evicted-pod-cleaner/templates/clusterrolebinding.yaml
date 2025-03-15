@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "evicted-pod-cleaner.fullname" . }}-rolebinding
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.serviceAccount.name }}
+    namespace: {{ .Values.nameOverride }}
+roleRef:
+  kind: ClusterRole
+  name:  {{ include "evicted-pod-cleaner.fullname" . }}-clusterrole
+  apiGroup: rbac.authorization.k8s.io

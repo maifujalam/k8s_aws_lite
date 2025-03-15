@@ -12,7 +12,7 @@ spec:
     chart: ingress-nginx
     helm:
       valueFiles:
-      - https://raw.githubusercontent.com/maifujalam/k8s_aws/refs/heads/master/k8s/v1.31.3/manifests/ingress-nginx/values.yaml
+        - https://raw.githubusercontent.com/maifujalam/k8s_aws_lite/refs/heads/main/k8s/v1.32.2/argocdApplication/ingress-nginx.yaml
     repoURL: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/
     targetRevision: 4.11.2-aws
   syncPolicy:

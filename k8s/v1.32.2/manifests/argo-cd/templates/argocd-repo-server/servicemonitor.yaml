@@ -35,7 +35,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.repoServer.metrics.serviceMonitor.scheme }}
-      honorLabels: {{ .Values.repoServer.metrics.serviceMonitor.honorLabels }}
       scheme: {{ . }}
       {{- end }}
       {{- with .Values.repoServer.metrics.serviceMonitor.tlsConfig }}

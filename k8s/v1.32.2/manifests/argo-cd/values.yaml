@@ -878,8 +878,6 @@ controller:
       enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
-      # -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
-      honorLabels: false
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
       relabelings: []
       # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
@@ -976,8 +974,6 @@ dex:
       enabled: false
       # -- Prometheus ServiceMonitor interval
       interval: 30s
-      # -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
-      honorLabels: false
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
       relabelings: []
       # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
@@ -1018,7 +1014,7 @@ dex:
     # -- Dex image repository
     repository: ghcr.io/dexidp/dex
     # -- Dex image tag
-    tag: v2.41.1
+    tag: v2.38.0
     # -- Dex imagePullPolicy
     # @default -- `""` (defaults to global.image.imagePullPolicy)
     imagePullPolicy: ""
@@ -1472,12 +1468,6 @@ redis:
   priorityClassName: ""
 
   # -- [Node selector]
-  # @default -- `{}` (defaults to global.nodeSelector)
-  nodeSelector: {}
-
-  # -- [Tolerations] for use with node taints
-  # @default -- `[]` (defaults to global.tolerations)
-  tolerations: []
 
   # -- Assign custom [affinity] rules to the deployment
   # @default -- `{}` (defaults to global.affinity preset)
@@ -1544,8 +1534,6 @@ redis:
       enabled: false
       # -- Interval at which metrics should be scraped
       interval: 30s
-      # -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
-      honorLabels: false
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
       relabelings: []
       # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
@@ -1575,7 +1563,7 @@ redis-ha:
     # -- Redis repository
     repository: public.ecr.aws/docker/library/redis
     # -- Redis tag
-    tag: 7.4.1-alpine
+    tag: 7.2.4-alpine
   ## Prometheus redis-exporter sidecar
   exporter:
     # -- Enable Prometheus redis-exporter sidecar
@@ -1741,9 +1729,6 @@ redisSecretInit:
   # -- Priority class for Redis secret-init Job
   # @default -- `""` (defaults to global.priorityClassName)
   priorityClassName: ""
-
-  # -- Assign custom [affinity] rules to the Redis secret-init Job
-  affinity: {}
 
   # -- Node selector to be added to the Redis secret-init Job
   # @default -- `{}` (defaults to global.nodeSelector)
@@ -2183,8 +2168,6 @@ server:
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
       scrapeTimeout: ""
-      # -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
-      honorLabels: false
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
       relabelings: []
       # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
@@ -2563,7 +2546,7 @@ repoServer:
   # -- Init containers to add to the repo server pods
   initContainers:
     - name: helm-aws-s3
-      image: alpine/helm:3.15.4
+      image: alpine/helm:3.17.1
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
@@ -2578,11 +2561,17 @@ repoServer:
           value: /helm-working-dir
         - name: HELM_DATA_HOME
           value: /helm-working-dir
+        - name: HELM_PLUGINS
+          value: /helm-working-dir/helm-plugins/
+        - name: HELM_S3_VERSION
+          value: 0.16.3
       command: [ "/bin/sh", "-c" ]
       args:
-        - apk --no-cache add curl;
-          helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.16.2;
-          rm -rf /helm-working-dir/plugins/https-github.com-hypnoglow-helm-s3.git;
+        - apk --no-cache add curl wget;
+          wget -q "https://github.com/hypnoglow/helm-s3/releases/download/v${HELM_S3_VERSION}/helm-s3_${HELM_S3_VERSION}_linux_amd64.tar.gz" -O /tmp/helm-s3.tar.gz
+          mkdir -p /helm-working-dir/helm-plugins/helm-s3
+          tar -C /helm-working-dir/helm-plugins/helm-s3 -xzvf /tmp/helm-s3.tar.gz
+          rm /tmp/helm-s3.tar.gz
           helm repo add public-helm-repository https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/;
           helm repo update;
 
@@ -2703,7 +2692,8 @@ repoServer:
 
   # -- [Node selector]
   # @default -- `{}` (defaults to global.nodeSelector)
-  nodeSelector: {}
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
 
   # -- [Tolerations] for use with node taints
   # @default -- `[]` (defaults to global.tolerations)
@@ -2785,8 +2775,6 @@ repoServer:
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
       scrapeTimeout: ""
-      # -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
-      honorLabels: false
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
       relabelings: []
       # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
@@ -2948,8 +2936,6 @@ applicationSet:
       interval: 30s
       # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
       scrapeTimeout: ""
-      # -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
-      honorLabels: false
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
       relabelings: []
       # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion
@@ -3365,8 +3351,6 @@ notifications:
       scheme: ""
       # -- Prometheus ServiceMonitor tlsConfig
       tlsConfig: {}
-      # -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
-      honorLabels: false
       # -- Prometheus [RelabelConfigs] to apply to samples before scraping
       relabelings: []
       # -- Prometheus [MetricRelabelConfigs] to apply to samples before ingestion

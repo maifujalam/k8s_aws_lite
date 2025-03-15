@@ -454,24 +454,23 @@ additionalDaemonSets:
 
 # Enable compatibility for the A1 instance family via use of an AL2-based image in a separate DaemonSet
 # a1CompatibilityDaemonSet: true
-storageClasses: []
-# Add StorageClass resources like:
-# - name: ebs-sc
-#   # annotation metadata
-#   annotations:
-#     storageclass.kubernetes.io/is-default-class: "true"
-#   # label metadata
-#   labels:
-#     my-label-is: supercool
-#   # defaults to WaitForFirstConsumer
-#   volumeBindingMode: WaitForFirstConsumer
-#   # defaults to Delete
-#   reclaimPolicy: Retain
-#   parameters:
-#     encrypted: "true"
+storageClasses:
+ - name: ebs-sc
+   # annotation metadata
+   annotations:
+     storageclass.kubernetes.io/is-default-class: "true"
+   # label metadata
+   labels:
+     my-label-is: supercool
+   # defaults to WaitForFirstConsumer
+   volumeBindingMode: WaitForFirstConsumer
+   # defaults to Delete
+   reclaimPolicy: Retain
+   parameters:
+     encrypted: "true"
 
 defaultStorageClass:
-  enabled: false
+  enabled: true
 volumeSnapshotClasses: []
 # Add VolumeSnapshotClass resources like:
 # - name: ebs-vsc

@@ -10,5 +10,11 @@ variable "deletion_window_in_days" {
 }
 variable "secondary_region" {
   description = "Secondary region as backup "
-  default = "us-east-2"
+  default = "us-east-1"
+}
+variable "owner" {
+  default = "skalam"
+}
+variable "project" {
+  default = "k8s_aws"
 }

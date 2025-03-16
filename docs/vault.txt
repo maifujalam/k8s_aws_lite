@@ -28,3 +28,9 @@ Doc: https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minik
 4. Pass the root key: jq -r ".root_token" cluster-keys.json
 5. Enable kv2 secret engine: vault secrets enable -path=secret kv-v2
 
+Vault Auto unseal:
+ Create secret in vault for aws:- kubectl -n vault create secret generic vault --from-literal=AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+--from-literal=AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+
+- it have permission of read s3,read and write route 53
+- vault key id: mrk-7c617c064271405b84d791ce7079110a

@@ -5,6 +5,17 @@
       "Effect": "Allow",
       "Action": "kms:DescribeKey",
       "Resource": "*"
+    },
+     {
+      "Effect": "Allow",
+      "Action": "kms:Encrypt",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "*"
     }
   ]
 }
+

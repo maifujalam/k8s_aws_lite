@@ -32,5 +32,10 @@ Vault Auto unseal:
  Create secret in vault for aws:- kubectl -n vault create secret generic vault --from-literal=AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
 --from-literal=AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 
+Uninstall vault:-
+helm -n vault uninstall vault && kubectl delete ns vault --force
+
 - it have permission of read s3,read and write route 53
 - vault key id: mrk-7c617c064271405b84d791ce7079110a
+After helm deployment of vault with auto unseal do below steps:-
+1. Initialize vault on vault-0 pod: kubectl -n vault exec vault-0 -- vault operator init -recovery-shares=1 -recovery-threshold=1

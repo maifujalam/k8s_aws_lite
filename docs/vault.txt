@@ -29,13 +29,19 @@ Doc: https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minik
 5. Enable kv2 secret engine: vault secrets enable -path=secret kv-v2
 
 Vault Auto unseal:
- Create secret in vault for aws:- kubectl -n vault create secret generic vault --from-literal=AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+1. helm -n vault uninstall vault && kubectl delete ns vault --force
+2. Create secret in vault for aws:- kubectl -n vault create secret generic vault --from-literal=AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
 --from-literal=AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+  It have permission of read s3,read and write route 53
+  vault AWS KMS key id: mrk-7c617c064271405b84d791ce7079110a
+3. Vault Initialize:-
+  Initialize vault on vault-0 pod: kubectl -n vault exec vault-0 -- vault operator init -recovery-shares=1 -recovery-threshold=1
 
-Uninstall vault:-
-helm -n vault uninstall vault && kubectl delete ns vault --force
 
-- it have permission of read s3,read and write route 53
-- vault key id: mrk-7c617c064271405b84d791ce7079110a
-After helm deployment of vault with auto unseal do below steps:-
-1. Initialize vault on vault-0 pod: kubectl -n vault exec vault-0 -- vault operator init -recovery-shares=1 -recovery-threshold=1
+Vault reset:
+1. Delete ns: kubectl delete ns vault
+2. Create vault aws secret: kubectl -n vault create secret generic vault --from-literal=AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+--from-literal=AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+3. Initialize vault: kubectl -n vault exec vault-0 -- vault operator init   -recovery-shares=1   -recovery-threshold=1  > cluster-keys.json
+4. Get root login token: cat cluster-keys.json
+5. Login to

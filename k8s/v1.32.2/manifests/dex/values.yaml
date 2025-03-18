@@ -205,7 +205,7 @@ ingress:
   # -- Ingress host configuration.
   # @default -- See [values.yaml](values.yaml).
   hosts:
-    - host: chart-example.local
+    - host: dex.maifuj.com
       paths:
         - path: /
           pathType: ImplementationSpecific

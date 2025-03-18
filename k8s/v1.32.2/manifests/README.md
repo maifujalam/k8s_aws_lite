@@ -175,3 +175,4 @@ Dex OIDC:
 3. helm search repo dex
 4. helm pull dex/dex --version 0.22.1 --untar
 5. helm -n dex install dex dex --create-namespace
+6. helm -n dex uninstall dex

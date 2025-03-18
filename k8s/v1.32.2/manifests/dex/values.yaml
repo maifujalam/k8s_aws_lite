@@ -192,10 +192,10 @@ service:
 
 ingress:
   # -- Enable [ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/).
-  enabled: false
+  enabled: true
 
   # -- Ingress [class name](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class).
-  className: ""
+  className: "nginx"
 
   # -- Annotations to be added to the ingress.
   annotations: {}

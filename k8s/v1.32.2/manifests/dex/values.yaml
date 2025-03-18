@@ -212,10 +212,10 @@ ingress:
 
   # -- Ingress TLS configuration.
   # @default -- See [values.yaml](values.yaml).
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+    - secretName: dex-tls
+      hosts:
+        - dex.maifuj.com
 
 serviceMonitor:
   # -- Enable Prometheus ServiceMonitor.

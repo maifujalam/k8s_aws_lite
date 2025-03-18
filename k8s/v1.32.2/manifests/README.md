@@ -157,7 +157,7 @@ Hashicorp Vault:-
 5. helm -n vault install vault vault --create-namespace
 6. helm -n vault uninstall vault
 
-AWS CSI Drover:-
+AWS CSI Driver:-
 1. helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver/
 2. helm repo update
 3. helm search repo csi 
@@ -168,3 +168,10 @@ Helm Package:-
 1. Build number is based on Char.yaml->version
 2. Helm package: h package hello-kubernetes
 3. helm  
+
+Dex OIDC:
+1. helm repo add dex https://charts.dexidp.io
+2. helm repo update
+3. helm search repo dex
+4. helm pull dex/dex --version 0.22.1 --untar
+5. helm -n dex install dex dex --create-namespace

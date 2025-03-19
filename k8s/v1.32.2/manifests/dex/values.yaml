@@ -57,11 +57,19 @@ configSecret:
 # -- Application configuration.
 # See the [official documentation](https://dexidp.io/docs/).
 config:
-  issuer: http://dex.maifuj.com
+  issuer: https://dex.maifuj.com
   storage:
     type: kubernetes
     config:
       inCluster: true
+  connectors:
+    - type: github  # Example connector (GitHub)
+      id: github
+      name: GitHub
+      config:
+        clientID: Ov23li5qUhwXr0Tm6L91
+        clientSecret: 5bf3b55158d7e0d44998545ded50c6429a8fdb41
+        redirectURI: https://dex.maifuj.com/callback
 
 # -- Additional storage [volumes](https://kubernetes.io/docs/concepts/storage/volumes/).
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.

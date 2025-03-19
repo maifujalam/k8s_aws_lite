@@ -176,3 +176,11 @@ Dex OIDC:
 4. helm pull dex/dex --version 0.22.1 --untar
 5. helm -n dex install dex dex --create-namespace
 6. helm -n dex uninstall dex
+
+OAUTH2 Proxy
+1. helm repo add oauth2-proxy https://oauth2-proxy.github.io/manifests
+2. helm repo update
+3. helm search repo oauth2-proxy
+4. helm pull oauth2-proxy/oauth2-proxy --version 7.12.6 --untar
+5. helm -n oauth2-proxy install oauth2-proxy oauth2-proxy --create-namespace
+6. helm -n oauth2-proxy uninstall oauth2-proxy

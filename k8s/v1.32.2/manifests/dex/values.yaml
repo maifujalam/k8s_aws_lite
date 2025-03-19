@@ -57,6 +57,7 @@ configSecret:
 # -- Application configuration.
 # See the [official documentation](https://dexidp.io/docs/).
 config:
+  issuer: http://dex.maifuj.com
   storage:
     type: kubernetes
     config:

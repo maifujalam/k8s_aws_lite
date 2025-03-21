@@ -51,6 +51,7 @@ config:
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     provider = "github"
+    redirect-url = "=https://oauth2.maifuj.com/oauth2/callback"
   # Custom configuration file: oauth2_proxy.cfg
   # configFile: |-
   #   pass_basic_auth = false

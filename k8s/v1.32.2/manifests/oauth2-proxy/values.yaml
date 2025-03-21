@@ -59,6 +59,7 @@ config:
   # Example:
   # existingConfig: config
 
+
 alphaConfig:
   enabled: false
   # Add config annotations

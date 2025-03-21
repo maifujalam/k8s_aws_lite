@@ -46,7 +46,7 @@ config:
   # Default configuration, to be overridden
   configFile: |-
     email_domains = [ "*" ]
-    upstreams = [ "helloworld.maifuj.com" ]
+    upstreams = [ "http://helloworld.maifuj.com" ]
     cookie_secure = "false"
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]

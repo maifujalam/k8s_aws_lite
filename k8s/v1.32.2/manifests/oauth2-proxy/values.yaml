@@ -47,6 +47,10 @@ config:
   configFile: |-
     email_domains = [ "*" ]
     upstreams = [ "file:///dev/null" ]
+    cookie_secure = "false"
+    cookie_domains = [ ".maifuj.com"]
+    whitelist_domains = [ ".maifuj.com"]
+    provider = "github"
   # Custom configuration file: oauth2_proxy.cfg
   # configFile: |-
   #   pass_basic_auth = false

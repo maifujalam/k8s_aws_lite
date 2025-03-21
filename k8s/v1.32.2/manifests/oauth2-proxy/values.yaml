@@ -51,7 +51,6 @@ config:
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     provider = "github"
-    --upstream=http://my-app.default.svc.cluster.local:8080
   # Custom configuration file: oauth2_proxy.cfg
   # configFile: |-
   #   pass_basic_auth = false

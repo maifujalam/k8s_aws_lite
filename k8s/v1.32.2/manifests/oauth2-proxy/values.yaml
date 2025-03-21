@@ -167,14 +167,14 @@ serviceAccount:
   annotations: {}
 
 ingress:
-  enabled: false
-  # className: nginx
+  enabled: true
+  className: nginx
   path: /
   # Only used if API capabilities (networking.k8s.io/v1) allow it
   pathType: ImplementationSpecific
   # Used to create an Ingress record.
-  # hosts:
-    # - chart-example.local
+  hosts:
+    - maifuj.com
   # Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
   # Warning! The configuration is dependant on your current k8s API version capabilities (networking.k8s.io/v1)
   # extraPaths:
@@ -186,9 +186,11 @@ ingress:
   #       port:
   #         name: use-annotation
   labels: {}
-  # annotations:
-  #   kubernetes.io/ingress.class: nginx
-  #   kubernetes.io/tls-acme: "true"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "2000m"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
   # tls:
     # Secrets must be manually created in the namespace.
     # - secretName: chart-example-tls

@@ -21,13 +21,13 @@ config:
   # OAuth client ID
   clientID: "my-app"
   # OAuth client secret
-  clientSecret: "my-app-secret"
+  clientSecret: "Ov23liqYxbEjAeTF5yAK"
   # Create a new secret with the following command
   # openssl rand -base64 32 | head -c 32 | base64
   # Use an existing secret for OAuth2 credentials (see secret.yaml for required fields)
   # Example:
   # existingSecret: secret
-  cookieSecret: "XXXXXXXXXXXXXXXX"
+  cookieSecret: "469267eddde30910d336a5ddea67117c6f7affee"
   # The name of the cookie that oauth2-proxy will create
   # If left empty, it will default to the release name
   cookieName: ""

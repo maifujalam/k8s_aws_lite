@@ -9,7 +9,10 @@ ingress:
   pathPrefix: ""
   extraPaths: ""
   ingressClassName: "nginx"
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/auth-signin: http://oauth2.maifuj.com/oauth2/start?rd=$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: http://oauth2.maifuj.com/oauth2/auth
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
   labels: {}
   issuer:
     scope: cluster

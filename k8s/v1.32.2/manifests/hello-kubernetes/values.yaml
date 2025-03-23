@@ -32,7 +32,7 @@ deployment:
   replicaCount: 2
   container:
     image:
-      repository: "fharris/cloudnativebasic-spring-docker:latest"
+      repository: "nginx"
       tag: "" # uses chart appVersion if not provided
       pullPolicy: IfNotPresent
     port: 8080

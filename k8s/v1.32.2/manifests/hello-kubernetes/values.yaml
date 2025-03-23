@@ -35,7 +35,7 @@ deployment:
       repository: "nginx"
       tag: "" # uses chart appVersion if not provided
       pullPolicy: IfNotPresent
-    port: 8080
+    port: 80
 
   # Currently only linux images on amd64 architecture are supported - support for arm64 and windows/amd64 coming ...
   nodeSelector:

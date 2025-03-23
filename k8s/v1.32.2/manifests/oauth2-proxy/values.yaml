@@ -45,6 +45,7 @@ config:
     #  - group2@example.com
   # Default configuration, to be overridden
   configFile: |-
+    provider = "github"
     email_domains = [ "*" ]
     upstreams = [ "file:///dev/null" ]
     cookie_secret="OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
@@ -52,8 +53,8 @@ config:
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     set_xauthrequest = true   # return authenticated user to nginx
-    provider = "github"
-    redirect_url = "http://oauth2.maifuj.com/oauth2/callback"
+    
+
   # Custom configuration file: oauth2_proxy.cfg
   # configFile: |-
   #   pass_basic_auth = false

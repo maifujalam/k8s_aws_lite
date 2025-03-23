@@ -26,13 +26,13 @@ ingress:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
   externalPort: 443
 deployment:
   replicaCount: 2
   container:
     image:
-      repository: "paulbouwer/hello-kubernetes"
+      repository: "fharris/cloudnativebasic-spring-docker:latest"
       tag: "" # uses chart appVersion if not provided
       pullPolicy: IfNotPresent
     port: 8080

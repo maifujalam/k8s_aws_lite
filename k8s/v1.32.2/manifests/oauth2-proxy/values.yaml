@@ -53,7 +53,8 @@ config:
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     set_xauthrequest = true   # return authenticated user to nginx
-    
+    scope = "user:email"
+    redirect_url = "http://oauth2.maifuj.com/oauth2/callback"
 
   # Custom configuration file: oauth2_proxy.cfg
   # configFile: |-

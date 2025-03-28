@@ -55,7 +55,6 @@ config:
     set_xauthrequest = true   # return authenticated user to nginx
     scope = "user:email"
     redirect_url = "http://oauth2.maifuj.com/oauth2/callback"
-    upstreams = [ "file:///dev/null" ]
     client_id="oauth2-proxy"
   # Custom configuration file: oauth2_proxy.cf
   # configFile: |-

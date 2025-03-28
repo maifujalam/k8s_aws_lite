@@ -19,7 +19,7 @@ config:
   # Add config annotations
   annotations: {}
   # OAuth client ID
-  clientID: "my-app"
+  clientID: "oauth2"
   # OAuth client secret
   clientSecret: "Ov23liqYxbEjAeTF5yAK"
   # Create a new secret with the following command
@@ -52,7 +52,6 @@ config:
     cookie_secure = "false"
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
-    set_xauthrequest = true   # return authenticated user to nginx
     scope = "user:email"
     redirect_url = "https://oauth2.maifuj.com/callback"
     client_id="oauth2"

@@ -1,0 +1,13 @@
+https://kubernetes.github.io/ingress-nginx/examples/auth/oauth-external-auth/
+
+  configFile: |-
+    provider = "github"
+    email_domains = [ "*" ]
+    upstreams = [ "file:///dev/null" ]
+    cookie_secret="OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
+    cookie_secure = "false"
+    cookie_domains = [ ".maifuj.com"]
+    whitelist_domains = [ ".maifuj.com"]
+    scope = "user:email,read:org"
+    redirect_url = "https://oauth2.maifuj.com/oauth2/callback"
+    client_id="oauth2"

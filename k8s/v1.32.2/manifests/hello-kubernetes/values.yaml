@@ -33,7 +33,7 @@ deployment:
   replicaCount: 2
   container:
     image:
-      repository: "nginx"
+      repository: "paulbouwer/hello-kubernetes"
       tag: "" # uses chart appVersion if not provided
       pullPolicy: IfNotPresent
     port: 80

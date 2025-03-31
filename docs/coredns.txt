@@ -13,3 +13,6 @@ data:
         health {
            lameduck
 
+  clientID: "${GITHUB_CLIENT_ID}"
+  # OAuth client secret
+  clientSecret: "${GITHUB_CLIENT_SECRET}"

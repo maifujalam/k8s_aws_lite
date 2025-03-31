@@ -27,7 +27,7 @@ config:
   # Use an existing secret for OAuth2 credentials (see secret.yaml for required fields)
   # Example:
   # existingSecret: secret
-  cookieSecret: "uGHuqVu0yo_6BWn9_SLZaJMDuDFJ3i8xuxhsMPUzZTc="
+  cookieSecret: ""
   # The name of the cookie that oauth2-proxy will create
   # If left empty, it will default to the release name
   cookieName: ""

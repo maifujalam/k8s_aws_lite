@@ -67,16 +67,16 @@ config:
       id: github
       name: GitHub
       config:
-        clientID: Ov23li5qUhwXr0Tm6L91
-        clientSecret: 5bf3b55158d7e0d44998545ded50c6429a8fdb41
-        redirectURI: https://dex.maifuj.com/callback
+        clientID: Ov23lihKIv4yvL4ep04h
+        clientSecret: b3cc17408703f511f5be6aea8691cc5b6255beea
+        redirectURI: https://dex.maifuj.com/dex/callback/
 
   staticClients:
-    - id: k8s-dashboard
-      name: "k8s-dashboard"
-      secret: k8s-dashboard
+    - id: Ov23lihKIv4yvL4ep04h
+      name: "oauth2-proxy"
+      secret: b3cc17408703f511f5be6aea8691cc5b6255beea
       redirectURIs:
-        - https://dashboard.maifuj.com/oauth2/callback
+        - https://oauth2.maifuj.com/oauth2/callback
 
 # -- Additional storage [volumes](https://kubernetes.io/docs/concepts/storage/volumes/).
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.

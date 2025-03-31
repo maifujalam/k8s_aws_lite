@@ -11,3 +11,9 @@ https://kubernetes.github.io/ingress-nginx/examples/auth/oauth-external-auth/
     scope = "user:email,read:org"
     redirect_url = "https://oauth2.maifuj.com/oauth2/callback"
     client_id="oauth2"
+
+ Setup Github OAuth2 proxy for host based ingress:-
+ 1. call back url has to be: "https://oauth2.maifuj.com/oauth2/callback"
+    https://<namespace+where_oauth_installed>.<domain>.com/oauth2/callback
+    here the path "/oauth2/" is mandatory and has to be same setup in creating callback in github oauthapp.
+    /callback is the deafult keyword to call back the application after authentication done.

@@ -53,8 +53,9 @@ config:
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     scope = "user:email,read:org"
-    redirect_url = "https://oauth2.maifuj.com/oauth2/callback"  # here /oauth2/callback is important and usually static.
+    redirect_url = "https://oauth2.maifuj.com/oauth2/callback"  
     client_id="oauth2"
+  # here in redirect_url "/oauth2/callback" is important and usually static.
   # Custom configuration file: oauth2_proxy.cf
   # configFile: |-
   #   pass_basic_auth = false

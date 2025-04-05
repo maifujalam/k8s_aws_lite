@@ -1,0 +1,157 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml
+            apiVersion: "v1"
+            kind: "Pod"
+            metadata:
+              annotations:
+                kubernetes.jenkins.io/last-refresh: "1730014405165"
+              labels:
+                jenkins/jenkins-jenkins-agent: "true"
+                jenkins/label-digest: "500b4f18aee87616849e4f4c2435020898e34aa0"
+                jenkins/label: "jenkins-jenkins-agent"
+                kubernetes.jenkins.io/controller: "http___jenkins_jenkins_svc_cluster_local_8080x"
+              name: "default-6lv6l"
+              namespace: "jenkins"
+            spec:
+              containers:
+              - args:
+                - "********"
+                - "default-6lv6l"
+                env:
+                - name: "JENKINS_SECRET"
+                  value: "********"
+                - name: "JENKINS_TUNNEL"
+                  value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+                - name: "JENKINS_AGENT_NAME"
+                  value: "default-6lv6l"
+                - name: "REMOTING_OPTS"
+                  value: "-noReconnectAfter 1d"
+                - name: "JENKINS_NAME"
+                  value: "default-6lv6l"
+                - name: "JENKINS_AGENT_WORKDIR"
+                  value: "/home/jenkins/agent"
+                - name: "JENKINS_URL"
+                  value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+                image: "docker.io/skmaifujalam/jenkins-agent:1.0.0"
+                imagePullPolicy: "IfNotPresent"
+                name: "jnlp"
+                resources:
+                  limits:
+                    memory: "512Mi"
+                    cpu: "500m"
+                  requests:
+                    memory: "256Mi"
+                    cpu: "250m"
+                tty: false
+                volumeMounts:
+                - mountPath: "/home/jenkins/agent"
+                  name: "workspace-volume"
+                  readOnly: false
+                workingDir: "/home/jenkins/agent"
+              nodeSelector:
+                kubernetes.io/os: "linux"
+              restartPolicy: "Never"
+              serviceAccountName: "default"
+              volumes:
+              - emptyDir:
+                  medium: ""
+                name: "workspace-volume"
+        }
+    }
+    environment {
+        HELM_VALUES_FILE = 'values.yaml'
+        HELM_REPO_NAME="public-helm-repository"
+    }
+    parameters {
+        string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws.git', description: 'Enter the git remote name')
+        string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name to pull from')
+        string(name: 'CHART_FOLDER_PATH', defaultValue: 'k8s/v1.30.5/manifests', description: 'Enter the folder path name which to be helm build')
+        string(name: 'HELM_REPO_NAME', defaultValue: 'public-helm-repository', description: 'Enter the helm remote name,where to push')
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "${params.BRANCH_NAME}"]],
+                    userRemoteConfigs: [[url: "${params.REPO_NAME}"]]
+                ])
+            }
+        }
+        stage('Render Helm Chart') {
+            steps {
+                script {
+                    dir("${params.FOLDER_PATH}") {
+                        echo "Folder to render: ${params.FOLDER_PATH}";
+                        def output = sh(script: 'pwd;helm version;' , returnStdout: true).trim()
+                        echo "Output: ${output}"
+                        try {
+                            // Run helm template command
+                            def template_output = sh(script: 'helm template . -f ${HELM_VALUES_FILE}', returnStdout: true).trim()
+                            echo "Helm template output:\n${template_output}"
+                            echo "\n\nHelm template validation passed.\n"
+                        } catch (Exception e) {
+                            error("Helm template validation failed: ${e}")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Helm Chart') {
+            steps {
+                script {
+                    // Build and package the Helm chart
+                    dir("${params.FOLDER_PATH}") {
+                        echo "Folder to build: ${params.FOLDER_PATH}";
+                        try {
+                            // Run helm template command
+                            def lint_output = sh(script: 'helm lint .', returnStdout: true).trim()
+                            echo "Helm lint output:\n${lint_output}"
+                            echo "\n\nHelm lint successful.\n"
+                        } catch (Exception e) {
+                            error("Helm lint failed: ${e}")
+                        }
+                        try {
+                            // Run helm template command
+                            def package_output = sh(script: 'helm package .', returnStdout: true).trim()
+                            echo "Helm package output:\n${package_output}"
+                            echo "\n\nHelm package successful.\n"
+                        } catch (Exception e) {
+                            error("Helm package failed: ${e}")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Push Helm Chart') {
+            steps {
+                script {
+                    echo "Pushing Helm chart to repository"
+                    dir("${params.FOLDER_PATH}") {
+                        echo "helm chart to push: ${params.FOLDER_PATH}";
+                        def LATEST_HELM_CHART=$(ls -t ${TMP_DIR}/${CHART_NAME}-*.tgz | head -n 1)
+                        echo "Latest helm chart build: ${LATEST_HELM_CHART}"
+                        helm s3 push --force $LATEST_HELM_CHART ${HELM_REPO_NAME};
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+        success {
+            echo "Helm chart build successful"
+        }
+    }
+}
+

@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+    environment {
+        HELM_CHART_DIR = 'helm-chart-directory'
+        HELM_VALUES_FILE = 'values.yaml'
+    }
+    parameters {
+        string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws.git', description: 'Enter the git remote name.')
+        string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name to pull from.')
+        string(name: 'ARGO_APP_FOLDER_PATH', defaultValue: 'k8s/argocdApplication', description: 'Enter the folder path name of Argocd Apps.')
+        string(name: 'ARGO_APP_NAME',defaultValue: 'evicted-pod-cleaner', description: 'Enter ArgoCD App Name to deploy.Example:- evicted-pod-cleaner')
+        string(name: 'ARGO_APP_VERSION', defaultValue: '1.0.4',description: 'Enter ArgoCD App Version to deploy.Example:- 1.0.1')
+    }
+    stages {
+        stage('Update argocd application') {
+            steps {
+                script {
+                     dir("${params.ARGO_APP_FOLDER_PATH}") {
+                            echo "Folder of ArgoCD Apps: ${params.CHART_FOLDER_PATH}";
+                            def app_file = sh(script: "find . -maxdepth 1 -type f -iname '${params.ARGO_APP_NAME}*'", returnStdout: true).trim()
+                            echo "Application File:- ${app_file}"
+                            try {
+                                def output_yq = sh(script: "yq -i .spec.source.targetRevision='${params.ARGO_APP_VERSION}'" '${app_file}'", returnStdout: true).trim()
+                                echo "Application File:- ${output_yq}"
+                                def cat_file=sh(script: "cat ${app_file}", returnStdout: true).trim()
+                                echo "Application File Out:- ${cat_file}"
+                            } catch (Exception e) {
+                                error("Version upgrade error ${e}")
+                            }
+                     }
+                }
+            }
+        }
+
+        stage('Push to Git') {
+            when {
+                expression {
+                    // Proceed only if the previous step was successful
+                    return currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                script {
+                    // Build and package the Helm chart
+                    sh """
+                        echo "Pushing to Git"
+                    """
+                }
+            }
+        }
+
+        stage('Sync Argocd Application') {
+            when {
+                expression {
+                    return currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                script {
+                    // Push the packaged chart to a Helm repository (if required)
+                    // Replace this with actual commands if you're pushing to a repository
+                    echo "Pushing Helm chart to repository"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+        success {
+            echo "Helm chart build successful"
+        }
+    }
+}

@@ -1,0 +1,9 @@
+1.  Set Up a New Webhook
+    a. In the repository's Settings, click on Webhooks from the left sidebar.
+    b. Click the Add webhook button.
+    c. In the Payload URL field, enter the URL of your Jenkins server followed by /github-webhook/. For example: https://jenkins.maifuj.com/github-webhook/
+    d. You can click on enable ssl verification (as its ssl verified by lets encrypt),which event to trigger webhook is just push event.
+2. Make sure the recent delivery show successful.
+3.
+
+

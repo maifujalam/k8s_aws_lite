@@ -1,0 +1,153 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml '''
+            apiVersion: "v1"
+            kind: "Pod"
+            metadata:
+              labels:
+                jenkins/jenkins-jenkins-agent: "true"
+                jenkins/label: "jenkins-jenkins-agent"
+                kubernetes.jenkins.io/controller: "http___jenkins_jenkins_svc_cluster_local_8080x"
+              namespace: "jenkins"
+            spec:
+              containers:
+              - args:
+                env:
+                - name: "JENKINS_TUNNEL"
+                  value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+                - name: "REMOTING_OPTS"
+                  value: "-noReconnectAfter 1d"
+                - name: "JENKINS_AGENT_WORKDIR"
+                  value: "/home/jenkins/agent"
+                - name: "JENKINS_URL"
+                  value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+                image: "docker.io/skmaifujalam/jenkins-agent:5"
+                imagePullPolicy: "IfNotPresent"
+                name: "jnlp"
+                resources:
+                  limits:
+                    memory: "512Mi"
+                    cpu: "500m"
+                  requests:
+                    memory: "256Mi"
+                    cpu: "250m"
+                tty: false
+                volumeMounts:
+                - mountPath: "/home/jenkins/agent"
+                  name: "workspace-volume"
+                  readOnly: false
+                workingDir: "/home/jenkins/agent"
+              nodeSelector:
+                kubernetes.io/os: "linux"
+              restartPolicy: "Never"
+              serviceAccountName: "default"
+              volumes:
+              - emptyDir:
+                  medium: ""
+                name: "workspace-volume"
+            '''
+        }
+    }
+    environment {
+        HELM_VALUES_FILE = 'values.yaml'
+        HELM_REPO_NAME="public-helm-repository"
+    }
+    parameters {
+        string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws.git', description: 'Enter the git remote name')
+        string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name to pull from')
+        string(name: 'CHART_FOLDER_PATH', defaultValue: 'k8s/v1.30.5/manifests', description: 'Enter the folder path name which to be helm build')
+        string(name: 'HELM_REPO', defaultValue: 's3://public-helm-repository-20231023095000508500000001', description: 'Enter the helm remote name,where to push')
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "${params.GIT_BRANCH_NAME}"]],
+                    userRemoteConfigs: [[url: "${params.GIT_REPO_NAME}"]]
+                ])
+            }
+        }
+        stage('Render Helm Chart') {
+            steps {
+                script {
+                    dir("${params.CHART_FOLDER_PATH}") {
+                        echo "Folder to render: ${params.CHART_FOLDER_PATH}";
+                        def output = sh(script: 'pwd;helm version;ls' , returnStdout: true).trim()
+                        echo "Output: ${output}"
+                        try {
+                            // Run helm template command
+                            def template_output = sh(script: 'helm template . -f ${HELM_VALUES_FILE}', returnStdout: true).trim()
+                            echo "Helm template output:\n${template_output}"
+                            echo "\n\nHelm template validation passed.\n"
+                        } catch (Exception e) {
+                            error("Helm template validation failed: ${e}")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Helm Chart') {
+            steps {
+                script {
+                    // Build and package the Helm chart
+                    dir("${params.CHART_FOLDER_PATH}") {
+                        echo "Folder to build: ${params.CHART_FOLDER_PATH}";
+                        try {
+                            // Run helm template command
+                            def lint_output = sh(script: 'helm lint .', returnStdout: true).trim()
+                            echo "Helm lint output:\n${lint_output}"
+                            echo "\n\nHelm lint successful.\n"
+                        } catch (Exception e) {
+                            error("Helm lint failed: ${e}")
+                        }
+                        try {
+                            // Run helm template command
+                            def package_output = sh(script: 'helm package .', returnStdout: true).trim()
+                            echo "Helm package output:\n${package_output}"
+                            echo "\n\nHelm package successful.\n"
+                        } catch (Exception e) {
+                            error("Helm package failed: ${e}")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Push Helm Chart') {
+            steps {
+                script {
+                    echo "Pushing Helm chart to repository"
+                    dir("${params.CHART_FOLDER_PATH}") {
+                        echo "helm chart to push: ${params.CHART_FOLDER_PATH}";
+                        def LATEST_HELM_CHART=sh(script: "ls -t *.tgz | head -n 1",returnStdout: true).trim()
+                        echo "Latest helm chart build: ${LATEST_HELM_CHART}"
+                        withCredentials([
+                            string(credentialsId: 'S3_WRITE_AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
+                            string(credentialsId: 'S3_WRITE_AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY')
+                        ]) {
+                            def INIT_HELM_REPO=sh(script: "helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.16.2;helm plugin ls;helm repo add ${HELM_REPO_NAME} ${params.HELM_REPO};helm repo update;helm s3 reindex public-helm-repository;",returnStdout: true).trim()
+                            echo "Latest helm initialize: ${INIT_HELM_REPO}"
+                            def HELM_PUSH_REPO=sh(script: "helm s3 push --force ${LATEST_HELM_CHART} ${HELM_REPO_NAME};",returnStdout: true).trim()
+                            echo "Push Helm Chart: ${HELM_PUSH_REPO}"
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+        success {
+            echo "Helm chart build successful"
+        }
+    }
+}

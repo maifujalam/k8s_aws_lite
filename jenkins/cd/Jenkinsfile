@@ -1,0 +1,85 @@
+pipeline {
+    agent any
+    environment {
+        HELM_CHART_DIR = 'helm-chart-directory'
+        HELM_VALUES_FILE = 'values.yaml'
+    }
+    parameters {
+        string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws.git', description: 'Enter the git remote name.')
+        string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name to pull from.')
+        string(name: 'ARGO_APP_FOLDER_PATH', defaultValue: 'k8s/argocdApplication', description: 'Enter the folder path name of Argocd Apps.')
+        string(name: 'ARGO_APP_NAME',defaultValue: 'evicted-pod-cleaner', description: 'Enter ArgoCD App Name to deploy.Example:- evicted-pod-cleaner')
+        string(name: 'ARGO_APP_VERSION', defaultValue: '1.0.4',description: 'Enter ArgoCD App Version to deploy.Example:- 1.0.1')
+    }
+    stages {
+        stage('Update argocd application') {
+            steps {
+                script {
+                     dir("${params.ARGO_APP_FOLDER_PATH}") {
+                            echo "Folder of ArgoCD Apps: ${params.CHART_FOLDER_PATH}";
+                            def app_file = sh(script: "find . -maxdepth 1 -type f -iname '${params.ARGO_APP_NAME}*'", returnStdout: true).trim()
+                            echo "Application File:- ${app_file}"
+                            try {
+                                // def output_yq = sh(script: "yq -i .spec.source.targetRevision='${params.ARGO_APP_VERSION}'" '${app_file}'", returnStdout: true).trim()
+                                  def cat1=sh(script: "cat '${app_file}'", returnStdout: true).trim()
+                                  echo "Before Patching:- \n$cat1}"
+                                  sh """
+                                      git checkout -b master
+                                      yq -i '.spec.source.targetRevision="'"${params.ARGO_APP_VERSION}"'"' ${app_file}
+                                  """
+                                  def cat_file=sh(script: "cat ${app_file}", returnStdout: true).trim()
+                                  echo "After Patching:- \n${cat_file}"
+                            } catch (Exception e) {
+                                error("Version upgrade error ${e}")
+                            }
+                     }
+                }
+            }
+        }
+
+        stage('Push to Git') {
+            when {
+                expression {
+                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                withCredentials([gitUsernamePassword(credentialsId: 'git-jenkins', gitToolName: 'Default')]) {
+                    sh '''
+                    git config --global user.email "sk.maifujalam@gmail.com"
+                    git config --global user.name "Jenkins"
+                    git add .
+                    git commit -m "Add testfile from Jenkins Pipeline"
+                    git push -u origin master
+                    '''
+                }
+            }
+        }
+
+        stage('Sync Argocd Application') {
+            when {
+                expression {
+                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                script {
+                    echo "Syncing Argo CD"
+
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+        success {
+            echo "Helm chart build successful"
+        }
+    }
+}

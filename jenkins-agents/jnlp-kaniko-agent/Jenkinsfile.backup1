@@ -1,0 +1,97 @@
+pipeline {
+    parameters {
+        string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws.git', description: 'Enter the git repo URL')
+        string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name')
+        string(name: 'APP_FOLDER_PATH', defaultValue: 'EvictedPodCleaner', description: 'Folder containing the Dockerfile')
+        string(name: 'APP_NAME', defaultValue: 'evicted-pod-cleaner', description: 'App name')
+        string(name: 'DOCKER_REPOSITORY_NAME', defaultValue: 'skmaifujalam/evicted-pod-cleaner', description: 'Docker repository Name')
+    }
+    agent {
+        kubernetes {
+            yaml '''
+            apiVersion: "v1"
+            kind: "Pod"
+            metadata:
+              labels:
+                jenkins/jenkins-jenkins-agent: "true"
+                jenkins/label: "jenkins-jenkins-agent"
+                kubernetes.jenkins.io/controller: "http___jenkins_jenkins_svc_cluster_local_8080x"
+              namespace: "jenkins"
+            spec:
+              containers:
+              - name: "jnlp"
+                env:
+                - name: "JENKINS_TUNNEL"
+                  value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+                - name: "REMOTING_OPTS"
+                  value: "-noReconnectAfter 1d"
+                - name: "JENKINS_AGENT_WORKDIR"
+                  value: "/home/jenkins/agent"
+                - name: "JENKINS_URL"
+                  value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+                image: "docker.io/skmaifujalam/jenkins-agent:v1.0.2"
+                imagePullPolicy: "IfNotPresent"
+                resources:
+                  limits:
+                    memory: "512Mi"
+                    cpu: "500m"
+                  requests:
+                    memory: "256Mi"
+                    cpu: "250m"
+                tty: false
+                volumeMounts:
+                - mountPath: "/home/jenkins/agent"
+                  name: "workspace-volume"
+                  readOnly: false
+                workingDir: "/home/jenkins/agent"
+              - name: kaniko
+                image: gcr.io/kaniko-project/executor:latest
+                resources:
+                  limits:
+                    memory: "512Mi"
+                    cpu: "500m"
+                  requests:
+                    memory: "256Mi"
+                    cpu: "250m"
+                command: ["/kaniko/executor"]
+                args: ["--dockerfile=/workspace/Dockerfile",
+                        "--context=dir://workspace",
+                        "--destination=${DOCKER_REPOSITORY_NAME}:${BUILD_NUMBER}"]
+                volumeMounts:
+                  - name: kaniko-secret
+                    mountPath: /kaniko/.docker
+                  - name: dockerfile-storage
+                    mountPath: /workspace
+              nodeSelector:
+                kubernetes.io/os: "linux"
+              restartPolicy: "Never"
+              serviceAccountName: "default"
+              volumes:
+              - emptyDir:
+                  medium: ""
+                name: "workspace-volume"
+              - name: kaniko-secret
+                secret:
+                  secretName: regcred
+                  items:
+                    - key: .dockerconfigjson
+                      path: config.json
+              - emptyDir:
+                medium: ""
+                name: "dockerfile-storage"
+        '''
+        }
+    }
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                checkout([$class: 'GitSCM',
+                    branches: [[name: "${params.GIT_BRANCH_NAME}"]],
+                    userRemoteConfigs: [[url: "${params.GIT_REPO_NAME}"]]
+                ])
+            }
+        }
+    }
+
+}

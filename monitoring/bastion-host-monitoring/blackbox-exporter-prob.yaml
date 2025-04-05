@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: bastion-blackbox-exporter-probe
+  namespace: prometheus-blackbox-exporter
+  labels:
+    probe: node-exporter
+    release: kube-prometheus-stack
+spec:
+  jobName: bastion-blackbox-exporter
+  interval: 15s
+  prober:
+    url: prometheus-blackbox-exporter.prometheus-blackbox-exporter.svc.cluster.local:9115  # Add http:// scheme
+  targets:
+    staticConfig:
+      static:
+      - 172.31.0.10:9100/metrics
+  module: http_2xx
+  metricRelabelings:
+    - sourceLabels: ["__address__"]
+      regex: "(.*):9100"
+      targetLabel: instance
+      replacement: "$1"

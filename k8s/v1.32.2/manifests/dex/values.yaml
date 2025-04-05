@@ -65,16 +65,16 @@ config:
   connectors:
     - type: github  # Example connector (GitHub)
       id: github
-      name: GitHub
+      name: gitHub
       config:
         clientID: Ov23lihKIv4yvL4ep04h
         clientSecret: b3cc17408703f511f5be6aea8691cc5b6255beea
         redirectURI: https://dex.maifuj.com/dex/callback/
 
   staticClients:
-    - id: Ov23lihKIv4yvL4ep04h
+    - id: Ov23likEYDwIdcpWZyu4
       name: "oauth2-proxy"
-      secret: b3cc17408703f511f5be6aea8691cc5b6255beea
+      secret: 19bb3fb81d4365f23b30f230405ff9e4a1eeee53
       redirectURIs:
         - https://oauth2.maifuj.com/oauth2/callback
 

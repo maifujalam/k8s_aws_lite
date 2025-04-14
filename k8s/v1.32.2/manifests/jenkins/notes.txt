@@ -1,1 +1,6 @@
 1. Create aws secret for accessinh helm chart for jenkins agent:
+2. To update or add new plugin:-
+   a. Go to the plugin home page and click on install the cli option.From there get the plugin_name:version
+   b. add the plugin_name:version to the plugins.txt
+   c. Sync the argo cd to implement the new plugin.
+3.

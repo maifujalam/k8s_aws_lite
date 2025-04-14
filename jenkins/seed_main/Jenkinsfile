@@ -1,0 +1,16 @@
+// job.groovy - Job DSL script
+pipelineJob('my-deployment-pipeline') {
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/your-org/your-pipeline-repo.git')
+                    }
+                    branch('main')
+                }
+                scriptPath('Jenkinsfile') // Path to your pipeline script
+            }
+        }
+    }
+}

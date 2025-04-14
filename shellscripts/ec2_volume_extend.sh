@@ -1,5 +1,5 @@
 #!/bin/bash
 lsblk
-growpart /dev/nvme0n1 1
-resize2fs /dev/nvme0n1p1
-du -hT
+sudo growpart /dev/nvme0n1 1
+sudo resize2fs /dev/nvme0n1p1
+df -hT

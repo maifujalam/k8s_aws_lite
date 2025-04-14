@@ -7,4 +7,4 @@ controller:
   - configuration-as-code:1953.v148f87d74b_1e
   - kubernetes:4324.vfec199a_33512
   - job-dsl:1.91
-  - git:5.5.2
+  - git:5.7.0

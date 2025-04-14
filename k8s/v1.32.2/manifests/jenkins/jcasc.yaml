@@ -1,21 +1,6 @@
 controller:
   JCasC:
     configScripts:
-      jenkins:
-        systemMessage: "Jenkins configured via JCasc 🌟"
-        numExecutors: 2
-
-        securityRealm:
-          local:
-            allowsSignup: false
-            users:
-              - id: admin
-                password: admin
-
-        authorizationStrategy:
-          loggedInUsersCanDoAnything:
-            allowAnonymousRead: false
-
-        # Create jobs using Job DSL scripts
-        jobs:
-          - file: /var/jenkins_home/casc_configs/jobs.groovy
+      welcome-message: |
+        jenkins:
+          systemMessage: Welcome to our CI\CD server.

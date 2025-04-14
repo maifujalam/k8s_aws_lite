@@ -4,3 +4,6 @@ controller:
       welcome-message: |
         jenkins:
           systemMessage: Welcome to our CI\CD server.
+          numExecutors: 2
+          jobs:
+             - file: /var/jenkins_home/jenkins/ci/Jenkinsfile

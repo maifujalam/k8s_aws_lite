@@ -4,3 +4,6 @@ controller:
   - github:1.40.0
   - hashicorp-vault-plugin:371.v884a_4dd60fb_6
   - pipeline-stage-view:2.34
+  - configuration-as-code:1953.v148f87d74b_1e
+  - kubernetes:4324.vfec199a_33512
+  - job-dsl:1.91

@@ -13,7 +13,7 @@ if __name__ == '__main__':
         count=0
         for pod in pods.items:
             print("Checking Pod:"+pod.metadata.name + " Namespace: " + pod.metadata.namespace + " Status: " + pod.status.phase)
-            if pod.status.phase != 'Running' and pod.status.phase != 'Succeeded':
+            if pod.status.phase != 'Running':
                 print("Evicted Pod"+pod.metadata.name+ " | "+pod.metadata.namespace+" | "+pod.status.phase)
             try:
                 if pod.status.reason:

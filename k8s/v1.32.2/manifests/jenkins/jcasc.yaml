@@ -4,3 +4,10 @@ controller:
       jenkinscasc: |
         jenkins:
           systemMessage: Welcome to our CI\CD server.
+          jobs:
+            - script: >
+              job('example1') {
+                steps {
+                  batchFile('echo Hello World1!')
+                }
+              }

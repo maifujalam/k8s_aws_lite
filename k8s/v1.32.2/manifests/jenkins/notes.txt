@@ -3,4 +3,5 @@
    a. Go to the plugin home page and click on install the cli option.From there get the plugin_name:version
    b. add the plugin_name:version to the plugins.txt
    c. Sync the argo cd to implement the new plugin.
-3.
+3. Job DSL: https://sachithramanamperi.medium.com/automating-jenkins-jobs-using-job-dsl-plugin-38b67eb0f629
+4.

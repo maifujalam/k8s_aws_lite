@@ -1,7 +1,7 @@
 controller:
   JCasC:
     configScripts:
-      welcome-message: |
+      jenkinsCasc: |
         jenkins:
           systemMessage: Welcome to our CI\CD server.
           jobs:

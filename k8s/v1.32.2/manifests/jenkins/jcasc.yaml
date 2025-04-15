@@ -4,5 +4,3 @@ controller:
       jenkinscasc: |
         jenkins:
           systemMessage: Welcome to our CI\CD server.
-          jobs:
-             - file: /var/jenkins_home/jenkins/ci/Jenkinsfile

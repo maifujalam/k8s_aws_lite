@@ -5,4 +5,15 @@ controller:
         jenkins:
           systemMessage: Welcome to our CI\CD server.
           jobs:
-            - file: /var/jenkins_home/jenkins/seed_main/Jenkinsfile
+          - script: >
+              pipelineJob('seed-job') {
+                description('Seed job created via JCasc. It creates other jobs using Job DSL.')
+                definition {
+                  cps {
+                    script("""
+                      jobDsl scriptText: new File('/var/jenkins_home/jenkins/seed_main/jobs.groovy').text
+                    """.stripIndent())
+                    sandbox()
+                  }
+                }
+              }

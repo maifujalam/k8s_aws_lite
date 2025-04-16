@@ -6,19 +6,25 @@ controller:
           systemMessage: Welcome to our CI\CD server.
         jobs:
         - script: >
-          pipelineJob('seed-job') {
-            description('Seed job that loads Job DSL scripts from Git.')
-            definition {
-              cpsScm {
-                scm {
-                  git {
-                    remote {
-                      url('https://github.com/maifujalam/k8s_aws_lite.git')
-                    }
-                    branches('*/main')
-                  }
-                  scriptPath('jenkins/seed_main/jobs.groovy') # path inside repo
+          job('seed-job') {
+            description('This is the seed job to run DSL scripts from Git.')
+            scm {
+              git {
+                remote {
+                  url('https://github.com/maifujalam/k8s_aws_lite.git')
                 }
+                branches('*/main')
+              }
+            }
+            triggers {
+              scm('H/5 * * * *')
+            }
+            steps {
+              dsl {
+                external('jenkins/seed_main/jobs.groovy')  # File in your repo
+                removeAction('DELETE')
+                removeViewAction('DELETE')
+                lookupStrategy('SEED_JOB')
               }
             }
           }

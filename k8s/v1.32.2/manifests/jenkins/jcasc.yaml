@@ -5,7 +5,7 @@ controller:
         jenkins:
           systemMessage: Welcome to our CI\CD server.
         jobs:
-        - script: >
+        - script: |
           job('seed-job') {
             description('This is the seed job to run DSL scripts from Git.')
             scm {

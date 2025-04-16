@@ -5,9 +5,4 @@ controller:
         jenkins:
           systemMessage: Welcome to our CI\CD server.
           jobs:
-            - script: >
-              job('example1') {
-                steps {
-                  batchFile('echo Hello World1!')
-                }
-              }
+            - file: /var/jenkins_home/jenkins/seed_main/Jenkinsfile

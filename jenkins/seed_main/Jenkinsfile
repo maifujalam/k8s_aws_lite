@@ -5,11 +5,11 @@ pipelineJob('my-deployment-pipeline') {
             scm {
                 git {
                     remote {
-                        url('https://github.com/your-org/your-pipeline-repo.git')
+                        url('https://github.com/maifujalam/k8s_aws_lite.git')
                     }
                     branch('main')
                 }
-                scriptPath('Jenkinsfile') // Path to your pipeline script
+                scriptPath('jenkins/ci/Jenkinsfile') // Path to your pipeline script
             }
         }
     }

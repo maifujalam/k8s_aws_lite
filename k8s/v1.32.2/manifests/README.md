@@ -184,3 +184,36 @@ OAUTH2 Proxy
 4. helm pull oauth2-proxy/oauth2-proxy --version 7.12.6 --untar
 5. helm -n oauth2-proxy install oauth2-proxy oauth2-proxy --create-namespace
 6. helm -n oauth2-proxy uninstall oauth2-proxy
+
+ELK:
+Elasticsearch:
+1. helm repo add elastic https://helm.elastic.co
+2. helm repo update
+3. helm search repo elasticsearch
+4. helm pull elastic/elasticsearch --version 8.5.1 --untar
+5. helm -n elasticsearch install elasticsearch elasticsearch --create-namespace 
+6. helm -n elasticsearch uninstall elasticsearch
+
+Filebeat:
+1. helm repo add elastic https://helm.elastic.co
+2. helm repo update
+3. helm search repo filebeat
+4. helm pull elastic/filebeat --version 8.5.1 --untar
+5. helm -n elasticsearch install elasticsearch elasticsearch --create-namespace 
+6. helm -n elasticsearch uninstall elasticsearch
+
+Logstash:
+1. helm repo add elastic https://helm.elastic.co
+2. helm repo update
+3. helm search repo logstash
+4. helm pull elastic/logstash --version 8.5.1 --untar
+5. helm -n logstash install logstash logstash --create-namespace 
+6. helm -n logstash uninstall logstash
+
+Kibana:
+1. helm repo add elastic https://helm.elastic.co
+2. helm repo update
+3. helm search repo kibana
+4. helm pull elastic/kibana --version 8.5.1 --untar
+5. helm -n kibana install kibana kibana --create-namespace 
+6. helm -n kibana uninstall kibana

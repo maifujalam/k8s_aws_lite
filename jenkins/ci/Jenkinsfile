@@ -55,8 +55,8 @@ pipeline {
     }
     parameters {
         string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws_lite.git', description: 'Enter the git remote name')
-        string(name: 'GIT_BRANCH_NAME', defaultValue: 'main', description: 'Enter the branch name to pull from')
-        string(name: 'CHART_FOLDER_PATH', defaultValue: 'k8s/v1.30.5/manifests/evicted-pod-cleaner/', description: 'Enter the folder path name which to be helm build')
+        string(name: 'GIT_BRANCH_NAME', defaultValue: 'mainx', description: 'Enter the branch name to pull from')
+        string(name: 'CHART_FOLDER_PATH', defaultValue: 'k8s/v1.32.2/manifests/evicted-pod-cleaner/', description: 'Enter the folder path name which to be helm build')
         string(name: 'HELM_REPO', defaultValue: 's3://public-helm-repository-20231023095000508500000001', description: 'Enter the helm remote name,where to push')
     }
     stages {

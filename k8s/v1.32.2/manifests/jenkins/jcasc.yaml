@@ -6,25 +6,25 @@ controller:
           systemMessage: Welcome to our CI\CD server.
         jobs:
           - script: |
-              job('seed-job-1') {
-                description('This is the seed job to run DSL scripts from Git.')
-                scm {
-                  git {
-                    remote {
-                      url('https://github.com/maifujalam/k8s_aws_lite.git')
-                    }
-                    branches('*/main')
+            job('seed-job-main') {
+              description('This is the seed job to run DSL scripts from Git.')
+              scm {
+                git {
+                  remote {
+                    url('https://github.com/maifujalam/k8s_aws_lite.git')
                   }
-                }
-                triggers {
-                  scm('H/5 * * * *')
-                }
-                steps {
-                  dsl {
-                    external('jenkins/seed_main/jobs.groovy') 
-                    removeAction('DELETE')
-                    removeViewAction('DELETE')
-                    lookupStrategy('SEED_JOB')
-                  }
+                  branches('*/main')
                 }
               }
+              triggers {
+                scm('H/5 * * * *')
+              }
+              steps {
+                dsl {
+                  external('jenkins/seed_main/jobs.groovy') 
+                  removeAction('DELETE')
+                  removeViewAction('DELETE')
+                  lookupStrategy('SEED_JOB')
+                }
+              }
+            }

@@ -398,7 +398,8 @@ controller:
 
   # Plugins will be installed during Jenkins controller start
   # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`
-  installPlugins: []
+  installPlugins:
+    - blueocean:1.27.18
 
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.

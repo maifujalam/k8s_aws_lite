@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -euo pipefail
+set -euo pipefail  # Run: bash kaniko-secret.sh
 
 # Ensure DOCKER_PASSWORD is set
 if [ -z "${DOCKER_PASSWORD:-}" ]; then

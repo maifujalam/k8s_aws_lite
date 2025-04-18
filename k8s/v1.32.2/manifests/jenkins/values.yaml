@@ -460,13 +460,13 @@ controller:
   existingSecret:
 
   # -- List of additional existing secrets to mount
-  additionalExistingSecrets: []
+#  additionalExistingSecrets: []
   # ref: https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#kubernetes-secrets
-  # additionalExistingSecrets:
-  #  - name: secret-name-1
-  #    keyName: username
-  #  - name: secret-name-1
-  #    keyName: password
+  additionalExistingSecrets:
+    - name: aws-secret
+      keyName: AWS_ACCESS_KEY_ID
+    - name: aws-secret
+      keyName: AWS_SECRET_ACCESS_KEY
 
   # -- List of additional secrets to create and mount
   additionalSecrets: []

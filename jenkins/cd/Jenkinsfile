@@ -6,10 +6,10 @@ pipeline {
     }
     parameters {
         string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws_lite.git', description: 'Enter the git remote name.')
-        string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name to pull from.')
+        string(name: 'GIT_BRANCH_NAME', defaultValue: 'main', description: 'Enter the branch name to pull from.')
         string(name: 'ARGO_APP_FOLDER_PATH', defaultValue: 'k8s/argocdApplication', description: 'Enter the folder path name of Argocd Apps.')
         string(name: 'ARGO_APP_NAME',defaultValue: 'evicted-pod-cleaner', description: 'Enter ArgoCD App Name to deploy.Example:- evicted-pod-cleaner')
-        string(name: 'ARGO_APP_VERSION', defaultValue: '1.0.4',description: 'Enter ArgoCD App Version to deploy.Example:- 1.0.1')
+        string(name: 'ARGO_APP_VERSION', defaultValue: '1.0.6',description: 'Enter ArgoCD App Version to deploy.Example:- 1.0.1')
     }
     stages {
         stage('Update argocd application') {

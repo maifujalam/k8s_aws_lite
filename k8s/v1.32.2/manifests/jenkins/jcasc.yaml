@@ -6,7 +6,7 @@ controller:
           systemMessage: Welcome to our CI\CD server.
         jobs:
           - script: |
-              job('seed-job') {
+              job('seed-job-1') {
                 description('This is the seed job to run DSL scripts from Git.')
                 scm {
                   git {

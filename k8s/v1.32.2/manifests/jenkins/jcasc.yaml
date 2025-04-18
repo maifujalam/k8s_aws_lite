@@ -4,6 +4,15 @@ controller:
       jenkinscasc: |
         jenkins:
           systemMessage: Welcome to our CI\CD server. 
+        credentials:
+          system:
+            domainCredentials:
+              - credentials:
+                  - string:
+                      scope: GLOBAL
+                      id: "docker-token"
+                      description: "Docker access token"
+                      secret: "${DOCKER_PASSWORD}"  # Injected from ENV
         jobs:
           - script: |
               job('seed-job-main') {

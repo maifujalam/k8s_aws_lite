@@ -21,7 +21,7 @@ controller:
                 }
                 steps {
                   dsl {
-                    external('jenkins/seed_main/jobs.groovy')  # File in your repo
+                    external('jenkins/seed_main/jobs.groovy') 
                     removeAction('DELETE')
                     removeViewAction('DELETE')
                     lookupStrategy('SEED_JOB')

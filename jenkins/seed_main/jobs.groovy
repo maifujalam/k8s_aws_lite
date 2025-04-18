@@ -1,5 +1,5 @@
 // job.groovy - Job DSL script
-pipelineJob('my-deployment-pipeline') {
+pipelineJob('ci-pipeline') {
     definition {
         cpsScm {
             scm {

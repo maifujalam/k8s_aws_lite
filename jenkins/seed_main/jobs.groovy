@@ -14,3 +14,18 @@ pipelineJob('ci-pipeline') {
         }
     }
 }
+pipelineJob('cd-pipeline') {
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/maifujalam/k8s_aws_lite.git')
+                    }
+                    branch('main')
+                }
+                scriptPath('jenkins/cd/Jenkinsfile') // Path to your pipeline script
+            }
+        }
+    }
+}

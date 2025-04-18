@@ -13,6 +13,16 @@ controller:
                       id: "docker-token"
                       description: "Docker access token"
                       secret: "${DOCKER_PASSWORD}"  # Injected from ENV
+                  - string:
+                      scope: GLOBAL
+                      id: "S3_WRITE_AWS_ACCESS_KEY_ID"
+                      description: "S3_WRITE_AWS_ACCESS_KEY_ID"
+                      secret: "${AWS_ACCESS_KEY_ID}"  # Injected from ENV
+                  - string:
+                      scope: GLOBAL
+                      id: "S3_WRITE_AWS_SECRET_ACCESS_KEY"
+                      description: "S3_WRITE_AWS_SECRET_ACCESS_KEY"
+                      secret: "${AWS_SECRET_ACCESS_KEY}"  # Injected from ENV
         jobs:
           - script: |
               job('seed-job-main') {

@@ -1,0 +1,2 @@
+1. Crete docker secret to push baked image to dockerhub: bash shellscripts/kaniko-secret.sh
+2. Create aws secret to push chart tar file to aws s3: sh shellscripts/aws_secret.sh

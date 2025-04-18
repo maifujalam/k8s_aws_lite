@@ -1,6 +1,6 @@
 pipeline {
     parameters {
-        string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws.git', description: 'Enter the git repo URL')
+        string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws_lite.git', description: 'Enter the git repo URL')
         string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name')
         string(name: 'APP_FOLDER_PATH', defaultValue: 'EvictedPodCleaner', description: 'Folder containing the Dockerfile')
         string(name: 'APP_NAME', defaultValue: 'evicted-pod-cleaner', description: 'App name')

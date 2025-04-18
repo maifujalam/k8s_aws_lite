@@ -3,11 +3,7 @@ controller:
     configScripts:
       jenkinscasc: |
         jenkins:
-          systemMessage: Welcome to our CI\CD server.
-          globalNodeProperties:
-            - envVars:
-                env:
-                  TZ: "Asia/Kolkata"  
+          systemMessage: Welcome to our CI\CD server. 
         jobs:
           - script: |
               job('seed-job-main') {

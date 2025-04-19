@@ -97,7 +97,7 @@ pipeline {
                     sh """
                         git config --global user.email "sk.maifujalam@gmail.com"
                         git config --global user.name "${GIT_USER}"
-                        git remote set-url origin https://${GIT_USER}:${GIT_TOKEN}@github.com/your-user/your-repo.git
+                        git remote set-url origin https://${GIT_USER}:${GIT_TOKEN}@github.com/maifujalam/k8s_aws_lite.git
                         git add .
                         git commit -m "Add testfile from Jenkins Pipeline"
                         git push -u origin main

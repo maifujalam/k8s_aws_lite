@@ -10,9 +10,9 @@ controller:
               - credentials:
                   - string:
                       scope: GLOBAL
-                      id: "docker-token"
-                      description: "Docker access token"
-                      secret: "${DOCKER_PASSWORD}"  # Injected from ENV
+                      id: "DOCKERHUB_TOKEN"
+                      description: "DOCKERHUB_TOKEN"
+                      secret: "${DOCKERHUB_TOKEN}"  # Injected from ENV
                   - string:
                       scope: GLOBAL
                       id: "S3_WRITE_AWS_ACCESS_KEY_ID"
@@ -23,6 +23,11 @@ controller:
                       id: "S3_WRITE_AWS_SECRET_ACCESS_KEY"
                       description: "S3_WRITE_AWS_SECRET_ACCESS_KEY"
                       secret: "${readFile:/var/run/secrets/additional/aws-secret-AWS_SECRET_ACCESS_KEY}"  # Injected from ENV
+                  - string:
+                      scope: GLOBAL
+                      id: "GIT_TOKEN"
+                      description: "GIT_TOKEN"
+                      secret: "${readFile:/var/run/secrets/additional/GIT_TOKEN}"  # Injected from ENV
         jobs:
           - script: |
               job('seed-job-main') {

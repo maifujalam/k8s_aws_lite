@@ -9,7 +9,7 @@ pipeline {
         string(name: 'GIT_BRANCH_NAME', defaultValue: 'main', description: 'Enter the branch name to pull from.')
         string(name: 'ARGO_APP_FOLDER_PATH', defaultValue: 'k8s/v1.32.2/argocdApplication', description: 'Enter the folder path name of Argocd Apps.')
         string(name: 'ARGO_APP_NAME',defaultValue: 'evicted-pod-cleaner', description: 'Enter ArgoCD App Name to deploy.Example:- evicted-pod-cleaner')
-        string(name: 'ARGO_APP_VERSION', defaultValue: '1.0.6',description: 'Enter ArgoCD App Version to deploy.Example:- 1.0.1')
+        string(name: 'ARGO_APP_VERSION', defaultValue: '1.0.7',description: 'Enter ArgoCD App Version to deploy.Example:- 1.0.1')
     }
     stages {
         stage('Update argocd application') {
@@ -44,7 +44,7 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([gitUsernamePassword(credentialsId: 'git-jenkins', gitToolName: 'Default')]) {
+                withCredentials([gitUsernamePassword(credentialsId: 'GIT_TOKEN', gitToolName: 'Default')]) {
                     sh '''
                     git config --global user.email "sk.maifujalam@gmail.com"
                     git config --global user.name "Jenkins"

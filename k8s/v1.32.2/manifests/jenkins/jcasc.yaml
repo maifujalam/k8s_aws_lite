@@ -23,11 +23,12 @@ controller:
                       id: "S3_WRITE_AWS_SECRET_ACCESS_KEY"
                       description: "S3_WRITE_AWS_SECRET_ACCESS_KEY"
                       secret: "${readFile:/var/run/secrets/additional/aws-secret-AWS_SECRET_ACCESS_KEY}"  # Injected from ENV
-                  - string:
+                  - usernamePassword:
                       scope: GLOBAL
-                      id: "GIT_TOKEN"
-                      description: "GIT_TOKEN"
-                      secret: "${readFile:/var/run/secrets/additional/git-secret-GIT_TOKEN}"  # Injected from ENV
+                      id: "GIT_CRED"
+                      description: "GitHub token for pushing code"
+                      username: "${readFile:/var/run/secrets/additional/git-secret-GIT_USER}"
+                      password: "${readFile:/var/run/secrets/additional/git-secret-GIT_TOKEN}"
         jobs:
           - script: |
               job('seed-job-main') {

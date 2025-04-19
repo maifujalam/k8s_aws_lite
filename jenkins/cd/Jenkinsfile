@@ -93,14 +93,15 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([gitUsernamePassword(credentialsId: 'GIT_TOKEN', gitToolName: 'Default')]) {
-                    sh '''
-                    git config --global user.email "sk.maifujalam@gmail.com"
-                    git config --global user.name "Jenkins"
-                    git add .
-                    git commit -m "Add testfile from Jenkins Pipeline"
-                    git push -u origin master
-                    '''
+                withCredentials([usernamePassword(credentialsId: env.GIT_CREDS, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                    sh """
+                        git config --global user.email "sk.maifujalam@gmail.com"
+                        git config --global user.name "${GIT_USER}"
+                        git remote set-url origin https://${GIT_USER}:${GIT_TOKEN}@github.com/your-user/your-repo.git
+                        git add .
+                        git commit -m "Add testfile from Jenkins Pipeline"
+                        git push -u origin main
+                    """
                 }
             }
         }

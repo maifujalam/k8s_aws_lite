@@ -27,7 +27,7 @@ controller:
                       scope: GLOBAL
                       id: "GIT_TOKEN"
                       description: "GIT_TOKEN"
-                      secret: "${readFile:/var/run/secrets/additional/GIT_TOKEN}"  # Injected from ENV
+                      secret: "${readFile:/var/run/secrets/additional/git-secret-GIT_TOKEN}"  # Injected from ENV
         jobs:
           - script: |
               job('seed-job-main') {

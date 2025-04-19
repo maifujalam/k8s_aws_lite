@@ -14,7 +14,7 @@ spec:
       valueFiles:
         - https://raw.githubusercontent.com/maifujalam/k8s_aws_lite/refs/heads/main/k8s/v1.32.2/manifests/evicted-pod-cleaner/values.yaml
     repoURL: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/
-    targetRevision: 1.0.7
+    targetRevision: 1.0.12
   syncPolicy:
     automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
       prune: false # Specifies if resources should be pruned during auto-syncing ( false by default ).

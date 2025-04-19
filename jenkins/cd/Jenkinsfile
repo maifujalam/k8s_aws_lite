@@ -1,5 +1,54 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yaml '''
+            apiVersion: "v1"
+            kind: "Pod"
+            metadata:
+              labels:
+                jenkins/jenkins-jenkins-agent: "true"
+                jenkins/label: "jenkins-jenkins-agent"
+                kubernetes.jenkins.io/controller: "http___jenkins_jenkins_svc_cluster_local_8080x"
+              namespace: "jenkins"
+            spec:
+              containers:
+              - args:
+                env:
+                - name: "JENKINS_TUNNEL"
+                  value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+                - name: "REMOTING_OPTS"
+                  value: "-noReconnectAfter 1d"
+                - name: "JENKINS_AGENT_WORKDIR"
+                  value: "/home/jenkins/agent"
+                - name: "JENKINS_URL"
+                  value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+                image: "docker.io/skmaifujalam/jenkins-agent:5"
+                imagePullPolicy: "IfNotPresent"
+                name: "jnlp"
+                resources:
+                  limits:
+                    memory: "512Mi"
+                    cpu: "500m"
+                  requests:
+                    memory: "256Mi"
+                    cpu: "250m"
+                tty: false
+                volumeMounts:
+                - mountPath: "/home/jenkins/agent"
+                  name: "workspace-volume"
+                  readOnly: false
+                workingDir: "/home/jenkins/agent"
+              nodeSelector:
+                kubernetes.io/os: "linux"
+              restartPolicy: "Never"
+              serviceAccountName: "default"
+              volumes:
+              - emptyDir:
+                  medium: ""
+                name: "workspace-volume"
+            '''
+        }
+    }
     environment {
         HELM_CHART_DIR = 'helm-chart-directory'
         HELM_VALUES_FILE = 'values.yaml'

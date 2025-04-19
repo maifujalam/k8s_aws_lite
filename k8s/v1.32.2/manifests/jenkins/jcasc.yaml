@@ -41,9 +41,9 @@ controller:
                     branches('*/main')
                   }
                 }
-                triggers {
-                  scm('H/5 * * * *')
-                }
+#                triggers {
+#                  scm('H/5 * * * *')
+#                }
                 steps {
                   dsl {
                     external('jenkins/seed_main/jobs.groovy') 

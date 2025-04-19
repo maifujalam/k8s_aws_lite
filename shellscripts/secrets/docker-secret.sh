@@ -25,3 +25,4 @@ kubectl create secret docker-registry docker-credentials \
   --namespace "$NAMESPACE"
 
 echo "✅ Docker registry secret 'docker-credentials' created in namespace '$NAMESPACE'."
+

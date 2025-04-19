@@ -14,13 +14,16 @@ if __name__ == '__main__':
         for pod in pods.items:
             print("Checking Pod:"+pod.metadata.name + " Namespace: " + pod.metadata.namespace + " Status: " + pod.status.phase)
             if pod.status.phase != 'Running':
-                print("Evicted Pod"+pod.metadata.name+ " | "+pod.metadata.namespace+" | "+pod.status.phase)
+                print("Evicted/Succeeded Pod"+pod.metadata.name+ " | "+pod.metadata.namespace+" | "+pod.status.phase)
             try:
                 if pod.status.reason:
                     if pod.status.reason == "Evicted":
                         print("Deleting Evicted Pod "+pod.metadata.name)
                         v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)
                         print("Deleted Evicted Pod "+pod.metadata.name)
-
+                    if pod.status.phase == "Succeeded":
+                        print("Deleting Succeeded Pod "+pod.metadata.name)
+                        v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)
+                        print("Deleted Succeeded Pod "+pod.metadata.name)
             except:
                 print("Failed to get pod status")

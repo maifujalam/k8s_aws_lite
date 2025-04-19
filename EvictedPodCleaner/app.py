@@ -16,7 +16,7 @@ if __name__ == '__main__':
             if pod.status.phase != 'Running':
                 print("Evicted/Succeeded Pod"+pod.metadata.name+ " | "+pod.metadata.namespace+" | "+pod.status.phase)
             try:
-                if pod.status.reason:
+                if pod.status.reason or pod.status.phase:
                     if pod.status.reason == "Evicted":
                         print("Deleting Evicted Pod "+pod.metadata.name)
                         v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)

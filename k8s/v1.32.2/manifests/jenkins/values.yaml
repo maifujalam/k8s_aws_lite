@@ -467,6 +467,8 @@ controller:
       keyName: AWS_ACCESS_KEY_ID
     - name: aws-secret
       keyName: AWS_SECRET_ACCESS_KEY
+    - name: git-secret
+      keyName: GIT_TOKEN
 
   # -- List of additional secrets to create and mount
   additionalSecrets: []

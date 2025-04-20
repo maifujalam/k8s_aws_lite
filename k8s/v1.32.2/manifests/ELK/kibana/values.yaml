@@ -136,20 +136,23 @@ service:
   httpPortName: http
 
 ingress:
-  enabled: false
+  enabled: true
   className: "nginx"
   pathtype: ImplementationSpecific
   annotations: {}
   # kubernetes.io/ingress.class: nginx
   # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: kibana-example.local
+    - host: kibana.maifuj.com
       paths:
         - path: /
-  #tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+    - secretName: kibana-secret
+      hosts:
+        - kibana.maifuj.com
+  issuer:
+    scope: cluster
+    name: letsencrypt-prod-cluster-issuer-llt
 
 readinessProbe:
   failureThreshold: 3

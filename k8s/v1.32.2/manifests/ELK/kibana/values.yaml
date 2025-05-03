@@ -51,7 +51,7 @@ podAnnotations: {}
 
 resources:
   requests:
-    cpu: "300"
+    cpu: "300m"
     memory: "300Mi"
   limits:
     cpu: "500m"

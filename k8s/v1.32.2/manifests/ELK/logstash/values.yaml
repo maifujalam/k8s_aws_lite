@@ -9,6 +9,7 @@ replicas: 1
 logstashConfig:
   logstash.yml: |
     http.host: 0.0.0.0
+    http.port: 9600
     xpack.monitoring.enabled: false
 
 logstashPipeline:
@@ -247,7 +248,7 @@ readinessProbe:
   httpGet:
     path: /
     port: http
-  initialDelaySeconds: 60
+  initialDelaySeconds: 120
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 3

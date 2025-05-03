@@ -9,7 +9,6 @@ replicas: 1
 logstashConfig:
   logstash.yml: |
     http.host: 0.0.0.0
-    https.port: 9600
     xpack.monitoring.enabled: false
 
 logstashPipeline:

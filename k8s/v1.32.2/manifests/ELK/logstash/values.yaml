@@ -6,24 +6,43 @@ replicas: 1
 #
 # Note that when overriding logstash.yml, `http.host: 0.0.0.0` should always be included
 # to make default probes work.
-logstashConfig: {}
-#  logstash.yml: |
-#    key:
-#      nestedkey: value
-#  log4j2.properties: |
-#    key = value
+logstashConfig:
+  logstash.yml: |
+    http.host: 0.0.0.0
+    xpack.monitoring.enabled: false
+
+logstashPipeline:
+  uptime.conf: |
+    input { exec { command => "uptime" interval => 30 } }
+    output {
+      elasticsearch {
+        hosts => ["https://elasticsearch-master:9200"]
+        user => '${ELASTICSEARCH_USERNAME}'
+        cacert => '/usr/share/logstash/config/certs/ca.crt'
+        password => '${ELASTICSEARCH_PASSWORD}'
+        index => "logstash"
+      }
+    }
+
+extraEnvs:
+  - name: "ELASTICSEARCH_USERNAME"
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-master-credentials
+        key: username
+  - name: "ELASTICSEARCH_PASSWORD"
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-master-credentials
+        key: password
+
+secretMounts:
+  - name: elasticsearch-master-certs
+    secretName: elasticsearch-master-certs
+    path: /usr/share/logstash/config/certs
 
 # Allows you to add any pipeline files in /usr/share/logstash/pipeline/
 ### ***warn*** there is a hardcoded logstash.conf in the image, override it first
-logstashPipeline: {}
-#  logstash.conf: |
-#    input {
-#      exec {
-#        command => "uptime"
-#        interval => 30
-#      }
-#    }
-#    output { stdout { } }
 
 # Allows you to add any pattern files in your custom pattern dir
 logstashPatternDir: "/usr/share/logstash/patterns/"
@@ -34,10 +53,6 @@ logstashPattern: {}
 # Extra environment variables to append to this nodeGroup
 # This will be appended to the current 'env:' key. You can use any of the kubernetes env
 # syntax here
-extraEnvs: []
-#  - name: MY_ENVIRONMENT_VAR
-#    value: the_value_goes_here
-
 # Allows you to load environment variables from kubernetes secret or config map
 envFrom: []
 # - secretRef:
@@ -61,8 +76,6 @@ secrets: []
 #      cert.crt: "LS0tLS1CRUdJTiBlRJRklDQVRFLS0tLS0K"
 #      cert.key.filepath: "secrets.crt" # The path to file should be relative to the `values.yaml` file.
 
-# A list of secrets and their paths to mount inside the pod
-secretMounts: []
 
 hostAliases: []
 #- ip: "127.0.0.1"
@@ -84,11 +97,11 @@ logstashJavaOpts: "-Xmx1g -Xms1g"
 
 resources:
   requests:
-    cpu: "100m"
-    memory: "1536Mi"
+    cpu: "300m"
+    memory: "500Mi"
   limits:
     cpu: "1000m"
-    memory: "1536Mi"
+    memory: "700Mi"
 
 volumeClaimTemplate:
   accessModes: ["ReadWriteOnce"]

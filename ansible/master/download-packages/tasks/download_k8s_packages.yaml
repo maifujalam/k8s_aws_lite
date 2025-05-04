@@ -6,7 +6,7 @@
     repo: https://github.com/maifujalam/k8s_aws_lite.git
     dest: ~/k8s_aws_lite
     clone: yes
-    version: master
+    version: main
 
 - name: Create package folder
   file:

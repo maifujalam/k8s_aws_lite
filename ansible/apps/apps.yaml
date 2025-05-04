@@ -9,5 +9,6 @@
     USER: ubuntu
     MASTER_NODE_IP: 172.31.0.37
     WORKER_NODE_IP: 172.31.0.38
+    WORKER1_NODE_IP: 172.31.0.39
   roles:
     - default-apps

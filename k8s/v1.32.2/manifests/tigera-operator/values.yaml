@@ -20,7 +20,7 @@ installation:
       - blockSize: 26
         cidr: 192.168.0.0/16
         disableBGPExport: false
-        encapsulation: IPIPCrossSubnet
+        encapsulation: IPIP
         natOutgoing: Enabled
         nodeSelector: all()
 

@@ -1,4 +1,5 @@
 # Calico
+Notes: https://sigridjin.medium.com/calico-cni-and-its-networking-mode-ff71c7bdf65b 
 
 Calico is a widely adopted, battle-tested open source networking and network security solution for Kubernetes, virtual machines, and bare-metal workloads.
 Calico provides two major services for Cloud Native applications:

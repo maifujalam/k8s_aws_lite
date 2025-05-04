@@ -11,5 +11,5 @@ spot_instance        = false
 instance_type        = "t3a.large"
 private_ip = "172.31.0.37" # Starting digit of private ip ( will increase last digit based on count value).
 security_group       = "default-sg"
-iam_instance_profile = "ec2-full-policy"
+iam_instance_profile = "ec2-full-assume-role"
 source_dest_check = false

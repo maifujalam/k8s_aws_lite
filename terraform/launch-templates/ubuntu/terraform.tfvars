@@ -1,0 +1,6 @@
+region                = "ap-south-1"
+name                  = "launch-template-ubuntu"
+delete_on_termination = "true"
+instance_type         = "t2.micro"
+os                    = "ubuntu"
+key_name              = "id_rsa"

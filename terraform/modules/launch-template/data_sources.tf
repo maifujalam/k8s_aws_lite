@@ -56,28 +56,6 @@ data "aws_ami" "rhel-9" {
     values = ["x86_64"]
   }
 }
-data "aws_ami" "rhel-9" {
-  most_recent = true
-  owners      = ["self", "amazon"]
-  filter {
-    name   = "name"
-    values = ["RHEL-9*"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-}
 data "aws_key_pair" "get_key_lookup" {
   key_name = var.key_name
   filter {

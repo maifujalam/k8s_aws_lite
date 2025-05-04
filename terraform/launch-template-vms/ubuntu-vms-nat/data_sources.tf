@@ -5,6 +5,7 @@ data "aws_eip" "get-eip" {
   }
 }
 data "aws_instances" "nat-instance" {
+  depends_on = [module.ubuntu-vms]
   filter {
     name   = "tag:Name"           # Filter by the Name tag
     values = [var.instance_name]

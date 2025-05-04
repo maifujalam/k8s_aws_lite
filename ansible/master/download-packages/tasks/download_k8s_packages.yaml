@@ -1,10 +1,10 @@
 - name: Clean up previous project
-  shell: rm -rvf ~/k8s_aws
+  shell: rm -rvf ~/k8s_aws_lite
 
 - name: Clone project code
   git:
-    repo: https://github.com/maifujalam/k8s_aws.git
-    dest: ~/k8s_aws
+    repo: https://github.com/maifujalam/k8s_aws_lite.git
+    dest: ~/k8s_aws_lite
     clone: yes
     version: master
 

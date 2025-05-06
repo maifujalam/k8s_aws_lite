@@ -28,6 +28,7 @@ tee /etc/ansible/inventory.ini <<EOF
 master
 [k8s-worker]
 worker
+[k8s-worker1]
 worker1
 EOF
 

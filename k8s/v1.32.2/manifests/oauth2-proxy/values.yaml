@@ -46,14 +46,17 @@ config:
   # Default configuration, to be overridden
   configFile: |-
     provider = "oidc"
-    email_domains = [ "*" ]
-    upstreams = [ "file:///dev/null" ]
+    client_id = "dex-client-id"
+    client_secret = "19bb3fb81d4365f23b30f230405ff9e4a1eeee53"
     cookie_secret="OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
     cookie_secure = "false"
+    email_domains = [ "*" ]
+    upstreams = [ "file:///dev/null" ]
+    oidc_issuer_url = "https://dex.maifuj.com"
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     scope = "user:email,read:org"
-    oidc-issuer-url = https://dex.maifuj.com
+    
 
   # here in redirect_url "/oauth2/callback" is important and usually static.
   # Custom configuration file: oauth2_proxy.cf

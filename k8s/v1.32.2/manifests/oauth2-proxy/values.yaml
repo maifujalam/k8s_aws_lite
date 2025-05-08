@@ -45,7 +45,7 @@ config:
     #  - group2@example.com
   # Default configuration, to be overridden
   configFile: |-
-    provider = "github"
+    provider = "oidc"
     email_domains = [ "*" ]
     upstreams = [ "file:///dev/null" ]
     cookie_secret="OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
@@ -53,7 +53,7 @@ config:
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     scope = "user:email,read:org"
-    redirect_url = "https://oauth2.maifuj.com/oauth2/callback"
+    oidc-issuer-url: https://dex.maifuj.com
 
   # here in redirect_url "/oauth2/callback" is important and usually static.
   # Custom configuration file: oauth2_proxy.cf

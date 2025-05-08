@@ -72,7 +72,7 @@ config:
         redirectURI: https://dex.maifuj.com/dex/callback/
 
   staticClients:
-    - id: dex-client-id
+    - id: "dex-client-id"
       name: "oauth2-proxy"
       secret: "19bb3fb81d4365f23b30f230405ff9e4a1eeee53"
       redirectURIs:

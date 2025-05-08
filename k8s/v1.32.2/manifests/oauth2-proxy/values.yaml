@@ -53,7 +53,7 @@ config:
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     scope = "user:email,read:org"
-    oidc-issuer-url: https://dex.maifuj.com
+    oidc-issuer-url = https://dex.maifuj.com
 
   # here in redirect_url "/oauth2/callback" is important and usually static.
   # Custom configuration file: oauth2_proxy.cf

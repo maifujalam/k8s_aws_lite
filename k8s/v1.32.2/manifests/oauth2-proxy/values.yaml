@@ -53,6 +53,7 @@ config:
     email_domains = [ "*" ]
     upstreams = [ "file:///dev/null" ]
     oidc_issuer_url = "https://dex.maifuj.com"
+    redirect_url = ""https://oauth2.maifuj.com/oauth2/callback
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     scope = "user:email,read:org"

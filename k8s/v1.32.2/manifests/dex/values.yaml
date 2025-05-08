@@ -76,7 +76,7 @@ config:
       name: "oauth2-proxy"
       secret: "19bb3fb81d4365f23b30f230405ff9e4a1eeee53"
       redirectURIs:
-        - https://oauth2.maifuj.com/oauth2/callback
+        - https://dex.maifuj.com/oauth2/callback
 
 # -- Additional storage [volumes](https://kubernetes.io/docs/concepts/storage/volumes/).
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.

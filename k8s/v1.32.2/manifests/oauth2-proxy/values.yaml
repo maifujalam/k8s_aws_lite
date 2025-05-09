@@ -46,8 +46,8 @@ config:
   # Default configuration, to be overridden
   configFile: |-
     provider = "oidc"
-    client_id = "Ov23lihKIv4yvL4ep04h"
-    client_secret = "19bb3fb81d4365f23b30f230405ff9e4a1eeee53"
+    client_id = "oauth2-proxy"
+    client_secret = "f5188c8f1f9a63b31a9b6b1a8b54db3dfe8bf128"
     cookie_secret="OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
     cookie_secure = "true"
     email_domains = [ "*" ]

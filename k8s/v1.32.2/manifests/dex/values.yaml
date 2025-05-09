@@ -72,9 +72,9 @@ config:
         redirectURI: https://dex.maifuj.com/dex/callback/
 
   staticClients:
-    - id: "Ov23lihKIv4yvL4ep04h"
+    - id: "oauth2-proxy"
       name: "oauth2-proxy"
-      secret: "19bb3fb81d4365f23b30f230405ff9e4a1eeee53"
+      secret: "f5188c8f1f9a63b31a9b6b1a8b54db3dfe8bf128"
       redirectURIs:
         - https://oauth2.maifuj.com/oauth2/callback/
 

@@ -49,7 +49,7 @@ config:
     client_id = "dex-client-id"
     client_secret = "19bb3fb81d4365f23b30f230405ff9e4a1eeee53"
     cookie_secret="OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
-    cookie_secure = "false"
+    cookie_secure = "true"
     email_domains = [ "*" ]
     upstreams = [ "file:///dev/null" ]
     oidc_issuer_url = "https://dex.maifuj.com"

@@ -57,6 +57,9 @@ config:
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
     cookie_expire = "5m"
+    set_xauthrequest = "true"
+    set_authorization_header = "true"
+    skip_provider_button = "true"
     
 
   # here in redirect_url "/oauth2/callback" is important and usually static.

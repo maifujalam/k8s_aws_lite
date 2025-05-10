@@ -69,7 +69,7 @@ config:
       config:
         clientID: Ov23li6IzMqqzAf8YrSt
         clientSecret: 6fea89197446a9ea30bfaaf758754936a36540d6
-        redirectURI: https://dex.maifuj.com/dex/callback/
+        redirectURI: https://dex.maifuj.com/callback/
 
   staticClients:
     - id: "Ov23liy9wYBhlqmHtfcq"

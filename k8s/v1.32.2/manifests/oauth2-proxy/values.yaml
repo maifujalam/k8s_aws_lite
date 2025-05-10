@@ -56,7 +56,6 @@ config:
     redirect_url = "https://oauth2.maifuj.com/oauth2/callback/"
     cookie_domains = [ ".maifuj.com"]
     whitelist_domains = [ ".maifuj.com"]
-    scope = "user:email,read:org"
     
 
   # here in redirect_url "/oauth2/callback" is important and usually static.

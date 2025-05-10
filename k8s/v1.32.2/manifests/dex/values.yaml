@@ -69,14 +69,14 @@ config:
       config:
         clientID: Ov23li6IzMqqzAf8YrSt
         clientSecret: 6fea89197446a9ea30bfaaf758754936a36540d6
-        redirectURI: https://dex.maifuj.com/callback/
+        redirectURI: https://dex.maifuj.com/callback
 
   staticClients:
     - id: "Ov23liy9wYBhlqmHtfcq"
       name: "oauth2"
       secret: "35fe0f45853d9af707bc89111c4c8cd961273688"
       redirectURIs:
-        - https://oauth2.maifuj.com/oauth2/callback/
+        - https://oauth2.maifuj.com/oauth2/callback
 
 # -- Additional storage [volumes](https://kubernetes.io/docs/concepts/storage/volumes/).
 # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#volumes-1) for details.

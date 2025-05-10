@@ -19,9 +19,9 @@ config:
   # Add config annotations
   annotations: {}
   # OAuth client ID
-  clientID: "Ov23likEYDwIdcpWZyu4"
+  clientID: ""
   # OAuth client secret
-  clientSecret: "19bb3fb81d4365f23b30f230405ff9e4a1eeee53"
+  clientSecret: ""
   # Create a new secret with the following command
   # openssl rand -base64 32 | head -c 32 | base64
   # Use an existing secret for OAuth2 credentials (see secret.yaml for required fields)

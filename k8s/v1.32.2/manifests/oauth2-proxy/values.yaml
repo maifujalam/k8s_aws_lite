@@ -58,6 +58,7 @@ config:
     whitelist_domains = [ ".maifuj.com"]
     cookie_expire = "5m"
     set_xauthrequest = "true"
+    pass_access_token = "true"
     set_authorization_header = "true"
     skip_provider_button = "true"
     

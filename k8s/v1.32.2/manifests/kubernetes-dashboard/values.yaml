@@ -130,8 +130,6 @@ app:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        proxy_set_header Authorization "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRsZm9MUUZjOWhudUdvd0FieEJ0dU5NY054cHNBckRTN3lkWnd0RFdsZ1EifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI2ZmNhNjdkZS0xYmQ3LTRhOWUtOTc5MS00NWViMjI4NzJlZjciLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.4HH6U_tLvin0BelIYdV4NNVZRqyqMYMSiDgHSsI5_EN6mCVoLqBusLGhSfkWhDVtQDtkGOdxXKB1edExfJ5CZIlan9-Zq3wgozBHylFkaHl06bT3lg_blpWbTnUW1BEYAQQksA_wX_PO9wxbpdg5YM38WqmqvHGIqOEQIMrh3bRTcumqMne5WY39j2Rxt2YYNuH5XEGXkWhwHO755b0Z_U4JfLkW2HCf-uYtUIvT_JvA69LXtrB936n9ZyIsTcIGPSeA3J0XwT8rhy__ycFNcJw6nWFmrL6cDY1h_Bkdy304UL2HQT77oBMDEOh4dbrDCs9Ixl5FIktYxGmk0p7jkw";
   # Use the following toleration if Dashboard can be deployed on a tainted control-plane nodes
   # - key: node-role.kubernetes.io/control-plane
   #   effect: NoSchedule

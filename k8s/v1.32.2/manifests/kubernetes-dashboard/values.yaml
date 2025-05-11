@@ -151,9 +151,7 @@ auth:
       - name: auth
         containerPort: 8000
         protocol: TCP
-    args:
-      - --authentication-mode=token
-      - --enable-insecure-login=true
+    args: []
     env: []
     volumeMounts:
       - mountPath: /tmp

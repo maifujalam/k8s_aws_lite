@@ -191,8 +191,7 @@ api:
     # Full list of arguments: https://github.com/kubernetes/dashboard/blob/master/docs/common/arguments.md
     # args:
     # - --system-banner="Welcome to the Kubernetes Dashboard"
-    args:
-      - --system-banner="Welcome to the Kubernetes Dashboard by Alam"
+    args: []
     # Additional container environment variables
     # env:
     # - name: SOME_VAR

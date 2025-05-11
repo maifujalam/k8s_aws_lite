@@ -147,7 +147,11 @@ auth:
       - name: auth
         containerPort: 8000
         protocol: TCP
-    args: []
+    args:
+      - --auto-generate-certificates
+      - --token-ttl=3600
+      - --authentication-mode=token
+      - --authorization-header=Bearer
     env: []
     volumeMounts:
       - mountPath: /tmp

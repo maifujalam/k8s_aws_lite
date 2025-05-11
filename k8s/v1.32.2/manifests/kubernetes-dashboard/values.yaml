@@ -148,8 +148,7 @@ auth:
         containerPort: 8000
         protocol: TCP
     args:
-      - --auto-generate-certificates
-      - --token-ttl=3600
+      - --token-ttl=300
       - --authentication-mode=token
       - --authorization-header=Bearer
     env: []

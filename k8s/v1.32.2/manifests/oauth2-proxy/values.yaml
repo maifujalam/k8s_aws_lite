@@ -61,8 +61,9 @@ config:
     pass_access_token = "true"
     set_authorization_header = "true"
     skip_provider_button = "true"
-    
-
+    custom_headers = {
+      Authorization = "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRsZm9MUUZjOWhudUdvd0FieEJ0dU5NY054cHNBckRTN3lkWnd0RFdsZ1EifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1ZThkYzhmZS1mMGNjLTQ5NDYtYjk5Ni03ZjI5ZWFiNDE0ZDQiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.QyZ78sJizyT7Xtc9-dOj2tybwiKqKiJW5V-kRXgymZFLVHO-CKu2p5KCK0xBY8NvPmpsDLtGoOePzZQYeXoLLlWUONEzS9yk-r3vol-HZCg2PLK1iUc8FPlgjJmR4DeoAVkkdasroCIvwfR_Igaou5SnQGiiBNUCPUPbDWenPAJMfE29gtxUWWLpyJAuhvmK9uyk1tTqWHpMiRGtih-Bm5zaHtkQrjdIRwGjIph6Z3DGMwpSmmSETdQTERREMoSAR32GJT3psnynSwahBLAn7aXEixmaYwLjMsFYud-jiUvRW1xKekH0q1S7PGQAup7zsEJ0HZjh_e1sL-BXHpb20w"
+    }
   # here in redirect_url "/oauth2/callback" is important and usually static.
   # Custom configuration file: oauth2_proxy.cf
   # configFile: |-

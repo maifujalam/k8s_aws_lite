@@ -48,15 +48,15 @@ config:
     provider = "oidc"
     client_id = "Ov23liy9wYBhlqmHtfcq"
     client_secret = "35fe0f45853d9af707bc89111c4c8cd961273688"
-    cookie_secret="OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
-    cookie_secure = "true"
-    email_domains = [ "*" ]
-    upstreams = [ "file:///dev/null" ]
+    cookie_secret = "OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
     oidc_issuer_url = "https://dex.maifuj.com"
     redirect_url = "https://oauth2.maifuj.com/oauth2/callback"
-    cookie_domains = [ ".maifuj.com"]
-    whitelist_domains = [ ".maifuj.com"]
+    upstreams = ["file:///dev/null"]
+    cookie_domains = [".maifuj.com"]
+    whitelist_domains = [".maifuj.com"]
     cookie_expire = "5m"
+    email_domains = ["*"]
+    cookie_secure = "true"
     set_xauthrequest = "true"
     pass_access_token = "true"
     set_authorization_header = "true"

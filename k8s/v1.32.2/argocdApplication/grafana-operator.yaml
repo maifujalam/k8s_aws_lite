@@ -12,7 +12,7 @@ spec:
     chart: grafana-operator
     helm:
       valueFiles:
-      - https://raw.githubusercontent.com/maifujalam/k8s_aws_lite/refs/heads/main/k8s/v1.32.2/manifests/hello-kubernetes/values.yaml
+      - https://raw.githubusercontent.com/maifujalam/k8s_aws_lite/refs/heads/main/k8s/v1.32.2/manifests/grafana-operator/values.yaml
     repoURL: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/
     targetRevision: v5.17.1
   syncPolicy:

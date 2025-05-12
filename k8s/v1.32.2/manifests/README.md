@@ -217,3 +217,6 @@ Kibana:
 4. helm pull elastic/kibana --version 8.5.1 --untar
 5. helm -n kibana install kibana kibana --create-namespace 
 6. helm -n kibana uninstall kibana
+
+Grafana-Operator:-
+1. helm pull oci://ghcr.io/grafana/helm-charts/grafana-operator --version v5.17.1 --untar

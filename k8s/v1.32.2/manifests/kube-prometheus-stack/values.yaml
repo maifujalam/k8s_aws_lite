@@ -2287,7 +2287,7 @@ prometheusOperator:
       #   argocd.argoproj.io/hook: PreSync
 
     deployment:
-      enabled: false
+      enabled: true
 
       ## Number of replicas
       ##
@@ -3307,10 +3307,10 @@ prometheus:
     ## TLS configuration for Prometheus Ingress
     ## Secret must be manually created in the namespace
     ##
-    tls: []
-#       - secretName: prometheus-general-tls
-#         hosts:
-#           - prometheus.maifuj.com
+    tls:
+       - secretName: prometheus-general-tls
+         hosts:
+           - prometheus.maifuj.com
 
   ## Configuration for creating an Ingress that will map to each Prometheus replica service
   ## prometheus.servicePerReplica must be enabled

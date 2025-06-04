@@ -70,6 +70,13 @@ config:
         clientID: Ov23li6IzMqqzAf8YrSt
         clientSecret: 6fea89197446a9ea30bfaaf758754936a36540d6
         redirectURI: https://dex.maifuj.com/callback
+    - type: google
+      id: google
+      name: Google
+      config:
+        clientID: $GOOGLE_CLIENT_ID
+        clientSecret: $GOOGLE_CLIENT_SECRET
+        redirectURI: https://dex.maifuj.com/callback
 
   staticClients:
     - id: "Ov23liy9wYBhlqmHtfcq"

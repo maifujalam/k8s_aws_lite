@@ -5,4 +5,5 @@ module "k8s-security-group" {
   name = var.name
   project = var.project
   vpc = var.vpc
+  ingress_ports = var.ingress_ports
 }

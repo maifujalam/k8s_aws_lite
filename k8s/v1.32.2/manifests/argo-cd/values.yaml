@@ -2608,7 +2608,7 @@ repoServer:
   - name: cmp-tmp
     emptyDir: {}
   - configMap:
-      name: my-plugin-config
+      name: argocd-cmp-cm
     name: my-plugin-config
   - name: custom-tools
     emptyDir: {}

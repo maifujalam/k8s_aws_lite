@@ -2589,7 +2589,7 @@ repoServer:
           mv argocd-vault-plugin /custom-tools/;
       volumeMounts:
         - mountPath: /custom-tools
-          name: ccustom-tools
+          name: custom-tools
 
   # -- Additional volumeMounts to the repo server main container
   volumeMounts:

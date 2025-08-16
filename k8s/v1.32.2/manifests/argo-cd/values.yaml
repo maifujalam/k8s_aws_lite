@@ -416,23 +416,20 @@ configs:
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
   cmp:
     # -- Create the argocd-cmp-cm configmap
-    create: false
+    create: true
 
     # -- Annotations to be added to argocd-cmp-cm configmap
     annotations: {}
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
-    plugins: {}
-      # --- First plugin
-      # my-plugin:
-      #   init:
-      #     command: [sh]
-      #     args: [-c, 'echo "Initializing..."']
-      #   generate:
-      #     command: [sh, -c]
-      #     args:
-      #       - |
-      #         echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\",\"Bar\": \"baz\"}}}"
+    plugins:
+       my-plugin:
+         init:
+           command: [sh]
+           args: [-c, 'echo "Initializing..."']
+         generate:
+           command: ["argocd-vault-plugin"]
+           args: ["generate", "./"]
       #   discover:
       #     fileName: "./subdir/s*.yaml"
       #     find:
@@ -2490,6 +2487,8 @@ repoServer:
       value: /helm-working-dir/helm-plugins/
     - name: HELM_S3_VERSION
       value: 0.16.3
+    - name: AVP_VERSION
+      value: 1.18.1
   # -- envFrom to pass to repo server
   # @default -- `[]` (See [values.yaml])
   envFrom: []
@@ -2581,8 +2580,11 @@ repoServer:
     - name: download-tools
       image: alpine:3.8
       command: [sh, -c]
+      env:
+        - name: AVP_VERSION
+          value: 1.18.1
       args:
-        - wget -O argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.18.1/argocd-vault-plugin_1.18.1_linux_amd64;
+        - wget -O argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v${AVP_VERSION}/argocd-vault-plugin_${AVP_VERSION}_linux_amd64;
           chmod +x argocd-vault-plugin;
           mv argocd-vault-plugin /custom-tools/;
       volumeMounts:
@@ -2594,11 +2596,16 @@ repoServer:
     - name: custom-tools
       mountPath: /usr/local/bin/argocd-vault-plugin
       subPath: argocd-vault-plugin
-
+    - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+      subPath: avp.yaml
+      name: cmp-plugin
   # -- Additional volumes to the repo server pod
   volumes:
   - name: custom-tools
     emptyDir: {}
+  - configMap:
+      name: cmp-plugin
+    name: cmp-plugin
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm

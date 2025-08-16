@@ -2596,16 +2596,16 @@ repoServer:
     - name: custom-tools
       mountPath: /usr/local/bin/argocd-vault-plugin
       subPath: argocd-vault-plugin
-    - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-      subPath: avp.yaml
-      name: cmp-plugin
+    - mountPath: /home/argocd/cmp-server/config/my-plugin.yaml
+      subPath: my-plugin.yaml
+      name: argocd-cmp-cm
   # -- Additional volumes to the repo server pod
   volumes:
   - name: custom-tools
     emptyDir: {}
   - configMap:
-      name: cmp-plugin
-    name: cmp-plugin
+      name: argocd-cmp-cm
+    name: argocd-cmp-cm
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm

@@ -2578,11 +2578,28 @@ repoServer:
           helm repo add public-helm-repository https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/;
           helm repo update;
 
+    - name: download-tools
+      image: alpine:3.8
+      command: [sh, -c]
+      args:
+        - wget -O argocd-vault-plugin
+          https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.18.1/argocd-vault-plugin_1.18.1_linux_amd64
+          chmod +x argocd-vault-plugin &&\
+          mv argocd-vault-plugin /custom-tools/
+      volumeMounts:
+        - mountPath: /custom-tools
+          name: custom-tools
+
   # -- Additional volumeMounts to the repo server main container
-  volumeMounts: []
+  volumeMounts:
+    - name: custom-tools
+      mountPath: /usr/local/bin/argocd-vault-plugin
+      subPath: argocd-vault-plugin
 
   # -- Additional volumes to the repo server pod
-  volumes: []
+  volumes:
+  - name: custom-tools
+    emptyDir: {}
   #  - name: argocd-cmp-cm
   #    configMap:
   #      name: argocd-cmp-cm

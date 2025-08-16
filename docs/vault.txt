@@ -45,3 +45,16 @@ Vault reset:
 3. Initialize vault: kubectl -n vault exec vault-0 -- vault operator init   -recovery-shares=1   -recovery-threshold=1  > cluster-keys.json
 4. Get root login token: cat cluster-keys.json
 5. Login to
+
+Enable App ROle:-
+1. vault login with root token: vault login <toot_token>
+2. Enable app role: vault auth enable approle
+3. Create role: vault write auth/approle/role/argocd-role \
+                    token_type=batch \
+                    secret_id_ttl=10m \
+                    token_ttl=20m \
+                    token_max_ttl=30m \
+                    secret_id_num_uses=40
+4. Read the created role: vault read auth/approle/role/argocd-role
+5. Get a RoleID issued against the AppRole: vault read auth/approle/role/argocd-role/role-id
+6. Get a SecretID issued against the AppRole: vault write -f auth/approle/role/argocd-role/secret-id

@@ -68,24 +68,32 @@ pipeline {
                 script {
                      dir("${params.APP_FOLDER_PATH}") {
                         echo "Application Folder: ${params.APP_FOLDER_PATH}"
-
-                        env.APP_NAME = sh(script: "yq -r '.name' Chart.yaml", returnStdout: true).trim()
-                        env.APP_VERSION = sh(script: "yq -r '.version' Chart.yaml | cut -d'-' -f1", returnStdout: true).trim()
-                        env.APP_BUILD   = sh(script: "yq -r '.version' Chart.yaml | cut -d'-' -f2", returnStdout: true).trim()
+                        // Find chart file (Chart.yaml or Chart.yml)
+                        def chartFile = sh(
+                            script: 'test -f Chart.yaml && echo Chart.yaml || (test -f Chart.yml && echo Chart.yml)',
+                            returnStdout: true
+                        ).trim()
+                        if (!chartFile) {
+                            error("❌ No Chart.yaml or Chart.yml found in workspace")
+                        }
+                        echo "Using chart file: ${chartFile}"
+                        env.APP_NAME = sh(script: "yq -r '.name' ${chartFile}", returnStdout: true).trim()
+                        env.APP_VERSION = sh(script: "yq -r '.version' ${chartFile} | cut -d'-' -f1", returnStdout: true).trim()
+                        env.APP_BUILD   = sh(script: "yq -r '.version' ${chartFile} | cut -d'-' -f2", returnStdout: true).trim()
                         env.BUILD_NUMBER = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()
                         env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
 
                         echo "Updating chart for App: ${env.APP_NAME} Version: ${env.APP_VERSION}-${env.APP_BUILD} Target Version: ${env.TARGET_VERSION}"
-
+                        sh "cat ${chartFile}"
                         try {
-                            def before = sh(script: "cat Chart.yaml", returnStdout: true).trim()
+                            def before = sh(script: "cat ${chartFile}", returnStdout: true).trim()
                             echo "Before Patching:\n${before}"
 
                             sh """
-                                yq -i '.version = "${env.TARGET_VERSION}"' Chart.yaml
+                                yq -i '.version = "${env.TARGET_VERSION}"' ${chartFile}
                             """
 
-                            def after = sh(script: "cat Chart.yaml", returnStdout: true).trim()
+                            def after = sh(script: "cat ${chartFile}", returnStdout: true).trim()
                             echo "After Patching:\n${after}"
                         } catch (Exception e) {
                             error("Version upgrade error: ${e}")
@@ -163,10 +171,10 @@ pipeline {
             echo "Pipeline finished"
         }
         failure {
-            echo "Pipeline failed"
+            echo "❌ Pipeline failed"
         }
         success {
-            echo "Helm chart build successful"
+            echo "✅ Helm chart build successful"
         }
     }
 }

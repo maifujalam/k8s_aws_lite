@@ -57,7 +57,7 @@ def main(default_file, override_file, output_file=None):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3 or len(sys.argv) > 4:
-        print("Usage: python3 helm_values_diff.py values.yaml override.yaml [output.yaml]")
+        print("Usage: python3 helm_values_diff.py values.yaml override.yaml[values.diff.yaml]")
         sys.exit(1)
 
     default_file = sys.argv[1]

@@ -1,55 +1,31 @@
-# Provide a custom message
-message: "Hi Alam.."
-
-# Remember to set service.type=ClusterIP if you are using an ingress
-ingress:
-  enabled: true
-  configured: true
-  rewritePath: false
-  pathPrefix: ""
-  extraPaths: ""
-  ingressClassName: "nginx"
-  annotations:
-    nginx.ingress.kubernetes.io/auth-url: https://oauth2.maifuj.com/oauth2/auth
-    nginx.ingress.kubernetes.io/auth-signin: https://oauth2.maifuj.com/oauth2/start
-    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-  labels: {}
-  issuer:
-    scope: cluster
-    name: letsencrypt-prod-cluster-issuer-llt
-  hosts:
-    - helloworld.maifuj.com
-  path: /
-  pathType: Prefix
-  secretName: "helloworld-secret"
-
-
-service:
-  type: ClusterIP
-  port: 8080
-  externalPort: 443
 deployment:
-  replicaCount: 2
-  container:
-    image:
-      repository: "paulbouwer/hello-kubernetes"
-      tag: "" # uses chart appVersion if not provided
-      pullPolicy: IfNotPresent
-    port: 8080
-
-  # Currently only linux images on amd64 architecture are supported - support for arm64 and windows/amd64 coming ...
-  nodeSelector:
-    kubernetes.io/os: linux
-    kubernetes.io/arch: amd64
   resources:
     limits:
       memory: 100Mi
     requests:
       memory: 50Mi
-
-  tolerations:
-    - key: node-role.kubernetes.io/control-plane
-      effect: NoSchedule
-
-  affinity: {}
-
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-signin: https://oauth2.maifuj.com/oauth2/start
+    nginx.ingress.kubernetes.io/auth-url: https://oauth2.maifuj.com/oauth2/auth
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+  configured: true
+  enabled: true
+  extraPaths: ''
+  hosts:
+  - helloworld.maifuj.com
+  ingressClassName: nginx
+  issuer:
+    name: letsencrypt-prod-cluster-issuer-llt
+    scope: cluster
+  labels: {}
+  path: /
+  pathPrefix: ''
+  pathType: Prefix
+  rewritePath: false
+  secretName: helloworld-secret
+message: Hi Alam..
+service:
+  externalPort: 443
+  port: 8080
+  type: ClusterIP

@@ -33,7 +33,7 @@
     create_namespace: true
     chart_version: 3.29.2
     values_files:
-      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/tigera-operator/values.yaml
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/tigera-operator/values.dev.yaml
   when: r2.rc != 0
 
 - name: Check if cert-manager already installed
@@ -49,7 +49,7 @@
     create_namespace: true
     chart_version: 1.16.2-aws
     values_files:
-      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/cert-manager/values.yaml
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/cert-manager/values.dev.yaml
   when: r3.rc != 0
 
 - name: Install self signed certs
@@ -69,7 +69,7 @@
     create_namespace: true
     chart_version: 4.11.2-aws
     values_files:
-      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/ingress-nginx/values.yaml
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/ingress-nginx/values.dev.yaml
   when: r4.rc != 0
 
 - name: Sleep fo 30 sec
@@ -89,7 +89,7 @@
     create_namespace: true
     chart_version: 7.7.9-aws
     values_files:
-      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/argo-cd/values.yaml
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/argo-cd/values.dev.yaml
   when: r5.rc != 0
 
 - name: Install Default Apps

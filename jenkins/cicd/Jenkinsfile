@@ -77,7 +77,7 @@ pipeline {
                             error("❌ No Chart.yaml or Chart.yml found in workspace")
                         }
                         echo "Using chart file: ${chartFile}"
-                        env.APP_NAME = sh(script: "yq eval -r '.name' ${chartFile}", returnStdout: true).trim()
+                        env.APP_NAME = sh(script: "yq eval -r '.name' ${chartFile} ", returnStdout: true).trim()
                         def chart_version = sh(script: "yq eval -r '.version' ${chartFile} ", returnStdout: true).trim().tokenize('-')
                         sh "echo App ${env.APP_NAME} Version: ${chart_version}"
                         env.CHART_VERSION = versionParts[0]

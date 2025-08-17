@@ -59,7 +59,7 @@ pipeline {
         string(name: 'APP_FOLDER_PATH', defaultValue: 'k8s/v1.32.2/manifests/hello-kubernetes', description: 'Enter the folder path name of Apps.')
     }
     stages {
-        stage('Update argocd application') {
+        stage('Update Application') {
             steps {
                 script {
                      dir("${params.ARGO_APP_FOLDER_PATH}") {
@@ -84,6 +84,32 @@ pipeline {
             }
         }
 
+        stage('Package Helm Chart') {
+            when {
+                expression {
+                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                script {
+                    echo "Package Helm Chart"
+                }
+            }
+        }
+
+        stage('Push Helm Chart') {
+            when {
+                expression {
+                    return currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                script {
+                    echo "Push Helm Chart"
+                }
+            }
+        }
+
         stage('Push to Git') {
             when {
                 expression {
@@ -104,7 +130,7 @@ pipeline {
             }
         }
 
-        stage('Sync Argocd Application') {
+        stage('Deploy Argocd Application') {
             when {
                 expression {
                     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
@@ -113,7 +139,7 @@ pipeline {
             steps {
                 script {
                     echo "Syncing Argo CD"
-
+                    kubectl apply -f *-app.yaml
                 }
             }
         }

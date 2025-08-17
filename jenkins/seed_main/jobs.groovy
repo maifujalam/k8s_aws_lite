@@ -1,4 +1,19 @@
 // job.groovy - Job DSL script
+pipelineJob('cicd-pipeline') {
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/maifujalam/k8s_aws_lite.git')
+                    }
+                    branch('main')
+                }
+                scriptPath('jenkins/cicd/Jenkinsfile') // Path to your pipeline script
+            }
+        }
+    }
+}
 pipelineJob('ci-pipeline') {
     definition {
         cpsScm {

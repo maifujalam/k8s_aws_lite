@@ -80,10 +80,11 @@ pipeline {
 
                         echo "Using chart file: ${chartFile}"
 
-                        env.APP_NAME = sh(script: "yq eval -r '.name // \"\"' ${chartFile}", returnStdout: true).trim()
-                        def rawVersion = sh(script: "yq eval -r '.version // \"\"' ${chartFile}", returnStdout: true).trim()
+                        env.APP_NAME = sh(script: "yq eval -r '.name' ${chartFile}", returnStdout: true).trim()
+                        env.APP_VERSION = sh(script: "yq eval -r '.version' ${chartFile}", returnStdout: true).trim()
 
-                        def versionParts = rawVersion.tokenize('-')
+                        def versionParts = env.APP_VERSION.tokenize('-')
+                        echo "Using chart version: ${versionParts}"
                         env.APP_VERSION = versionParts[0]
                         env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
                         env.BUILD_NUMBER = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()

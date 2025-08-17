@@ -78,9 +78,9 @@ pipeline {
                         }
                         echo "Using chart file: ${chartFile}"
                         sh "cat ${chartFile}"
-                        env.APP_NAME = sh(script: "yq eval -r '.name' ${chartFile} ", returnStdout: true).trim()
+                        def app_name = sh(script: "yq eval -r '.name' ${chartFile} ", returnStdout: true).trim()
                         def chart_version = sh(script: "yq eval -r '.version' ${chartFile} ", returnStdout: true).trim().tokenize('-')
-                        sh "echo App ${env.APP_NAME} Version: ${chart_version}"
+                        sh "echo App ${app_name} Version: ${chart_version}"
                         env.CHART_VERSION = versionParts[0]
                         env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
                         sh "echo APP_BUILD: ${env.APP_BUILD}"

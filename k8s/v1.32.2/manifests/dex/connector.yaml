@@ -1,9 +1,0 @@
-config:
-  connectors:
-    - type: github  # Example connector (GitHub)
-      id: github
-      name: GitHub
-      config:
-        clientID: Ov23li5qUhwXr0Tm6L91
-        clientSecret: 5bf3b55158d7e0d44998545ded50c6429a8fdb41
-        redirectURI: https://dex.maifuj.com/callback

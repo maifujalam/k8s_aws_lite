@@ -17,3 +17,4 @@ venv
 *.venv
 /jenkins-agent-raw/
 *helm_values_diff.py
+/helm-values-diff/values.diff.yaml

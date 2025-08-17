@@ -278,7 +278,7 @@ data:
               key: {{ include "common.secrets.key" (dict "existingSecret" .Values.existingSecret "key" "password") }}
 ...
 
-# values.yaml
+# values.dev.yaml
 ---
 name: mySecret
 keyMapping:

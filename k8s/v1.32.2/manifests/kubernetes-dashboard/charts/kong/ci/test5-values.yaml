@@ -2,7 +2,7 @@
 # - ingressController deploys with a database
 # - TODO remove this test when https://github.com/Kong/charts/issues/295 is solved
 #   and its associated wait-for-db workaround is removed.
-#   This test is similar to test2-values.yaml, but lacks a stream listen.
+#   This test is similar to test2-values.dev.yaml, but lacks a stream listen.
 #   wait-for-db will _not_ create a socket file. This test ensures the workaround
 #   does not interfere with startup when there is no file to remove.
 

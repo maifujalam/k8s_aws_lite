@@ -16,7 +16,7 @@ metadata:
     app.kubernetes.io/name: {{ include "vault.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    {{- /* update the selectors docs in values.yaml whenever the defaults below change. */ -}}
+    {{- /* update the selectors docs in values.dev.yaml whenever the defaults below change. */ -}}
     {{- $selectors := .Values.serverTelemetry.prometheusRules.selectors }}
     {{- if $selectors }}
     {{- toYaml $selectors | nindent 4 }}

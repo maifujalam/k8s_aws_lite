@@ -1,4 +1,4 @@
-# Basic values.yaml for Kong for Kubernetes with Kong Enterprise
+# Basic values.dev.yaml for Kong for Kubernetes with Kong Enterprise
 # Several settings (search for the string "CHANGEME") require user-provided
 # Secrets. These Secrets must be created before installation.
 #

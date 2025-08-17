@@ -76,8 +76,8 @@ spec:
 Deploy Kong using the `cp-values.yaml` and `dp-values.yaml` in this folder:
 
 ```bash
-helm install kong-cp kong/kong -n kong --values cp-values.yaml
-helm install kong-dp kong/kong -n kong --values dp-values.yaml
+helm install kong-cp kong/kong -n kong --values cp-values.dev.yaml
+helm install kong-dp kong/kong -n kong --values dp-values.dev.yaml
 ```
 
 You should now have Kong running in hybrid mode

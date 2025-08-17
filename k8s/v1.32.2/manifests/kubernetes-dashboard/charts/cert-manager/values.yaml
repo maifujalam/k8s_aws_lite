@@ -183,7 +183,7 @@ enableCertificateOwnerRef: false
 
 # Used to configure options for the controller pod.
 # This allows setting options that'd usually be provided via flags.
-# An APIVersion and Kind must be specified in your values.yaml file.
+# An APIVersion and Kind must be specified in your values.dev.yaml file.
 # Flags will override options that are set here.
 #
 # For example:
@@ -542,7 +542,7 @@ webhook:
 
   # Used to configure options for the webhook pod.
   # This allows setting options that'd usually be provided via flags.
-  # An APIVersion and Kind must be specified in your values.yaml file.
+  # An APIVersion and Kind must be specified in your values.dev.yaml file.
   # Flags will override options that are set here.
   #
   # For example:
@@ -887,7 +887,7 @@ cainjector:
 
   # Used to configure options for the cainjector pod.
   # This allows setting options that'd usually be provided via flags.
-  # An APIVersion and Kind must be specified in your values.yaml file.
+  # An APIVersion and Kind must be specified in your values.dev.yaml file.
   # Flags will override options that are set here.
   #
   # For example:

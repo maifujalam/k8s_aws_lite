@@ -1,6 +1,6 @@
 {{- if .Values.deployment.kong.enabled }}
 {{- if .Release.IsInstall -}}
-{{/* .migrations.init isn't normally exposed in values.yaml, since it should
+{{/* .migrations.init isn't normally exposed in values.dev.yaml, since it should
      generally always run on install--there should never be any reason to
      disable it, and at worst it's a no-op. However, https://github.com/helm/helm/issues/3308
      means we cannot use the default function to create a hidden value, hence

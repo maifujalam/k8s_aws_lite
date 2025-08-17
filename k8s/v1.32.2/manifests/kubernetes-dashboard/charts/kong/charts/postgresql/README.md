@@ -479,7 +479,7 @@ The above command sets the PostgreSQL `postgres` account password to `secretpass
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-helm install my-release -f values.yaml my-repo/postgresql
+helm install my-release -f values.dev.yaml my-repo/postgresql
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)

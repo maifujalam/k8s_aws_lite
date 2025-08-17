@@ -74,7 +74,7 @@ secrets: []
 #        LS0tLS1CRUdJT0K
 #        LS0tLS1CRUdJT0K
 #      cert.crt: "LS0tLS1CRUdJTiBlRJRklDQVRFLS0tLS0K"
-#      cert.key.filepath: "secrets.crt" # The path to file should be relative to the `values.yaml` file.
+#      cert.key.filepath: "secrets.crt" # The path to file should be relative to the `values.dev.yaml` file.
 
 
 hostAliases: []

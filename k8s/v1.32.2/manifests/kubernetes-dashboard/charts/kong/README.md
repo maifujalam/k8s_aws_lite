@@ -287,8 +287,8 @@ instance-specific values.yamls that contain service configuration only. You can
 then create releases with:
 
 ```bash
-helm install proxy-only -f shared-values.yaml -f only-proxy.yaml kong/kong
-helm install admin-only -f shared-values.yaml -f only-admin.yaml kong/kong
+helm install proxy-only -f shared-values.dev.yaml -f only-proxy.yaml kong/kong
+helm install admin-only -f shared-values.dev.yaml -f only-admin.yaml kong/kong
 ```
 
 ### Standalone controller nodes

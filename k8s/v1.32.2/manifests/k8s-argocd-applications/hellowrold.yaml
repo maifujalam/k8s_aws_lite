@@ -13,7 +13,7 @@ spec:
     helm:
       passCredentials: false
       valueFiles:
-      - values.yaml
+      - values.dev.yaml
     path: manifests/hello-kubernetes
     repoURL: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/
     targetRevision: 1.0.2

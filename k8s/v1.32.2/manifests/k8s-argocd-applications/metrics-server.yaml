@@ -12,7 +12,7 @@ spec:
     chart: metrics-server
     helm:
       valueFiles:
-      - values.yaml
+      - values.dev.yaml
     path: manifests/metrics-server
     repoURL: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/
     targetRevision: 3.12.1

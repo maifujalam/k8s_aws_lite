@@ -1,4 +1,4 @@
-# Basic values.yaml configuration for Kong for Kubernetes (with the ingress controller)
+# Basic values.dev.yaml configuration for Kong for Kubernetes (with the ingress controller)
 
 image:
   repository: kong

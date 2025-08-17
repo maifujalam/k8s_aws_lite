@@ -52,6 +52,10 @@ pipeline {
     environment {
         HELM_CHART_DIR = 'helm-chart-directory'
         HELM_VALUES_FILE = 'values.dev.yaml'
+        APP_NAME     = ""
+        APP_VERSION  = ""
+        BUILD_NUMBER = ""
+        TARGET_VERSION = ""
     }
     parameters {
         string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws_lite.git', description: 'Enter the git remote name.')
@@ -59,32 +63,36 @@ pipeline {
         string(name: 'APP_FOLDER_PATH', defaultValue: 'k8s/v1.32.2/manifests/hello-kubernetes', description: 'Enter the folder path name of Apps.')
     }
     stages {
-        stage('Update Application') {
+        stage('Update 🔧 Application') {
             steps {
                 script {
-                     dir("${params.ARGO_APP_FOLDER_PATH}") {
-                            echo "Folder of ArgoCD Apps: ${params.CHART_FOLDER_PATH}";
-                            def app_file = sh(script: "find . -maxdepth 1 -type f -iname '${params.ARGO_APP_NAME}*'", returnStdout: true).trim()
-                            echo "Application File:- ${app_file}"
-                            try {
-                                // def output_yq = sh(script: "yq -i .spec.source.targetRevision='${params.ARGO_APP_VERSION}'" '${app_file}'", returnStdout: true).trim()
-                                  def cat1=sh(script: "cat '${app_file}'", returnStdout: true).trim()
-                                  echo "Before Patching:- \n$cat1}"
-                                  sh """
-                                      git checkout "${params.GIT_BRANCH_NAME}"
-                                      yq -i '.spec.source.targetRevision="'"${params.ARGO_APP_VERSION}"'"' ${app_file}
-                                  """
-                                  def cat_file=sh(script: "cat ${app_file}", returnStdout: true).trim()
-                                  echo "After Patching:- \n${cat_file}"
-                            } catch (Exception e) {
-                                error("Version upgrade error ${e}")
+                     dir("${params.APP_FOLDER_PATH}") {
+                        echo "Application Folder: ${params.APP_FOLDER_PATH}";
+                        env.APP_NAME = sh(script: "yq -r '.name' Chart.yaml", returnStdout: true).trim()
+                        env.APP_VERSION = sh(script: "yq -r '.version' Chart.yaml | cut -d'-' -f1", returnStdout: true).trim()
+                        env.APP_BUILD = sh(script: "yq -r '.version' Chart.yaml | cut -d'-' -f2", returnStdout: true).trim()
+                        env.BUILD_NUMBER = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()
+                        env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
+                        echo "Updating chart for App: ${env.APP_NAME} Version: ${env.APP_VERSION}-${env.APP_BUILD} Target Version: ${env.TARGET_VERSION}"
+                        try {
+                            // def output_yq = sh(script: "yq -i .spec.source.targetRevision='${params.ARGO_APP_VERSION}'" '${app_file}'", returnStdout: true).trim()
+                              def cat1=sh(script: "cat '${Chart.yaml}'", returnStdout: true).trim()
+                              echo "Before Patching:- \n$cat1}"
+                              sh """
+                                  git checkout "${params.GIT_BRANCH_NAME}"
+                                  yq -i '.version="'"${env.TARGET_VERSION}"'"' ${Chart.yaml}
+                              """
+                              def cat_file=sh(script: "cat ${Chart.yaml}", returnStdout: true).trim()
+                              echo "After Patching:- \n${cat_file}"
+                        } catch (Exception e) {
+                            error("Version upgrade error ${e}")
                             }
                      }
                 }
             }
         }
 
-        stage('Package Helm Chart') {
+        stage('Package 📦 Helm Chart') {
             when {
                 expression {
                     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
@@ -97,7 +105,7 @@ pipeline {
             }
         }
 
-        stage('Push Helm Chart') {
+        stage('Push 📤 Helm Chart') {
             when {
                 expression {
                     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
@@ -110,7 +118,7 @@ pipeline {
             }
         }
 
-        stage('Push to Git') {
+        stage('Push 📤 to Git') {
             when {
                 expression {
                     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
@@ -130,7 +138,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Argocd Application') {
+        stage('Deploy 🚀 Argocd Application') {
             when {
                 expression {
                     return currentBuild.result == null || currentBuild.result == 'SUCCESS'
@@ -138,8 +146,9 @@ pipeline {
             }
             steps {
                 script {
-                    echo "Syncing Argo CD"
+                    echo "Deploying ArgoCD App"
                     kubectl apply -f *-app.yaml
+                    echo "App Deployed.Sync Argo CD Now"
                 }
             }
         }

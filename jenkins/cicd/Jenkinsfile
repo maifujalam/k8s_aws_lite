@@ -80,7 +80,7 @@ pipeline {
                         env.APP_NAME = sh(script: "yq -r '.name' ${chartFile}", returnStdout: true).trim()
                         env.APP_VERSION = sh(script: "yq -r '.version' ${chartFile} ", returnStdout: true).trim()
                         sh "echo App Version: ${env.APP_VERSION}"
-                        def versionParts = fullVersion.tokenize('-')
+                        def versionParts = ${env.APP_VERSION}.tokenize('-')
                         env.APP_VERSION = versionParts[0]
                         env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
                         sh "echo APP_BUILD: ${env.APP_BUILD}"

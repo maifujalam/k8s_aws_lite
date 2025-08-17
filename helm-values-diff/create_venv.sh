@@ -32,4 +32,4 @@ fi
 echo "📋 Installed packages:"
 pip list
 
-echo "🎉 Setup complete. You're now in the virtual environment."
+echo "virtual environment Setup complete.🎉"

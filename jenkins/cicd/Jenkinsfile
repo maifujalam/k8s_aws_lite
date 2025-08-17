@@ -79,13 +79,13 @@ pipeline {
                         echo "Using chart file: ${chartFile}"
                         env.APP_NAME = sh(script: "yq -r '.name' ${chartFile}", returnStdout: true).trim()
                         env.APP_VERSION = sh(script: "yq -r '.version' ${chartFile} | cut -d'-' -f1", returnStdout: true).trim()
-                        sh "cat App Version ${env.APP_VERSION}"
+                        sh "echo App Version: ${env.APP_VERSION}"
                         env.APP_BUILD   = sh(script: "yq -r '.version' ${chartFile} | cut -d'-' -f2", returnStdout: true).trim()
-                        sh "cat APP_BUILD ${env.APP_BUILD}"
+                        sh "echo APP_BUILD: ${env.APP_BUILD}"
                         env.BUILD_NUMBER = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()
-                        sh "cat BUILD_NUMBER ${env.BUILD_NUMBER}"
+                        sh "echo BUILD_NUMBER: ${env.BUILD_NUMBER}"
                         env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
-                        sh "cat TARGET_VERSION ${env.TARGET_VERSION}"
+                        sh "echo TARGET_VERSION: ${env.TARGET_VERSION}"
                         echo "Updating chart for App: ${env.APP_NAME} Version: ${env.APP_VERSION}-${env.APP_BUILD} Target Version: ${env.TARGET_VERSION}"
                         sh "cat ${chartFile}"
                         try {

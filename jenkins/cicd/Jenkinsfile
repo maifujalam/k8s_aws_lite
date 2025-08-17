@@ -86,8 +86,8 @@ pipeline {
                         env.APP_NAME = "${appName}"
                         env.APP_VERSION = "${appVersion}"
 
-                        def versionParts = env.APP_VERSION.tokenize('-')
-                        echo "Using chart version: ${versionParts}"
+//                         def versionParts = env.APP_VERSION.tokenize('-')
+                        echo "Using ${env.APP_NAME} app version: ${env.APP_VERSION}"
                         env.APP_VERSION = versionParts[0]
                         env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
                         def build_no = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()

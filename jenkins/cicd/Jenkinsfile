@@ -78,31 +78,30 @@ pipeline {
                         }
                         echo "Using chart file: ${chartFile}"
                         env.APP_NAME = sh(script: "yq -r '.name' ${chartFile}", returnStdout: true).trim()
-                        env.APP_VERSION = sh(script: "yq -r '.version' ${chartFile} ", returnStdout: true).trim()
-                        sh "echo App Version: ${env.APP_VERSION}"
-                        def versionParts = ${env.APP_VERSION}.tokenize('-')
-                        env.APP_VERSION = versionParts[0]
+                        def chart_version = sh(script: "yq -r '.version' ${chartFile} ", returnStdout: true).trim().tokenize('-')
+                        sh "echo App ${env.APP_NAME} Version: ${chart_version}"
+                        env.CHART_VERSION = versionParts[0]
                         env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
                         sh "echo APP_BUILD: ${env.APP_BUILD}"
                         env.BUILD_NUMBER = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()
-                        sh "echo BUILD_NUMBER: ${env.BUILD_NUMBER}"
-                        env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
-                        sh "echo TARGET_VERSION: ${env.TARGET_VERSION}"
-                        echo "Updating chart for App: ${env.APP_NAME} Version: ${env.APP_VERSION}-${env.APP_BUILD} Target Version: ${env.TARGET_VERSION}"
-                        sh "cat ${chartFile}"
-                        try {
-                            def before = sh(script: "cat ${chartFile}", returnStdout: true).trim()
-                            echo "Before Patching:\n${before}"
-
-                            sh """
-                                yq -i '.version = "${env.TARGET_VERSION}"' ${chartFile}
-                            """
-
-                            def after = sh(script: "cat ${chartFile}", returnStdout: true).trim()
-                            echo "After Patching:\n${after}"
-                        } catch (Exception e) {
-                            error("Version upgrade error: ${e}")
-                        }
+//                         sh "echo BUILD_NUMBER: ${env.BUILD_NUMBER}"
+//                         env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
+//                         sh "echo TARGET_VERSION: ${env.TARGET_VERSION}"
+//                         echo "Updating chart for App: ${env.APP_NAME} Version: ${env.APP_VERSION}-${env.APP_BUILD} Target Version: ${env.TARGET_VERSION}"
+//                         sh "cat ${chartFile}"
+//                         try {
+//                             def before = sh(script: "cat ${chartFile}", returnStdout: true).trim()
+//                             echo "Before Patching:\n${before}"
+//
+//                             sh """
+//                                 yq -i '.version = "${env.TARGET_VERSION}"' ${chartFile}
+//                             """
+//
+//                             def after = sh(script: "cat ${chartFile}", returnStdout: true).trim()
+//                             echo "After Patching:\n${after}"
+//                         } catch (Exception e) {
+//                             error("Version upgrade error: ${e}")
+//                         }
                     }
 
                 }

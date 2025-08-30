@@ -79,7 +79,8 @@ pipeline {
                         }
 
                         echo "Using chart file: ${chartFile}"
-
+                        def appName = ""
+                        def appVersion = ""
                         try {
                             appName = sh(script: "yq eval -r '.name' ${chartFile}", returnStdout: true).trim()
                             appVersion = sh(script: "yq eval -r '.version' ${chartFile}", returnStdout: true).trim()

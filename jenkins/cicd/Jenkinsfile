@@ -80,16 +80,16 @@ pipeline {
 
                         echo "Using chart file: ${chartFile}"
                         def appName = ""
-                        def appVersion = ""
+//                         def appVersion = ""
                         try {
                             appName = sh(script: "yq eval -r '.name' ${chartFile}", returnStdout: true).trim()
-                            appVersion = sh(script: "yq eval -r '.version' ${chartFile}", returnStdout: true).trim()
+                            env.Version = sh(script: "yq eval -r '.version' ${chartFile}", returnStdout: true).trim()
                         } catch (Exception e) {
                             error "Failed to extract name/version from ${chartFile}: ${e.message}"
                         }
-                        echo "App Name: ${appName}  App Version: ${appVersion} "
-                        env.APP_NAME = "${appName}"
-                        env.APP_VERSION = "${appVersion}"
+                        echo "App Name: ${appName}  App Version: ${env.Version} "
+                        env.APP_NAME = appName
+//                         env.APP_VERSION = appVersion
 
                         echo "Using ${env.APP_NAME} app version: ${env.APP_VERSION}"
 //                         env.APP_VERSION = versionParts[0]

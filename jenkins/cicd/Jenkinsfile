@@ -87,6 +87,7 @@ pipeline {
                         } catch (Exception e) {
                             error "Failed to extract name/version from ${chartFile}: ${e.message}"
                         }
+                        echo "yq: ${appName}"
                         def uname = sh(script: "uname -s", returnStdout: true).trim()
                         def kernel = sh(script: "uname -r", returnStdout: true).trim()
                         echo "OS: ${uname}, Kernel: ${kernel}"

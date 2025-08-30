@@ -52,10 +52,10 @@ pipeline {
     environment {
         HELM_CHART_DIR = 'helm-chart-directory'
         HELM_VALUES_FILE = 'values.dev.yaml'
-        APP_NAME     = ""
-        APP_VERSION  = ""
-        BUILD_NUMBER = ""
-        TARGET_VERSION = ""
+        APP_NAME     = ''
+        APP_VERSION  = ''
+        BUILD_NUMBER = ''
+        TARGET_VERSION = ''
     }
     parameters {
         string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws_lite.git', description: 'Enter the git remote name.')
@@ -89,10 +89,10 @@ pipeline {
                             if (!appName || !appVersion) {
                                 error "❌ Chart file found, but missing 'name' or 'version' fields."
                             }
-
-                            env.APP_NAME = appName
-                            env.APP_VERSION = appVersion
-
+                            environment {
+                                APP_NAME = appName
+                                APP_VERSION = appVersion
+                            }
                             echo "✅ App Name ${appName}: ${env.APP_NAME} | App Version ${appVersion}: ${env.APP_VERSION}"
                         } catch (Exception e) {
                             error "🚫 Failed to extract name/version from ${chartFile}: ${e.message}"

@@ -81,16 +81,22 @@ pipeline {
                         echo "Using chart file: ${chartFile}"
                         def appName = ""
                         def appVersion = ""
+
                         try {
                             appName = sh(script: "yq eval -r '.name' ${chartFile}", returnStdout: true).trim()
                             appVersion = sh(script: "yq eval -r '.version' ${chartFile}", returnStdout: true).trim()
+
+                            if (!appName || !appVersion) {
+                                error "❌ Chart file found, but missing 'name' or 'version' fields."
+                            }
+
+                            env.APP_NAME = appName
+                            env.APP_VERSION = appVersion
+
+                            echo "✅ App Name: ${env.APP_NAME} | App Version: ${env.APP_VERSION}"
                         } catch (Exception e) {
-                            error "Failed to extract name/version from ${chartFile}: ${e.message}"
-                        }
-                        env.APP_NAME=appName
-                        env.APP_VERSION=appVersion
-                        echo "App Name: ${env.APP_NAME}  App Version: ${env.APP_VERSION} "
-//                         env.APP_VERSION = versionParts[0]
+                            error "🚫 Failed to extract name/version from ${chartFile}: ${e.message}"
+}
 //                         env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
 //                         def build_no = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()
 //                         env.BUILD_NUMBER ="${env.BUILD_NUMBER}"

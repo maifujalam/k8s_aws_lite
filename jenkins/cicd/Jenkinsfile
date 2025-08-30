@@ -88,15 +88,10 @@ pipeline {
                             error "Failed to extract name/version from ${chartFile}: ${e.message}"
                         }
                         echo "App Name: ${appName}  App Version: ${appVersion} "
-//                         def uname = sh(script: "uname -s", returnStdout: true).trim()
-//                         def kernel = sh(script: "uname -r", returnStdout: true).trim()
-//                         echo "OS: ${uname}, Kernel: ${kernel}"
-//
-//                         env.APP_NAME = "${appName}"
-//                         env.APP_VERSION = "${appVersion}"
-//
-// //                         def versionParts = env.APP_VERSION.tokenize('-')
-//                         echo "Using ${env.APP_NAME} app version: ${env.APP_VERSION}"
+                        env.APP_NAME = "${appName}"
+                        env.APP_VERSION = "${appVersion}"
+
+                        echo "Using ${env.APP_NAME} app version: ${env.APP_VERSION}"
 //                         env.APP_VERSION = versionParts[0]
 //                         env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
 //                         def build_no = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()

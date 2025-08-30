@@ -94,6 +94,8 @@ pipeline {
                                 APP_VERSION = appVersion
                             }
                             echo "✅ App Name ${appName}: ${env.APP_NAME} | App Version ${appVersion}: ${env.APP_VERSION}"
+                            echo env.APP_VERSION
+                            echo env.APP_NAME
                         } catch (Exception e) {
                             error "🚫 Failed to extract name/version from ${chartFile}: ${e.message}"
 }

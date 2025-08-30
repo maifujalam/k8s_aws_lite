@@ -82,7 +82,7 @@ pipeline {
                         def appName = ""
                         def appVersion = ""
                         try {
-                            appName = sh(script: "yq eval -r '.name' Chart.yaml", returnStdout: true).trim()
+                            appName = sh(script: "yq", returnStdout: true).trim()
                             appVersion = sh(script: "yq eval -r '.version' Chart.yaml", returnStdout: true).trim()
                         } catch (Exception e) {
                             error "Failed to extract name/version from ${chartFile}: ${e.message}"

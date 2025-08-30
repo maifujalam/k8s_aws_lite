@@ -87,42 +87,42 @@ pipeline {
                         } catch (Exception e) {
                             error "Failed to extract name/version from ${chartFile}: ${e.message}"
                         }
-                        echo "yq: ${appName}"
-                        def uname = sh(script: "uname -s", returnStdout: true).trim()
-                        def kernel = sh(script: "uname -r", returnStdout: true).trim()
-                        echo "OS: ${uname}, Kernel: ${kernel}"
-
-                        env.APP_NAME = "${appName}"
-                        env.APP_VERSION = "${appVersion}"
-
-//                         def versionParts = env.APP_VERSION.tokenize('-')
-                        echo "Using ${env.APP_NAME} app version: ${env.APP_VERSION}"
-                        env.APP_VERSION = versionParts[0]
-                        env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
-                        def build_no = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()
-                        env.BUILD_NUMBER ="${env.BUILD_NUMBER}"
-                        env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
-
-                        echo "✅ APP_NAME: ${env.APP_NAME}"
-                        echo "✅ APP_VERSION: ${env.APP_VERSION}"
-                        echo "✅ APP_BUILD: ${env.APP_BUILD}"
-                        echo "✅ BUILD_NUMBER: ${env.BUILD_NUMBER}"
-                        echo "✅ TARGET_VERSION: ${env.TARGET_VERSION}"
-
-                        // Optional: Patch Chart.yaml with new version
-                        try {
-                            def before = sh(script: "cat ${chartFile}", returnStdout: true).trim()
-                            echo "Before Patching:\n${before}"
-
-                            sh """
-                                yq -i '.version = "${env.TARGET_VERSION}"' ${chartFile}
-                            """
-
-                            def after = sh(script: "cat ${chartFile}", returnStdout: true).trim()
-                            echo "After Patching:\n${after}"
-                        } catch (Exception e) {
-                            error("Version upgrade error: ${e}")
-                        }
+                        echo "yq: ${appName} ${appVersion} "
+//                         def uname = sh(script: "uname -s", returnStdout: true).trim()
+//                         def kernel = sh(script: "uname -r", returnStdout: true).trim()
+//                         echo "OS: ${uname}, Kernel: ${kernel}"
+//
+//                         env.APP_NAME = "${appName}"
+//                         env.APP_VERSION = "${appVersion}"
+//
+// //                         def versionParts = env.APP_VERSION.tokenize('-')
+//                         echo "Using ${env.APP_NAME} app version: ${env.APP_VERSION}"
+//                         env.APP_VERSION = versionParts[0]
+//                         env.APP_BUILD   = versionParts.size() > 1 ? versionParts[1] : ""
+//                         def build_no = sh(script: "date +%Y%m%d%H%M", returnStdout: true).trim()
+//                         env.BUILD_NUMBER ="${env.BUILD_NUMBER}"
+//                         env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
+//
+//                         echo "✅ APP_NAME: ${env.APP_NAME}"
+//                         echo "✅ APP_VERSION: ${env.APP_VERSION}"
+//                         echo "✅ APP_BUILD: ${env.APP_BUILD}"
+//                         echo "✅ BUILD_NUMBER: ${env.BUILD_NUMBER}"
+//                         echo "✅ TARGET_VERSION: ${env.TARGET_VERSION}"
+//
+//                         // Optional: Patch Chart.yaml with new version
+//                         try {
+//                             def before = sh(script: "cat ${chartFile}", returnStdout: true).trim()
+//                             echo "Before Patching:\n${before}"
+//
+//                             sh """
+//                                 yq -i '.version = "${env.TARGET_VERSION}"' ${chartFile}
+//                             """
+//
+//                             def after = sh(script: "cat ${chartFile}", returnStdout: true).trim()
+//                             echo "After Patching:\n${after}"
+//                         } catch (Exception e) {
+//                             error("Version upgrade error: ${e}")
+//                         }
                     }
                 }
             }

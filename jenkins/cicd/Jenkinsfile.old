@@ -150,13 +150,4 @@ pipeline {
 
     post {
         always {
-            echo "🏁 Pipeline finished"
-        }
-        failure {
-            echo "❌ Pipeline failed"
-        }
-        success {
-            echo "✅ Helm chart build & deployment successful"
-        }
-    }
-}
+            echo

@@ -80,7 +80,7 @@ pipeline {
                         if (!appName || !appVersion) {
                             error "❌ Chart file missing 'name' or 'version'"
                         }
-
+                        echo "Before assign ✅ App Name: ${appName} | App Version: ${appVersion}"
                         env.APP_NAME    = appName
                         env.APP_VERSION = appVersion
 

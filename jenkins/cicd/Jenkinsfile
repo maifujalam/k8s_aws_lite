@@ -45,9 +45,9 @@ pipeline {
     environment {
         HELM_CHART_DIR   = 'helm-chart-directory'
         HELM_VALUES_FILE = 'values.dev.yaml'
-        APP_NAME         = ''
-        APP_VERSION      = ''
-        BUILD_NUMBER     = ''
+        BUILD_NUMBER     = sh(
+                           script: 'echo "$(date +%Y%m%d%H%M)_$(git rev-parse --short HEAD)"',
+                           returnStdout: true).trim()
         TARGET_VERSION   = ''
     }
 
@@ -74,17 +74,22 @@ pipeline {
                         }
 
                         echo "📄 Using chart file: ${chartFile}"
-                        def appName = sh(script: "yq eval -r '.name' ${chartFile}", returnStdout: true).trim()
-                        def appVersion = sh(script: "yq eval -r '.version' ${chartFile}", returnStdout: true).trim()
+                        env.APP_NAME    = sh(script: "yq eval -r '.name' ${chartFile}", returnStdout: true).trim()
+                        env.APP_VERSION = sh(script: "yq eval -r '.version' ${chartFile}", returnStdout: true).trim()
 
-                        if (!appName || !appVersion) {
+                        // Custom build number: datetime + commit hash
+
+
+                        env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
+
+                        if (!env.APP_NAME || !env.APP_VERSION) {
                             error "❌ Chart file missing 'name' or 'version'"
                         }
-                        echo "Before assign ✅ App Name: ${appName} | App Version: ${appVersion}"
-                        env.APP_NAME    = appName
-                        env.APP_VERSION = appVersion
 
-                        echo "✅ App Name: ${env.APP_NAME} | App Version: ${env.APP_VERSION}"
+                        echo "✅ App Name: ${env.APP_NAME}"
+                        echo "✅ App Version: ${env.APP_VERSION}"
+                        echo "✅ Build Number: ${env.BUILD_NUMBER}"
+                        echo "✅ Target Version: ${env.TARGET_VERSION}"
                     }
                 }
             }
@@ -95,8 +100,10 @@ pipeline {
             steps {
                 script {
                     echo "📦 Packaging Helm Chart"
-                    echo "✅ App: ${env.APP_NAME} | Version: ${env.APP_VERSION}"
-                    // Example: sh "helm package . -d /tmp"
+                    echo "✅ App: ${env.APP_NAME} | Version: ${env.TARGET_VERSION}"
+
+                    // Example packaging (uncomment in real run)
+                    // sh "helm package ${params.APP_FOLDER_PATH} --version ${env.TARGET_VERSION} --app-version ${env.APP_VERSION} -d /tmp"
                 }
             }
         }
@@ -105,8 +112,8 @@ pipeline {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 script {
-                    echo "📤 Pushing Helm Chart (Placeholder)"
-                    // Example: sh "helm push /tmp/${env.APP_NAME}-${env.APP_VERSION}.tgz my-repo"
+                    echo "📤 Pushing Helm Chart"
+                    // Example: sh "helm push /tmp/${env.APP_NAME}-${env.TARGET_VERSION}.tgz my-repo"
                 }
             }
         }
@@ -125,7 +132,7 @@ pipeline {
                             git add .
 
                             if ! git diff --cached --quiet; then
-                              git commit -m "Edited with Jenkins pipeline: Build #${env.BUILD_NUMBER}"
+                              git commit -m "Edited with Jenkins pipeline: Build ${env.BUILD_NUMBER}"
                               git push https://${GIT_USER}:${GIT_TOKEN}@github.com/maifujalam/k8s_aws_lite.git ${params.GIT_BRANCH_NAME}
                             else
                               echo "✅ No changes to commit"

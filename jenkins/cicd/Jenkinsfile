@@ -48,7 +48,6 @@ pipeline {
         BUILD_NUMBER     = sh(
                            script: 'echo "$(date +%Y%m%d%H%M)_$(git rev-parse --short HEAD)"',
                            returnStdout: true).trim()
-        TARGET_VERSION   = ''
     }
 
     parameters {

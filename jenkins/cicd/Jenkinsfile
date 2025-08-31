@@ -138,7 +138,7 @@ pipeline {
             steps {
                 script {
                     echo "Package Helm Chart"
-                    echo "✅ App Name ${appName}: ${env.APP_NAME} | App Version ${appVersion}: ${env.APP_VERSION}"
+                    echo "✅ App Name: ${env.APP_NAME} | App Version: ${env.APP_VERSION}"
                 }
             }
         }

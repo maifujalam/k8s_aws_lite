@@ -46,12 +46,14 @@ pipeline {
         BUILD_NUMBER = sh(
                        script: 'echo "$(date +%Y%m%d%H%M)_$(git rev-parse --short HEAD)"',
                        returnStdout: true).trim()
+        HELM_REPO_NAME="public-helm-repository"
     }
 
     parameters {
         string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws_lite.git', description: 'Git repo URL')
         string(name: 'GIT_BRANCH_NAME', defaultValue: 'main', description: 'Branch to work with')
         string(name: 'APP_FOLDER_PATH', defaultValue: 'k8s/v1.32.2/manifests/hello-kubernetes', description: 'App folder path')
+        string(name: 'HELM_REPO', defaultValue: 's3://public-helm-repository-20231023095000508500000001', description: 'Enter the helm remote name,where to push')
     }
 
     stages {
@@ -118,25 +120,53 @@ pipeline {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 script {
-                    echo "📦 Packaging Helm Chart"
-                    echo "ℹ️  App: ${env.APP_NAME} | Target Version: ${env.TARGET_VERSION}"
-                    echo "Updating the Chart.yaml with "
-                    sh "helm package ${params.APP_FOLDER_PATH} -d /tmp"
+                    dir("${params.APP_FOLDER_PATH}") {
+                        try {
+                            def template_output = sh(script: 'helm template . -f values.*.yaml', returnStdout: true).trim()
+                            echo "Helm template output:\n${template_output}"
+                            echo "\n\n ✅ Helm template validation passed.\n"
+                        } catch (Exception e) {
+                            error("❌ Helm template validation failed: ${e}")
+                        }
+                        try {
+                            // Run helm template command
+                            def lint_output = sh(script: 'helm lint . ', returnStdout: true).trim()
+                            echo "Helm lint output:\n${lint_output}"
+                            echo "\n\n ✅ Helm lint successful.\n"
+                        } catch (Exception e) {
+                            error("❌  Helm lint failed: ${e}")
+                        }
+                        echo "📦 Packaging Helm Chart"
+                        echo "ℹ️  App: ${env.APP_NAME} | Target Version: ${env.TARGET_VERSION}"
+                        sh "helm package ${params.APP_FOLDER_PATH} -d /tmp"
+                    }
                 }
             }
         }
 
-        stage('Push 📤 Helm Chart') {
+        stage('🎯 Push Helm Chart') {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 script {
                     echo "📤 Pushing Helm Chart"
-                    // Example: sh "helm push /tmp/${env.APP_NAME}-${env.TARGET_VERSION}.tgz my-repo"
+                    dir("${params.APP_FOLDER_PATH}") {
+                        def LATEST_HELM_CHART=sh(script: "ls -t *.tgz | head -n 1",returnStdout: true).trim()
+                        echo "Latest helm chart build: ${LATEST_HELM_CHART}"
+                        withCredentials([
+                            string(credentialsId: 'S3_WRITE_AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
+                            string(credentialsId: 'S3_WRITE_AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY')
+                        ]) {
+                            def INIT_HELM_REPO=sh(script: "helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.16.2;helm plugin ls;helm repo add ${HELM_REPO_NAME} ${params.HELM_REPO};helm repo update;helm s3 reindex public-helm-repository;",returnStdout: true).trim()
+                            echo "Latest helm initialize: ${INIT_HELM_REPO}"
+                            def HELM_PUSH_REPO=sh(script: "helm s3 push --force ${LATEST_HELM_CHART} ${HELM_REPO_NAME};",returnStdout: true).trim()
+                            echo "Push Helm Chart: ${HELM_PUSH_REPO}"
+                        }
+                    }
                 }
             }
         }
 
-        stage('Push 📤 to Git') {
+        stage('📤 Push Changes to Git') {
             when { expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' } }
             steps {
                 withCredentials([usernamePassword(credentialsId: "GIT_CRED", usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {

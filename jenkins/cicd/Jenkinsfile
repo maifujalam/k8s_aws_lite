@@ -97,17 +97,17 @@ pipeline {
                             error("❌ No ${env.APP_NAME}-app.yaml found in workspace")
                         }
                         def cat_deployment_file=sh(script: "cat ${deploymentFile}", returnStdout: true).trim()
-                        echo "Deployment File Before Update:- ${cat_deployment_file}"
+//                         echo "Deployment File Before Update:- ${cat_deployment_file}"
                         try {
                             sh(
                                 script: "yq -i '.spec.source.targetRevision = \"${env.TARGET_VERSION}\"' ${deploymentFile}",
                                 returnStdout: true
                             ).trim()
                             echo "✅ Deployment file updated: ${deploymentFile}"
-                            def updatedContent = sh(
-                            script: "cat ${deploymentFile}",
-                            returnStdout: true).trim()
-                            echo "📄 yq output: ${updatedContent}"
+//                             def updatedContent = sh(
+//                             script: "cat ${deploymentFile}",
+//                             returnStdout: true).trim()
+//                             echo "📄 yq output: ${updatedContent}"
                         } catch (Exception e) {
                             error("🚫 Version upgrade error: ${e.message}")
                         }
@@ -140,7 +140,7 @@ pipeline {
                         echo "ℹ️  App: ${env.APP_NAME} | Target Version: ${env.TARGET_VERSION}"
                         try {
                             // Run helm template command
-                            def package_output = sh(script: 'helm package .', returnStdout: true).trim()
+                            def package_output = sh(script: 'helm package . --version ${env.TARGET_VERSION}', returnStdout: true).trim()
                             echo "Helm package output:\n${package_output}"
                             echo "\n\nHelm package successful.\n"
                         } catch (Exception e) {

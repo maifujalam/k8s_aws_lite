@@ -84,6 +84,17 @@ pipeline {
                         echo "ℹ️ Build Number: ${env.BUILD_NUMBER}"
                         echo "ℹ️ Target Version: ${env.TARGET_VERSION}"
 
+                        echo "Updating the Deployment file"
+                        try {
+                            def output_yq = sh(
+                                script: "yq -i '.spec.source.targetRevision = \"${env.TARGET_VERSION}\"' ${app_file}",
+                                returnStdout: true
+                            ).trim()
+                            echo "✅ Deployment file updated: ${app_file}"
+                            echo "output_yq"
+                        } catch (Exception e) {
+                            error("🚫 Version upgrade error: ${e.message}")
+                        }
                     }
                 }
             }
@@ -94,10 +105,9 @@ pipeline {
             steps {
                 script {
                     echo "📦 Packaging Helm Chart"
-                    echo "ℹ️  App: ${env.APP_NAME} | Version: ${env.TARGET_VERSION}"
-
-                    // Example packaging (uncomment in real run)
-                    // sh "helm package ${params.APP_FOLDER_PATH} --version ${env.TARGET_VERSION} --app-version ${env.APP_VERSION} -d /tmp"
+                    echo "ℹ️  App: ${env.APP_NAME} |   Target Version: ${env.TARGET_VERSION}"
+                    echo "Updating the Chart.yaml with "
+                    sh "helm package ${params.APP_FOLDER_PATH} --version ${env.TARGET_VERSION} --app-version ${env.APP_VERSION} -d /tmp"
                 }
             }
         }

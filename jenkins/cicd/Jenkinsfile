@@ -95,7 +95,7 @@ pipeline {
                             error("❌ No ${env.APP_NAME}-app.yaml found in workspace")
                         }
                         def cat_deployment_file=sh(script: "cat ${deploymentFile}", returnStdout: true).trim()
-                        echo "Deployment File Before Update:- ${cat_deployment_file"
+                        echo "Deployment File Before Update:- ${cat_deployment_file}"
                         try {
                             def output_yq = sh(
                                 script: "yq -i '.spec.source.targetRevision = \"${env.TARGET_VERSION}\"' ${deploymentFile}",

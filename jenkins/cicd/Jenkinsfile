@@ -55,7 +55,7 @@ pipeline {
     }
 
     stages {
-        stage('Update 🔧 Application') {
+        stage('🔧 Update Application') {
             steps {
                 script {
                     dir("${params.APP_FOLDER_PATH}") {
@@ -73,20 +73,17 @@ pipeline {
                         echo "📄 Using chart file: ${chartFile}"
                         env.APP_NAME    = sh(script: "yq eval -r '.name' ${chartFile}", returnStdout: true).trim()
                         env.APP_VERSION = sh(script: "yq eval -r '.version' ${chartFile}", returnStdout: true).trim()
-
-                        // Custom build number: datetime + commit hash
-
-
                         env.TARGET_VERSION = "${env.APP_VERSION}-${env.BUILD_NUMBER}"
 
                         if (!env.APP_NAME || !env.APP_VERSION) {
                             error "❌ Chart file missing 'name' or 'version'"
                         }
 
-                        echo "✅ App Name: ${env.APP_NAME}"
-                        echo "✅ App Version: ${env.APP_VERSION}"
-                        echo "✅ Build Number: ${env.BUILD_NUMBER}"
-                        echo "✅ Target Version: ${env.TARGET_VERSION}"
+                        echo "ℹ️ App Name: ${env.APP_NAME}"
+                        echo "ℹ️ App Version: ${env.APP_VERSION}"
+                        echo "ℹ️ Build Number: ${env.BUILD_NUMBER}"
+                        echo "ℹ️ Target Version: ${env.TARGET_VERSION}"
+
                     }
                 }
             }
@@ -97,7 +94,7 @@ pipeline {
             steps {
                 script {
                     echo "📦 Packaging Helm Chart"
-                    echo "✅ App: ${env.APP_NAME} | Version: ${env.TARGET_VERSION}"
+                    echo "ℹ️  App: ${env.APP_NAME} | Version: ${env.TARGET_VERSION}"
 
                     // Example packaging (uncomment in real run)
                     // sh "helm package ${params.APP_FOLDER_PATH} --version ${env.TARGET_VERSION} --app-version ${env.APP_VERSION} -d /tmp"
@@ -154,13 +151,13 @@ pipeline {
 
     post {
         always {
-            echo "🏁 Pipeline finished"
+            echo "🏁 Pipeline finished."
         }
         failure {
-            echo "❌ Pipeline failed"
+            echo "❌ Pipeline failed."
         }
         success {
-            echo "✅ Helm chart build & deployment successful"
+            echo "✅ Helm chart build & deployment successful."
         }
     }
 }

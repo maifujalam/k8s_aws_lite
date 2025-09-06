@@ -144,7 +144,7 @@ pipeline {
                             echo "Helm package output:\n${package_output}"
                             echo "Updating Target Version"
                             def LATEST_HELM_CHART=sh(script: "ls -t *.tgz | head -n 1",returnStdout: true).trim()
-                            sh "mv ${LATEST_HELM_CHART} ${env.APP_NAME}_${env.TARGET_VERSION}"
+                            sh "mv ${LATEST_HELM_CHART} ${env.APP_NAME}_${env.TARGET_VERSION}.tgz"
                             echo "\n\nHelm package successful.\n"
                         } catch (Exception e) {
                             error("Helm package failed: ${e}")

@@ -119,9 +119,9 @@ pipeline {
             steps {
                 script {
                     echo "📦 Packaging Helm Chart"
-                    echo "ℹ️  App: ${env.APP_NAME} |   Target Version: ${env.TARGET_VERSION}"
+                    echo "ℹ️  App: ${env.APP_NAME} | Target Version: ${env.TARGET_VERSION}"
                     echo "Updating the Chart.yaml with "
-                    sh "helm package ${params.APP_FOLDER_PATH} --version ${env.TARGET_VERSION} --app-version ${env.APP_VERSION} -d /tmp"
+                    sh "helm package ${params.APP_FOLDER_PATH} -d /tmp"
                 }
             }
         }

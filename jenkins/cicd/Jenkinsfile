@@ -97,13 +97,15 @@ pipeline {
                         def cat_deployment_file=sh(script: "cat ${deploymentFile}", returnStdout: true).trim()
                         echo "Deployment File Before Update:- ${cat_deployment_file}"
                         try {
-                            def output_yq = sh(
+                            sh(
                                 script: "yq -i '.spec.source.targetRevision = \"${env.TARGET_VERSION}\"' ${deploymentFile}",
                                 returnStdout: true
                             ).trim()
-
                             echo "✅ Deployment file updated: ${deploymentFile}"
-                            echo "📄 yq output: ${output_yq}"
+                            def updatedContent = sh(
+                            script: "cat ${deploymentFile}",
+                            returnStdout: true).trim()
+                            echo "📄 yq output: ${updatedContent}"
                         } catch (Exception e) {
                             error("🚫 Version upgrade error: ${e.message}")
                         }

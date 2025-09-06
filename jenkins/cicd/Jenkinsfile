@@ -138,7 +138,14 @@ pipeline {
                         }
                         echo "📦 Packaging Helm Chart"
                         echo "ℹ️  App: ${env.APP_NAME} | Target Version: ${env.TARGET_VERSION}"
-                        sh "helm package ${params.APP_FOLDER_PATH} -d /tmp"
+                        try {
+                            // Run helm template command
+                            def package_output = sh(script: 'helm package .', returnStdout: true).trim()
+                            echo "Helm package output:\n${package_output}"
+                            echo "\n\nHelm package successful.\n"
+                        } catch (Exception e) {
+                            error("Helm package failed: ${e}")
+                        }
                     }
                 }
             }

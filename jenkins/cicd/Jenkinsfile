@@ -85,17 +85,27 @@ pipeline {
                         echo "ℹ️ Target Version: ${env.TARGET_VERSION}"
 
                         echo "Updating the Deployment file"
+
+                        def deploymentFile = sh(
+                            script: "test -f ${env.APP_NAME}-app.yaml && echo ${env.APP_NAME}-app.yaml",
+                            returnStdout: true
+                        ).trim()
+
+                        if (!deploymentFile) {
+                            error("❌ No ${env.APP_NAME}-app.yaml found in workspace")
+                        }
+
                         try {
                             def output_yq = sh(
-                                script: "yq -i '.spec.source.targetRevision = \"${env.TARGET_VERSION}\"' ${app_file}",
+                                script: "yq -i '.spec.source.targetRevision = \"${env.TARGET_VERSION}\"' ${deploymentFile}",
                                 returnStdout: true
                             ).trim()
-                            echo "✅ Deployment file updated: ${app_file}"
-                            echo "output_yq"
+
+                            echo "✅ Deployment file updated: ${deploymentFile}"
+                            echo "📄 yq output: ${output_yq}"
                         } catch (Exception e) {
                             error("🚫 Version upgrade error: ${e.message}")
                         }
-                    }
                 }
             }
         }

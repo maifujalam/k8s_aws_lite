@@ -15,5 +15,6 @@ RUN sh 8_install_helm.sh
 RUN sh install-terraform.sh
 RUN sh get_jq.sh
 RUN sh get_yq.sh
+RUN sh install_kubectl.sh
 
 USER jenkins

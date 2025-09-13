@@ -208,6 +208,7 @@ pipeline {
             steps {
                 script {
                     echo "🚀 Deploying ArgoCD App"
+                    which kubectl
                     sh "kubectl apply -f *-app.yaml"
                     echo "✅ App Deployed. Sync in Argo CD if needed."
                 }

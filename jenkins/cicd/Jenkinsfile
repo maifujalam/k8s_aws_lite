@@ -170,8 +170,12 @@ pipeline {
                             echo "Latest helm initialize: ${INIT_HELM_REPO}"
                             def HELM_PUSH_REPO=sh(script: "helm s3 push --force ${LATEST_HELM_CHART} ${HELM_REPO_NAME};",returnStdout: true).trim()
                             echo "✅ Push Helm Chart: ${HELM_PUSH_REPO} Successful"
-                            echo "Removing the local helm chart"
-                            rm -vf ${LATEST_HELM_CHART}
+                            if (fileExists("${LATEST_HELM_CHART}")) {
+                                echo "🧹 Removing local Helm chart: ${LATEST_HELM_CHART}"
+                                sh "rm -vf ${LATEST_HELM_CHART}"
+                            } else {
+                                echo "⚠️ Helm chart not found: ${LATEST_HELM_CHART}"
+                            }
                         }
                     }
                 }

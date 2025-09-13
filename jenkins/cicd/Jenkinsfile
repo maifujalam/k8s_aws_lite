@@ -212,7 +212,7 @@ pipeline {
             steps {
                 script {
                     echo "🚀 Deploying ArgoCD App"
-                    sh "kubectl --version"
+                    sh "kubectl version"
                     sh "kubectl apply -f *-app.yaml"
                     echo "✅ App Deployed. Sync in Argo CD if needed."
                 }

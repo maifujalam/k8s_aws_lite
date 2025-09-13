@@ -12,7 +12,7 @@ pipeline {
             spec:
               containers:
               - name: jnlp
-                image: docker.io/skmaifujalam/jenkins-agent:5
+                image: docker.io/skmaifujalam/jenkins-agent:4
                 imagePullPolicy: IfNotPresent
                 env:
                 - name: JENKINS_TUNNEL

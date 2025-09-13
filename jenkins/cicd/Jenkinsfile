@@ -213,7 +213,9 @@ pipeline {
                 script {
                     echo "🚀 Deploying ArgoCD App"
                     sh "kubectl version"
-                    sh "kubectl apply -f *-app.yaml"
+                    def LATEST_APP_FILE=sh(script: "ls -t *-app.yaml | head -n 1",returnStdout: true).trim()
+                    echo "Deployment App file: ${env.LATEST_APP_FILE}"
+                    sh "kubectl apply -f ${LATEST_APP_FILE}"
                     echo "✅ App Deployed. Sync in Argo CD if needed."
                 }
             }

@@ -171,7 +171,7 @@ pipeline {
                             def HELM_PUSH_REPO=sh(script: "helm s3 push --force ${LATEST_HELM_CHART} ${HELM_REPO_NAME};",returnStdout: true).trim()
                             echo "✅ Push Helm Chart: ${HELM_PUSH_REPO} Successful"
                             echo "Removing the local helm chart"
-                            rm -vf $LATEST_HELM_CHART
+                            rm -vf ${LATEST_HELM_CHART}
                         }
                     }
                 }

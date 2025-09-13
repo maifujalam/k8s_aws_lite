@@ -169,7 +169,9 @@ pipeline {
                             def INIT_HELM_REPO=sh(script: "helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.16.2;helm plugin ls;helm repo add ${HELM_REPO_NAME} ${params.HELM_REPO};helm repo update;helm s3 reindex public-helm-repository;",returnStdout: true).trim()
                             echo "Latest helm initialize: ${INIT_HELM_REPO}"
                             def HELM_PUSH_REPO=sh(script: "helm s3 push --force ${LATEST_HELM_CHART} ${HELM_REPO_NAME};",returnStdout: true).trim()
-                            echo "Push Helm Chart: ${HELM_PUSH_REPO}"
+                            echo "✅ Push Helm Chart: ${HELM_PUSH_REPO} Successful"
+                            echo "Removing the local helm chart"
+                            rm -vf LATEST_HELM_CHART
                         }
                     }
                 }

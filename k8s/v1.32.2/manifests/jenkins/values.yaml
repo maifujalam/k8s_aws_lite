@@ -153,7 +153,12 @@ controller:
   containerEnvFrom: []
 
   # -- Environment variables for Jenkins Container
-  containerEnv: []
+  containerEnv:
+  - name: KUBECONFIG_BASE64
+    valueFrom:
+      secretKeyRef:
+        name: jenkins-kubeconfig
+        key: config
   #   - name: http_proxy
   #     value: "http://192.168.64.1:3128"
 

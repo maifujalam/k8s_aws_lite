@@ -29,6 +29,11 @@ controller:
                       description: "GitHub token for pushing code"
                       username: "${readFile:/var/run/secrets/additional/git-secret-GIT_USER}"
                       password: "${readFile:/var/run/secrets/additional/git-secret-GIT_TOKEN}"
+                  - secretFile:
+                      id: "kubeconfig"
+                      description: "Kubernetes config for kubectl"
+                      scope: GLOBAL
+                      secret: "${readFile:/var/run/secrets/additional/kubeconfig-secret-kubeconfig}"  # Injected from ENV
         jobs:
           - script: |
               job('seed-job-main') {

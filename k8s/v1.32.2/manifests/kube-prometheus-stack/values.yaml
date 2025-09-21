@@ -3275,6 +3275,7 @@ prometheus:
     ingressClassName: nginx
 
     annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod-cluster-issuer-llt"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       nginx.ingress.kubernetes.io/ssl-redirect: "true"

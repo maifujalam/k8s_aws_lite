@@ -29,11 +29,11 @@ controller:
                       description: "GitHub token for pushing code"
                       username: "${readFile:/var/run/secrets/additional/git-secret-GIT_USER}"
                       password: "${readFile:/var/run/secrets/additional/git-secret-GIT_TOKEN}"
-                  - secretFile:
-                      id: "kubeconfig"
-                      description: "Kubernetes config for kubectl"
-                      fileName: "config"
-                      secretBytes: "${KUBECONFIG_BASE64}" # base64 string of your kubeconfig fil
+#                   - secretFile:
+#                       id: "kubeconfig"
+#                       description: "Kubernetes config for kubectl"
+#                       fileName: "config"
+#                       secretBytes: "${KUBECONFIG_BASE64}" # base64 string of your kubeconfig fil
         jobs:
           - script: |
               job('seed-job-main') {

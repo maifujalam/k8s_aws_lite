@@ -8,3 +8,4 @@ controller:
   - configuration-as-code:1985.vdda_32d0c4ea_b_
   - git:5.7.0
   - envinject:2.926.v69c9b_3896a_96
+  - kubernetes-cli:1.364.vadef8cb8b823

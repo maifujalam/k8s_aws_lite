@@ -215,7 +215,7 @@ pipeline {
                     dir("${params.APP_FOLDER_PATH}") {
                         sh "kubectl version"
                         def LATEST_APP_FILE=sh(script: "ls -t *-app.yaml | head -n 1",returnStdout: true).trim()
-                        echo "Deployment App file: ${env.LATEST_APP_FILE}"
+                        echo "Deployment App file: ${ LATEST_APP_FILE}"
                         sh "kubectl apply -f ${LATEST_APP_FILE}"
                         echo "✅ App Deployed. Sync in Argo CD if needed."
                     }

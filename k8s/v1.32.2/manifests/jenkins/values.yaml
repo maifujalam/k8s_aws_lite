@@ -157,8 +157,8 @@ controller:
   - name: KUBECONFIG_BASE64
     valueFrom:
       secretKeyRef:
-        name: jenkins-kubeconfig
-        key: config
+        name: kubeconfig-secret
+        key: kubeconfig
   #   - name: http_proxy
   #     value: "http://192.168.64.1:3128"
 

@@ -6,8 +6,6 @@ deployment:
       memory: 50Mi
 ingress:
   annotations:
-    nginx.ingress.kubernetes.io/auth-signin: https://oauth2.maifuj.com/oauth2/start
-    nginx.ingress.kubernetes.io/auth-url: https://oauth2.maifuj.com/oauth2/auth
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
   configured: true
   enabled: true

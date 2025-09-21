@@ -478,7 +478,7 @@ controller:
     - name: git-secret
       keyName: GIT_TOKEN
     - name: kubeconfig-secret
-      keyName: kubeconfig
+      keyName: KUBECONFIG
 
   # -- List of additional secrets to create and mount
   additionalSecrets: []

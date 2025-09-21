@@ -33,7 +33,7 @@ controller:
                       id: "kubeconfig"
                       description: "Kubernetes config for kubectl"
                       scope: GLOBAL
-                      secret: "${readFile:/var/run/secrets/additional/kubeconfig-secret-kubeconfig}"  # Injected from ENV
+                      secret: "${readFile:/var/run/secrets/additional/kubeconfig-secret-KUBECONFIG}"  # Injected from ENV
         jobs:
           - script: |
               job('seed-job-main') {

@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   sources:
-    - repoURL: https://public-helm-repository.example.com/
+    - repoURL: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/
       chart: hello-kubernetes
       targetRevision: 1.0.4
       helm:

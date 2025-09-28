@@ -216,6 +216,7 @@ pipeline {
                         sh "kubectl version"
                         withCredentials([string(credentialsId: 'KUBECONFIG', variable: 'kubeconfig')]) {
                             sh 'echo "$kubeconfig" > $HOME/.kube/config'
+                            sh 'echo "172.31.0.3  master" >> /etc/hosts'
                             sh 'kubectl get pods -A'
                         }
                         def LATEST_APP_FILE=sh(script: "ls -t *-app.yaml | head -n 1",returnStdout: true).trim()

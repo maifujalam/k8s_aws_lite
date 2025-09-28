@@ -30,7 +30,7 @@ controller:
                       username: "${readFile:/var/run/secrets/additional/git-secret-GIT_USER}"
                       password: "${readFile:/var/run/secrets/additional/git-secret-GIT_TOKEN}"
                   - string:
-                      id: "KUBECONFIG"
+                      id: "KUBERNETES"
                       description: "Kubernetes config for kubectl"
                       scope: GLOBAL
                       secret: "${readFile:/var/run/secrets/additional/kubeconfig-secret-KUBECONFIG}"  # Injected from ENV

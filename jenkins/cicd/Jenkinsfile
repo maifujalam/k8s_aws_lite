@@ -214,7 +214,8 @@ pipeline {
                     echo "🚀 Deploying ArgoCD App"
                     dir("${params.APP_FOLDER_PATH}") {
                         sh "kubectl version"
-                        withCredentials([string(credentialsId: 'KUBECONFIG', variable: 'KUBECONFIG')]) {
+                        withCredentials([string(credentialsId: 'KUBECONFIG', variable: 'kubeconfig')]) {
+                            sh 'echo "$kubeconfig" > $HOME/.kube/config'
                             sh 'kubectl get pods -A'
                         }
                         def LATEST_APP_FILE=sh(script: "ls -t *-app.yaml | head -n 1",returnStdout: true).trim()

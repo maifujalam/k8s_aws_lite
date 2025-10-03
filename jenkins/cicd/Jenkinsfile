@@ -213,18 +213,17 @@ pipeline {
                 script {
                     echo "🚀 Deploying ArgoCD App"
                     dir("${params.APP_FOLDER_PATH}") {
-                        sh "kubectl version"
+                        def LATEST_APP_FILE=sh(script: "ls -t *-app.yaml | head -n 1",returnStdout: true).trim()
                         withCredentials([string(credentialsId: 'KUBERNETES', variable: 'KUBECONFIG')]) {
                             sh '''
                               echo "$KUBECONFIG" > config
                               export KUBECONFIG=config
-                              kubectl get pods -A -v=6
+                              echo "Deployment App file: ${ LATEST_APP_FILE}"
+                              kubectl apply -f ${LATEST_APP_FILE}
+                              echo "✅ App Deployed. Sync in Argo CD if needed."
                             '''
                         }
-                        def LATEST_APP_FILE=sh(script: "ls -t *-app.yaml | head -n 1",returnStdout: true).trim()
-                        echo "Deployment App file: ${ LATEST_APP_FILE}"
-                        sh "kubectl apply -f ${LATEST_APP_FILE}"
-                        echo "✅ App Deployed. Sync in Argo CD if needed."
+
                     }
                 }
             }

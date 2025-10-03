@@ -217,6 +217,7 @@ pipeline {
                         withCredentials([string(credentialsId: 'KUBERNETES', variable: 'KUBECONFIG')]) {
                             sh '''
                             echo "$KUBECONFIG" > $HOME/.kube/config
+                            export KUBECONFIG=$HOME/.kube/config
                             kubectl get pods -A -v=6
                             '''
                         }

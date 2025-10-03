@@ -219,7 +219,7 @@ pipeline {
                             sh '''
                               echo "$KUBECONFIG" > config
                               export KUBECONFIG=config
-                              kubectl apply -f ${LATEST_APP_FILE}
+                              kubectl apply -f "${LATEST_APP_FILE}"
                               echo "✅ App Deployed. Sync in Argo CD if needed."
                             '''
                         }

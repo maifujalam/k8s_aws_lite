@@ -216,9 +216,9 @@ pipeline {
                         sh "kubectl version"
                         withCredentials([string(credentialsId: 'KUBERNETES', variable: 'KUBECONFIG')]) {
                             sh '''
-                            echo "$KUBECONFIG" > $HOME/.kube/config
-                            export KUBECONFIG=$HOME/.kube/config
-                            kubectl get pods -A -v=6
+                              echo "$KUBECONFIG" > config
+                              export KUBECONFIG=config
+                              kubectl get pods -A -v=6
                             '''
                         }
                         def LATEST_APP_FILE=sh(script: "ls -t *-app.yaml | head -n 1",returnStdout: true).trim()

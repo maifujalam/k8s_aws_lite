@@ -25,7 +25,7 @@
 
 - name: Download the K9s binary
   ansible.builtin.get_url:
-    url: https://github.com/derailed/k9s/releases/download/v0.32.5/k9s_linux_amd64.deb
+    url: https://github.com/derailed/k9s/releases/download/v0.51.0/k9s_linux_amd64.deb
     dest: /tmp/k9s_linux_amd64.deb
     mode: '0644'
 

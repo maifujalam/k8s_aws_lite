@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Installing argocd cli"
-VERSION=v2.12.0 # Select desired TAG from https://github.com/argoproj/argo-cd/releases
+VERSION=v3.4.5 # Select desired TAG from https://github.com/argoproj/argo-cd/releases
 if [  ! $(which argocd) ]; then
   curl -SL -o /tmp/argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
   sudo install -m 555 /tmp/argocd-linux-amd64 /usr/local/bin/argocd

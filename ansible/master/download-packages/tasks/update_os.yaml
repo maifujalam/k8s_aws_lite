@@ -28,5 +28,4 @@
     - ca-certificates
     - containerd
     - net-tools
-    - httpd-tools
     - apt-transport-https

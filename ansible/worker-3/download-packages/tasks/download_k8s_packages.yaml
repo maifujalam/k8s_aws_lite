@@ -23,37 +23,29 @@
 - name: Add kubernetes GPG key
   become: true
   shell: |
-    gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg  /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/kubernetes-gpg.asc
+    gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/kubernetes-gpg.asc
   when: not file_exists.stat.exists
-
-- name: Add Kubernetes repository to sources list
-  become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ KUBERNETES_MAJOR_VERSION }}/deb/ /"
-    state: present
-    filename: 'kubernetes.list'
 
 - name: Update APT package index after adding Kubernetes repo
   become: true
   ansible.builtin.apt:
     update_cache: yes
 
-- name: Install Kubernetes components (kubelet, kubeadm, kubectl) of version {{KUBERNETES_MAJOR_VERSION}}
+- name: Install Kubernetes components (kubelet, kubeadm, kubectl)
   become: true
   ansible.builtin.apt:
     name:
-      - "kubelet={{KUBERNETES_VERSION}}-1.1"
-      - "kubeadm={{KUBERNETES_VERSION}}-1.1"
+      - "kubelet={{ KUBERNETES_VERSION }}*"
+      - "kubeadm={{ KUBERNETES_VERSION }}*"
     state: present
+    update_cache: yes
+    allow_downgrades: yes
 
-- name: Hold Kubernetes packages to prevent updates
+- name: Prevent Kubernetes components from being automatically upgraded
   become: true
-  ansible.builtin.shell: |
-    sudo apt-mark hold kubelet kubeadm kubectl
-
-- name: Enable and start kubelet service
-  become: true
-  ansible.builtin.systemd:
-    name: kubelet
-    enabled: yes
-    state: started
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - kubelet
+    - kubeadm

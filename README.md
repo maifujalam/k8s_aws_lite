@@ -24,3 +24,8 @@ Steps to orovision the AWS imfrastructure for a Kubernetes cluster using Terrafo
 10. AWS Route Table:
     a. cd k8s_aws_lite/terraform/network/route-tables/private-nat-route-table
     b. Terraform apply
+11. Make the IP forwarding rule:
+    a. sh k8s_aws_lite/shellscripts/nat-forward.sh
+12. Provision 4 nodes:
+    a. cd k8s_aws_lite/terraform/instances
+    b. Terraform apply

@@ -7,7 +7,7 @@ EOF
 # Apply sysctl params without reboot
 sudo sysctl --system
 
-sudo iptables -t nat -A POSTROUTING -o enX0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -o enX0 -j MASQUERADE   # WARNING: replace enX0 with your public interface name, e.g. eth0, ens5, etc.
 
 # make IP table persistent
 sudo /sbin/iptables -F FORWARD

@@ -14,7 +14,12 @@ variable "instance_name" {
 variable "route_table" {
   description = "Route Table Name"
 }
-variable "subnet_names" {
-  description = "list of pubic subnets to assign with the default(public) route tables"
-  default = ["subnet-1", "subnet-2"]
+variable "public_subnet_names" {
+  description = "list of public subnets to assign with the route tables"
+  default = ["subnet-1"]
+}
+
+variable "private_subnet_names" {
+  description = "list of private subnets to assign with the route tables"
+  default = ["subnet-2", "subnet-3"]
 }

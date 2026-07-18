@@ -17,7 +17,13 @@ variable "owner" {
 variable "instance_name" {
   default = "ubuntu-bastion-nat"
 }
-variable "subnet_names" {
-  description = "list of pubic subnets to assign with the default(public) route tables"
-  default = ["subnet-3"]
+variable "public_subnet_names" {
+  description = "list of public subnets to assign with the route tables"
+  default = ["subnet-1"]
 }
+
+variable "private_subnet_names" {
+  description = "list of private subnets to assign with the route tables"
+  default = ["subnet-2", "subnet-3"]
+}
+

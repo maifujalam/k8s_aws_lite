@@ -20,7 +20,7 @@ variable "province" {
   default = "Mahrashatra"
 }
 variable "bucket" {
-  default = "terraform-backend-alam"
+  default = "terraform-s3-maifuj"
 }
 variable "validation_hour" {
   default = "12"

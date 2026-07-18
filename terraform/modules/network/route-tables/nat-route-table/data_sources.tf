@@ -17,8 +17,8 @@ data "aws_vpc" "selected_vpc" {
     values = [var.vpc_name]
   }
 }
-data "aws_subnet" "selected_subnet" {
-  for_each = toset(var.subnet_names)
+data "aws_subnet" "selected_private_subnet" {
+  for_each = toset(var.private_subnet_names)
   filter {
     name = "vpc-id"
     values = [data.aws_vpc.selected_vpc.id]
@@ -28,5 +28,24 @@ data "aws_subnet" "selected_subnet" {
   filter {
     name = "tag:Name"
     values = [each.value]
+  }
+}
+data "aws_subnet" "selected_public_subnet" {
+  for_each = toset(var.public_subnet_names)
+  filter {
+    name = "vpc-id"
+    values = [data.aws_vpc.selected_vpc.id]
+  }
+
+  # Filter by subnet name
+  filter {
+    name = "tag:Name"
+    values = [each.value]
+  }
+}
+data "aws_internet_gateway" "get_ig" {
+  filter {
+    name   = "attachment.vpc-id"
+    values = [data.aws_vpc.selected_vpc.id]  # or the actual VPC ID
   }
 }

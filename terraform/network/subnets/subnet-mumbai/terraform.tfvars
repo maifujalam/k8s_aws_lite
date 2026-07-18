@@ -6,8 +6,8 @@ subnet_az= {
   "subnet-3" : "ap-south-1c"
 }
 subnet_cidr = {
-  "subnet-1" : "172.31.0.0/27",
-  "subnet-2" : "172.31.0.32/27",
-  "subnet-3" : "172.31.0.64/27",
+  "subnet-1" : "172.31.64.0/27",
+  "subnet-2" : "172.31.64.32/27",
+  "subnet-3" : "172.31.64.64/27",
 }
 vpc_name = "default"

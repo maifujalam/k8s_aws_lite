@@ -7,7 +7,7 @@ terraform {
   }
   required_version = ">= 1.6.1"
   backend "s3" {
-    bucket = "terraform-backend-alam"
+    bucket = "terraform-s3-maifuj"
     key    = "terraform-state/terraform/network/subnets/subnet-mumbai"   # Hare our state files get stored for this object.
     region = "ap-south-1"
   }

@@ -1,0 +1,57 @@
+controller:
+  JCasC:
+    configScripts:
+      jenkinscasc: |
+        jenkins:
+          systemMessage: Welcome to our CI\CD server. 
+        credentials:
+          system:
+            domainCredentials:
+              - credentials:
+                  - string:
+                      scope: GLOBAL
+                      id: "DOCKERHUB_TOKEN"
+                      description: "DOCKERHUB_TOKEN"
+                      secret: "${DOCKERHUB_TOKEN}"  # Injected from ENV
+                  - string:
+                      scope: GLOBAL
+                      id: "S3_WRITE_AWS_ACCESS_KEY_ID"
+                      description: "S3_WRITE_AWS_ACCESS_KEY_ID"
+                      secret: "${readFile:/var/run/secrets/additional/aws-secret-AWS_ACCESS_KEY_ID}"  # Injected from ENV
+                  - string:
+                      scope: GLOBAL
+                      id: "S3_WRITE_AWS_SECRET_ACCESS_KEY"
+                      description: "S3_WRITE_AWS_SECRET_ACCESS_KEY"
+                      secret: "${readFile:/var/run/secrets/additional/aws-secret-AWS_SECRET_ACCESS_KEY}"  # Injected from ENV
+                  - usernamePassword:
+                      scope: GLOBAL
+                      id: "GIT_CRED"
+                      description: "GitHub token for pushing code"
+                      username: "${readFile:/var/run/secrets/additional/git-secret-GIT_USER}"
+                      password: "${readFile:/var/run/secrets/additional/git-secret-GIT_TOKEN}"
+                  - string:
+                      id: "KUBERNETES"
+                      description: "Kubernetes config for kubectl"
+                      scope: GLOBAL
+                      secret: "${readFile:/var/run/secrets/additional/kubeconfig-secret-KUBECONFIG}"  # Injected from ENV
+        jobs:
+          - script: |
+              job('seed-job-main') {
+                description('This is the seed job to run DSL scripts from Git.')
+                scm {
+                  git {
+                    remote {
+                      url('https://github.com/maifujalam/k8s_aws_lite.git')
+                    }
+                    branches('*/main')
+                  }
+                }
+                steps {
+                  dsl {
+                    external('jenkins/seed_main/jobs.groovy') 
+                    removeAction('DELETE')
+                    removeViewAction('DELETE')
+                    lookupStrategy('SEED_JOB')
+                  }
+                }
+              }

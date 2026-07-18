@@ -1,6 +1,6 @@
 #!/bin/bash
 PROJECT_PATH=~/k8s_aws
-KUBERNETES_VERSION=v1.31.1
+KUBERNETES_VERSION=v1.36.0
 printf "\nConfiguring crictl\n"
 #### Download crictl #######
 #VERSION="v1.30.1"

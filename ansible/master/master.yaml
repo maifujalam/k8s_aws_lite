@@ -10,6 +10,6 @@
     MASTER_NODE_IP: 172.31.64.40
     WORKER_NODE_IP: 172.31.64.41
   roles:
-    - download-packages
-    - configure_node
+#     - download-packages
+#     - configure_node
     - bootstrap_k8s_master

@@ -36,13 +36,6 @@
     gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/kubernetes-gpg.asc
   when: not file_exists.stat.exists
 
-- name: Add Kubernetes repository to sources list
-  become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ KUBERNETES_MAJOR_VERSION }}/deb/ /"
-    state: present
-    filename: 'kubernetes.list'
-
 - name: Update APT package index after adding Kubernetes repo
   become: true
   ansible.builtin.apt:
@@ -52,9 +45,9 @@
   become: true
   ansible.builtin.apt:
     name:
-      - "kubelet={{ KUBERNETES_VERSION }}"
-      - "kubeadm={{ KUBERNETES_VERSION }}"
-      - "kubectl={{ KUBERNETES_VERSION }}"
+      - "kubelet={{ KUBERNETES_VERSION }}*"
+      - "kubeadm={{ KUBERNETES_VERSION }}*"
+      - "kubectl={{ KUBERNETES_VERSION }}*"
     state: present
     update_cache: yes
     allow_downgrades: yes

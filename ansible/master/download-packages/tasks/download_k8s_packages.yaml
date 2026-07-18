@@ -48,23 +48,23 @@
   ansible.builtin.apt:
     update_cache: yes
 
-- name: Install Kubernetes components (kubelet, kubeadm, kubectl) of version {{KUBERNETES_MAJOR_VERSION}}
+- name: Install Kubernetes components (kubelet, kubeadm, kubectl)
   become: true
   ansible.builtin.apt:
     name:
-      - "kubelet={{KUBERNETES_VERSION}}"
-      - "kubeadm={{KUBERNETES_VERSION}}"
-      - "kubectl={{KUBERNETES_VERSION}}"
+      - "kubelet={{ KUBERNETES_VERSION }}"
+      - "kubeadm={{ KUBERNETES_VERSION }}"
+      - "kubectl={{ KUBERNETES_VERSION }}"
     state: present
+    update_cache: yes
+    allow_downgrades: yes
 
-- name: Hold Kubernetes packages to prevent updates
+- name: Prevent Kubernetes components from being automatically upgraded
   become: true
-  ansible.builtin.shell: |
-    sudo apt-mark hold kubelet kubeadm kubectl
-
-- name: Enable and start kubelet service
-  become: true
-  ansible.builtin.systemd:
-    name: kubelet
-    enabled: yes
-    state: started
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl

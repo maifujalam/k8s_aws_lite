@@ -1,7 +1,7 @@
 - name: Copy master init templates
   template:
     src: init-default.yaml.j2
-    dest: /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/init-default.yaml
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/init-default.yaml
 
 - name: Reset kubernetes
   become: true
@@ -9,7 +9,7 @@
 
 - name: Init cluster
   become: true
-  shell:  kubeadm init --config /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/init-default.yaml
+  shell:  kubeadm init --config /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/init-default.yaml
 
 
 - name: Copy Config File

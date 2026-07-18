@@ -1,6 +1,6 @@
 region           = "ap-south-1"
 project          = "k8s_aws"
-instance_name    = "k8s-worker"
+instance_name    = "k8s-worker-2"
 vm_count         = 1
 enable_public_ip = false
 launch_template  = "launch-template-ubuntu" # for rhel bastion-rhel
@@ -8,8 +8,7 @@ root_volume_size = 20
 vpc_name         = "default"
 subnet_name      = "subnet-2"
 spot_instance    = false
-private_ip = "172.31.0.38" # Starting digit of private ip ( will increase last digit based on count value).
+private_ip = "172.31.64.42" # Starting digit of private ip ( will increase last digit based on count value).
 security_group   = "default-sg"
 instance_type    = "t3a.large"
 iam_instance_profile = "ec2-full-assume-role"
-source_dest_check = false

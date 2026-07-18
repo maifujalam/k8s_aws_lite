@@ -52,9 +52,9 @@
   become: true
   ansible.builtin.apt:
     name:
-      - "kubelet={{KUBERNETES_VERSION}}-1.1"
-      - "kubeadm={{KUBERNETES_VERSION}}-1.1"
-      - "kubectl={{KUBERNETES_VERSION}}-1.1"
+      - "kubelet={{KUBERNETES_VERSION}}"
+      - "kubeadm={{KUBERNETES_VERSION}}"
+      - "kubectl={{KUBERNETES_VERSION}}"
     state: present
 
 - name: Hold Kubernetes packages to prevent updates

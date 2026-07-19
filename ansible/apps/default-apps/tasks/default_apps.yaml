@@ -103,6 +103,9 @@
     chart_version: 10.1.3
     values:
       installCRDs: true
+      configs:
+        params:
+          server.insecure: true
       global:
         domain: argocd.maifuj.com
       server:

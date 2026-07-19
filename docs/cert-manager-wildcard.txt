@@ -1,0 +1,47 @@
+1. Create route-53 user role and policy: k8s_aws_lite/terraform/iam/route-53-user
+2. Create a secret in the cert-manager namespace with your AWS credentials. Replace `YOUR_AWS_SECRET` with your actual AWS secret access key.
+kubectl create secret generic route53-credentials-secret \
+  -n cert-manager \
+  --from-literal=access-key-id=<YOUR_AWS_ACCESS_KEY_ID> \
+  --from-literal=secret-access-key=<YOUR_AWS_SECRET_ACCESS_KEY>
+
+
+3. Create cluster issuer for cert-manager using the Route53 DNS challenge. Replace `YOUR_AWS_ACCESS
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: your-email@example.com   # 👈 replace with your email
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+    solvers:
+    - dns01:
+        route53:
+          region: us-east-1          # Keep it constatnt at all cost, otherwise it will fail to create the certificate
+          hostedZoneID: Z123456789   # 👈 replace with your Route53 hosted zone ID
+          accessKeyID: YOUR_AWS_ACCESS_KEY_ID
+          secretAccessKeySecretRef:
+            name: route53-credentials-secret
+            key: secret-access-key
+
+4. Create certificate request:
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-wildcard-cert
+  namespace: argo-cd
+spec:
+  secretName: argocd-server-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - "*.maifuj.com"
+  - "maifuj.com"
+
+5. Update the ingress resource to use the newly created TLS secret:

@@ -26,8 +26,6 @@
     release_namespace: tigera-operator
     create_namespace: true
     chart_version: v3.32.1
-#     values_files:
-#       - /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/tigera-operator/values.yaml
   when: r2.rc != 0
 
 - name: Check if cert-manager already installed
@@ -122,6 +120,30 @@
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"
             effect: "NoSchedule"
+
+
+- name: Make default ssl backend
+  kubernetes.core.helm:
+    name: ingress-nginx
+    chart_ref: ingress-nginx/ingress-nginx
+    release_namespace: ingress-nginx
+    create_namespace: true
+    chart_version: 4.15.1
+    values:
+      controller:
+        nodeSelector:
+          kubernetes.io/hostname: master
+        tolerations:
+          - key: "node-role.kubernetes.io/control-plane"
+            operator: "Exists"
+            effect: "NoSchedule"
+        service:
+          type: NodePort
+          nodePorts:
+            http: 32080
+            https: 32443
+        extraArgs:
+          default-ssl-certificate: "cert-manager/wildcard-cert-secret"
 
 - name: Install Default Apps
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/default-applications.yaml

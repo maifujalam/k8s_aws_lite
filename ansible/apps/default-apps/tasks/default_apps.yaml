@@ -119,6 +119,9 @@
             nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
           hosts:
             - argocd.maifuj.com
+          service:
+            ports:
+              http: 80
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"

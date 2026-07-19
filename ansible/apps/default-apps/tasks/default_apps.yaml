@@ -93,39 +93,26 @@
 #   shell: helm list -A | grep argo-cd
 #   register: r5
 #   ignore_errors: true
-- name: Copy argocd helm chart from local
-  copy:
-    src:  argo-cd-10.1.4.tgz
-    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/argo-cd-10.1.4.tgz
 
 - name: Install argo-cd
   kubernetes.core.helm:
     name: argo-cd
-    chart_ref: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/argo-cd-10.1.4.tgz
+    chart_ref: argo/argo-cd
     release_namespace: argo-cd
     create_namespace: true
-    chart_version: 10.1.4
+    chart_version: 10.1.3
     values:
       installCRDs: true
-      configs:
-        params:
-          server.insecure: true
+      global:
+        domain: argocd.maifuj.com
       server:
-        config:
-          url: https://argocd.maifuj.com
         ingress:
           enabled: true
-          https: false
           ingressClassName: nginx
           annotations:
             kubernetes.io/ingress.class: nginx
             nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
             nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          hosts:
-            - argocd.maifuj.com
-          service:
-            ports:
-              http: 80
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"

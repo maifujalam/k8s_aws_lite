@@ -16,7 +16,7 @@
 
 - name: Download Kubernetes GPG key
   shell: |
-    curl -fsSL https://pkgs.k8s.io/core:/stable:/{{ KUBERNETES_MAJOR_VERSION }}/deb/Release.key -o /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/kubernetes-gpg.asc;
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/{{ KUBERNETES_MAJOR_VERSION }}/deb/Release.key -o /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/kubernetes-gpg.asc;
 
 - name: Check if gpg file exists
   stat:
@@ -26,7 +26,7 @@
 - name: Add kubernetes GPG key
   become: true
   shell: |
-    gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/kubernetes-gpg.asc
+    gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/kubernetes-gpg.asc
   when: not file_exists.stat.exists
 
 - name: Update APT package index after adding Kubernetes repo

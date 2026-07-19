@@ -26,6 +26,12 @@
     gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/kubernetes-gpg.asc
   when: not file_exists.stat.exists
 
+- name: Add k8s repos
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ KUBERNETES_MAJOR_VERSION }}/deb/ /"
+    state: present
+
 - name: Update APT package index after adding Kubernetes repo
   become: true
   ansible.builtin.apt:

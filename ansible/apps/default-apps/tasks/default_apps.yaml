@@ -21,13 +21,13 @@
   register: r2
   ignore_errors: true
 
- - name: Add helm chart repos
-   shell: |
-     helm repo add projectcalico https://docs.projectcalico.org/charts/;
-     helm repo add cert-manager https://charts.jetstack.io;
-     helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx;
-     helm repo add argo https://argoproj.github.io/argo-helm
-     helm repo update;
+- name: Add helm chart repos
+  shell: |
+    helm repo add projectcalico https://docs.projectcalico.org/charts/;
+    helm repo add cert-manager https://charts.jetstack.io;
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx;
+    helm repo add argo https://argoproj.github.io/argo-helm
+    helm repo update;
   ignore_errors: true
 
 - name: Clone repo

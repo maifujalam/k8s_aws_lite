@@ -89,10 +89,10 @@
   shell: sleep 30;
   when: r4.rc != 0
 
-- name: Check if argo-cd already installed
-  shell: helm list -A | grep argo-cd
-  register: r5
-  ignore_errors: true
+# - name: Check if argo-cd already installed
+#   shell: helm list -A | grep argo-cd
+#   register: r5
+#   ignore_errors: true
 
 - name: Install argo-cd
   kubernetes.core.helm:
@@ -105,13 +105,14 @@
       server:
         ingress:
           enabled: true
+          ingressClassName: nginx
           hosts:
             - argocd.maifuj.com
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"
             effect: "NoSchedule"
-  when: r5.rc != 0
+#   when: r5.rc != 0
 
 - name: Install Default Apps
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/default-applications.yaml

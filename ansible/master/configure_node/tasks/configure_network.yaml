@@ -1,17 +1,17 @@
 - name: Copy network script
   copy:
     src: "{{ item }}"
-    dest: /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/
   with_fileglob:
     - "*"
 
 - name: Run network script
   become: true
-  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/3_configure_network.sh
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/3_configure_network.sh
 
 - name: Run firewalld script
   become: true
-  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/4-configure_firealld_selinux.sh
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/4-configure_firealld_selinux.sh
 
 - name: Disable apparmor
   become: true

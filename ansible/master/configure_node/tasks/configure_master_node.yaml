@@ -23,11 +23,11 @@
 
 - name: Pre-pull kubernetes images v{{KUBERNETES_VERSION}}
   become: true
-  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/5_kubernetes_images.sh
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/5_kubernetes_images.sh
 
 - name: Configure helm
   become: true
-  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/8_install_helm.sh
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/8_install_helm.sh
 
 - name: Make /etc/hosts entry for mater node to ip {{MASTER_NODE_IP}}
   become: true

@@ -1,3 +1,7 @@
+- name: Force Remove kubernetes repo
+  become: true
+  shell: rm /etc/apt/sources.list.d/kubernetes.list.list
+
 - name: Update os with apt update
   become: true
   apt:

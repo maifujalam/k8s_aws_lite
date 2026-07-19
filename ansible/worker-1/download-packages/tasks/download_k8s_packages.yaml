@@ -11,10 +11,6 @@
     path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     state: absent
 
-- name: Force Remove kubernetes repo
-  become: true
-  shell: rm /etc/apt/sources.list.d/kubernetes.list.list
-
 - name: Download Kubernetes GPG key
   shell: |
     curl -fsSL https://pkgs.k8s.io/core:/stable:/{{ KUBERNETES_MAJOR_VERSION }}/deb/Release.key -o /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/kubernetes-gpg.asc;

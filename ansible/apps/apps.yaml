@@ -7,8 +7,8 @@
     KUBERNETES_VERSION: 1.32.2  # add 'v' in at prefix whenever required.
     PACKAGE_DIRECTORY: packages
     USER: ubuntu
-    MASTER_NODE_IP: 172.31.0.37
-    WORKER_NODE_IP: 172.31.0.38
-    WORKER1_NODE_IP: 172.31.0.39
+    MASTER_NODE_IP: 172.31.64.40
+    WORKER-1_NODE_IP: 172.31.64.41
+    WORKER-2_NODE_IP: 172.31.64.42
   roles:
     - default-apps

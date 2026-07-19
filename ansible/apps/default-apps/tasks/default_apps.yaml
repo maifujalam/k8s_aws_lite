@@ -102,7 +102,11 @@
     create_namespace: true
     chart_version: 3.35.4
     values:
-      global:
+      server:
+        ingress:
+          enabled: true
+          hosts:
+            - maifuj.argocd.com
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"

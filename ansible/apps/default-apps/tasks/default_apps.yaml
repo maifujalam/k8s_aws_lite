@@ -59,13 +59,13 @@
     chart_ref: cert-manager/cert-manager
     release_namespace: cert-manager
     create_namespace: true
-    chart_version: 1.21.0
+    chart_version: v1.21.0
     values_files:
-      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/cert-manager/values.yaml
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/values.yaml
   when: r3.rc != 0
 
 - name: Install self signed certs
-  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
   when: r3.rc != 0
 
 - name: Check if ingress-nginx already installed

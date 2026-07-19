@@ -93,11 +93,15 @@
 #   shell: helm list -A | grep argo-cd
 #   register: r5
 #   ignore_errors: true
+- name: Copy argocd helm chart from local
+  copy:
+    src:  argo-cd-10.1.4.tgz
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/argo-cd-10.1.4.tgz
 
 - name: Install argo-cd
   kubernetes.core.helm:
     name: argo-cd
-    chart_ref: argo/argo-cd
+    chart_ref: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/argo-cd-10.1.4.tgz
     release_namespace: argo-cd
     create_namespace: true
     chart_version: 10.1.4

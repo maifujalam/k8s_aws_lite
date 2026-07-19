@@ -1,21 +1,3 @@
-# - name: Check helm s3 plugin version
-#   shell: helm s3 version
-#   register: r1
-#   ignore_errors: true
-
-# - name: Install helm s3 plugin
-#   shell: |
-#      helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.16.2;
-#   when: r1.rc != 0
-
-# - name: Add Red Hat Helm charts repository
-#   kubernetes.core.helm_repository:
-#     name: public-helm-repository
-#     repo_url: https://public-helm-repository-20231023095000508500000001.s3.ap-south-1.amazonaws.com/ #
-
-# - name: Update repository
-#   command: helm repo update
-
 - name: Check if calico already installed
   shell: helm list -A | grep calico
   register: r2
@@ -62,6 +44,12 @@
     chart_version: v1.21.0
     values_files:
       - /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/values.yaml
+    values:
+      global:
+        tolerations:
+          - key: "node-role.kubernetes.io/control-plane"
+            operator: "Exists"
+            effect: "NoSchedule"
   when: r3.rc != 0
 
 - name: Install self signed certs
@@ -80,11 +68,15 @@
     release_namespace: ingress-nginx
     create_namespace: true
     chart_version: 4.15.1
-#     values_files:
-#       - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/ingress-nginx/values.yaml
+    values:
+      global:
+        tolerations:
+          - key: "node-role.kubernetes.io/control-plane"
+            operator: "Exists"
+            effect: "NoSchedule"
   when: r4.rc != 0
 
-- name: Sleep fo 30 sec
+- name: Sleep for 30 sec
   shell: sleep 30;
   when: r4.rc != 0
 
@@ -100,8 +92,12 @@
     release_namespace: argo-cd
     create_namespace: true
     chart_version: 3.35.4
-    values_files:
-      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/argo-cd/values.yaml
+    values:
+      global:
+        tolerations:
+          - key: "node-role.kubernetes.io/control-plane"
+            operator: "Exists"
+            effect: "NoSchedule"
   when: r5.rc != 0
 
 - name: Install Default Apps

@@ -1,11 +1,11 @@
 - name: Copy argocd cli script
   copy:
     src: argocdctl.sh
-    dest: /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/argocdctl.sh
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/argocdctl.sh
   ignore_errors: true
 
 - name: Install Argocd
-  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/v{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/argocdctl.sh
+  shell: bash /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/argocdctl.sh
 
 - name: Argocd Auto Completion
   blockinfile:

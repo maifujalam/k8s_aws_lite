@@ -1,5 +1,5 @@
 ---
-- hosts: k8s-worker1
+- hosts: k8s-worker-3
   become: false
   vars:
     PROJECT_PATH: k8s_aws_lite  # File will be  created at home directory

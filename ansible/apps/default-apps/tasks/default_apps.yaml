@@ -83,10 +83,10 @@
 #     values_files:
 #       - /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}/manifests/ingress-nginx/values.yaml
   when: r4.rc != 0
-#
-# - name: Sleep fo 30 sec
-#   shell: sleep 30;
-#   when: r4.rc != 0
+
+- name: Sleep fo 30 sec
+  shell: sleep 30;
+  when: r4.rc != 0
 #
 # - name: Check if argo-cd already installed
 #   shell: helm list -A | grep argo-cd

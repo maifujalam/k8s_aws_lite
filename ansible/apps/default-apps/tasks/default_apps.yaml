@@ -34,10 +34,10 @@
   shell: cd;rm -rfv {{PROJECT_PATH}}; git clone https://github.com/maifujalam/{{PROJECT_PATH}}.git
   ignore_errors: true
 
-- name: Apply Tigera CRDs
-  kubernetes.core.k8s:
-    state: present
-    src: https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
+# - name: Apply Tigera CRDs
+#   kubernetes.core.k8s:
+#     state: present
+#     src: https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
 
 - name: Install calico
   kubernetes.core.helm:

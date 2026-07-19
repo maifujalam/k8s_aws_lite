@@ -1,3 +1,8 @@
+- name: Make the directory present
+  file:
+    path: /home/{{USER}}/{{PROJECT_PATH}}/k8s/v{{KUBERNETES_VERSION}}
+    state: directory
+
 - name: Copy worker-2 join templates
   template:
     src: join-default-worker-2.yaml.j2

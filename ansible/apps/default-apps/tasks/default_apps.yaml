@@ -56,7 +56,7 @@
 - name: Install cert-manager
   kubernetes.core.helm:
     name: cert-manager
-    chart_ref: public-helm-repository/cert-manager
+    chart_ref: cert-manager/cert-manager
     release_namespace: cert-manager
     create_namespace: true
     chart_version: 1.21.0

@@ -17,5 +17,5 @@
 
 - name: Join cluster
   become: true
-  shell:  kubeadm join --config /home/{{USER}}/{{KUBERNETES_VERSION}}/{{PACKAGE_DIRECTORY}}/join-default-worker-1.yaml
+  shell:  kubeadm join --config /home/{{USER}}/{{KUBERNETES_VERSION}}/join-default-worker-1.yaml
 

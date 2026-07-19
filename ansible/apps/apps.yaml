@@ -1,8 +1,7 @@
----
 - hosts: k8s-master
   become: false
   vars:
-    PROJECT_PATH: k8s_aws_lite  # File will be  created at home directory
+    PROJECT_PATH: k8s_aws_lite   # File will be  created at home directory
     KUBERNETES_MAJOR_VERSION: v1.32
     KUBERNETES_VERSION: v1.36.2  # add 'v' in at prefix whenever required.
     PACKAGE_DIRECTORY: packages

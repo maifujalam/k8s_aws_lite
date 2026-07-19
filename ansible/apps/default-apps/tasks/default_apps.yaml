@@ -106,6 +106,8 @@
       configs:
         params:
           server.insecure: true
+        secret:
+          argocdServerAdminPassword: "$2y$10$JjhcSrVdTRz3VB2xLge85ORIt.q.KV9XEvBqXWjgs0NMlhcwmhCJS"
       global:
         domain: argocd.maifuj.com
       server:

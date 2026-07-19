@@ -112,6 +112,7 @@
           url: https://argocd.maifuj.com
         ingress:
           enabled: true
+          https: false
           ingressClassName: nginx
           annotations:
             kubernetes.io/ingress.class: nginx

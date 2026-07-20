@@ -5,7 +5,6 @@ kind: Ingress
 metadata:
   name: hello-kubernetes-release-name
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod-cluster-issuer-llt
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   labels:
     app.kubernetes.io/name: hello-kubernetes
@@ -16,7 +15,6 @@ spec:
   tls:
     - hosts:
       - helloworld.maifuj.com
-      secretName: helloworld-secret
   rules:
     - host: helloworld.maifuj.com
       http:

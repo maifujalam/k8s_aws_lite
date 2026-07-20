@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: https://helmcharts.opsmx.com
+        - repoURL: helmcharts.opsmx.com
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:

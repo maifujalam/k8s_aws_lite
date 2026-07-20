@@ -1,0 +1,30 @@
+---
+# Source: hello-kubernetes/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-kubernetes-release-name
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod-cluster-issuer-llt
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    app.kubernetes.io/name: hello-kubernetes
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.10.0"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - helloworld.maifuj.com
+      secretName: helloworld-secret
+  rules:
+    - host: helloworld.maifuj.com
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: "hello-kubernetes-release-name"
+                port:
+                  number: 8080

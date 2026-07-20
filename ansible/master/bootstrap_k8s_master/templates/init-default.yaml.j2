@@ -25,7 +25,9 @@ clusterName: local-k8s
 controlPlaneEndpoint: master:6443
 apiServer:
   certSANs:
-    - "master"
+    - master
+    - 13.207.12.184
+    - k9s.maifuj.com
   timeoutForControlPlane: 4m0s
 certificatesDir: /etc/kubernetes/pki
 controllerManager: {}

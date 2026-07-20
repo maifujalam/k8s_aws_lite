@@ -31,7 +31,7 @@ spec:
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:
-            valuesFiles:
+            valueFiles:
               - $values/{{.path.path}}/helm-config.yaml
             skipCrds: true
         - repoURL: https://github.com/maifujalam/k8s_aws_lite.git

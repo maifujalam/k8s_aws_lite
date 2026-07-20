@@ -10,11 +10,11 @@ spec:
   - git:
       repoURL: https://github.com/maifujalam/k8s_aws_lite.git
       revision: main
-      files:
-        - path: "k8s/v1.36.2/appsets/*"
+      directories:
+        - path: "k8s/v1.36.2/common/*"
   template:
     metadata:
-      name: 'app-of-apps-{{ .path.basename | trimSuffix ".yaml" }}'
+      name: 'app-of-apps-{{ .path.basename }}'
     spec:
       project: dev-project
       source:

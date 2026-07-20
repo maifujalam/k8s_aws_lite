@@ -106,6 +106,8 @@
           server.insecure: true
         secret:
           argocdServerAdminPassword: "$2y$10$JjhcSrVdTRz3VB2xLge85ORIt.q.KV9XEvBqXWjgs0NMlhcwmhCJS"
+        nodeSelector:
+          kubernetes.io/hostname: master
       global:
         domain: argocd.maifuj.com
       server:
@@ -145,5 +147,5 @@
         extraArgs:
           default-ssl-certificate: "cert-manager/wildcard-cert-secret"
 
-- name: Install Default Apps
-  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/default-applications.yaml
+# - name: Install Default Apps
+#   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/default-applications.yaml

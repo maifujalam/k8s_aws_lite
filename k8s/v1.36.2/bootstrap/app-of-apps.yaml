@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: app-of-apps
+  namespace: argo-cd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - git:
+      repoURL: https://github.com/maifujalam/k8s_aws_lite.git
+      revision: master
+      files:
+        - path: "k8s/v1.36.2/appsets/*"
+  template:
+    metadata:
+      name: 'app-of-apps-{{ .path.basename | trimSuffix ".yaml" }}'
+    spec:
+      project: my-project
+      source:
+        repoURL: https://github.com/maifujalam/k8s_aws_lite.git
+        targetRevision: master
+        path: '{{.path.path}}'
+      destination:
+        namespace: argo-cd
+        server: https://kubernetes.default.svc
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

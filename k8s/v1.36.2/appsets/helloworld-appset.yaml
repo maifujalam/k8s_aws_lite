@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+  namespace: argo-cd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+   - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/maifujalam/k8s_aws_lite.git
+              revision: HEAD
+              files:
+                - path: k8s/v1.36.2/clusters/*/helloworld/appset-config.yaml
+          - clusters:
+              selector:
+                matchLabels:
+                  cluster: '{{ index .path.segments 3}}'
+  template:
+    metadata:
+      name: '{{ index .path.segments 4}}-{{ index .path.segments 3}}'
+      labels:
+        app: '{{ index .path.segments 4}}'
+        cluster: '{{ index .path.segments 3}}'
+    spec:
+      project: sample-project
+      source:
+        repoURL: https://github.com/infra-team/cluster-deployments.git
+        targetRevision: HEAD
+        path: guestbook/{{.cluster}}
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.namespace}}'

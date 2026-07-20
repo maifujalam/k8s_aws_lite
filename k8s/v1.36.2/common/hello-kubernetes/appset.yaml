@@ -27,9 +27,16 @@ spec:
     spec:
       project: dev-project
       source:
-        repoURL: https://github.com/maifujalam/k8s_aws_lite.git
-        targetRevision: '{{.chart_version}}'
-        chart: '{{.chart_name}}'
+        - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
+          targetRevision: '{{.chart_version}}'
+          chart: '{{.chart_name}}'
+          helm:
+            valuesFiles:
+              - $values/{{.path.path}}/helm-config.yaml
+            skipCrds: true
+        - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
+          targetRevision: main
+          ref: values
       destination:
         server: '{{.server}}'
         namespace: '{{.namespace}}'

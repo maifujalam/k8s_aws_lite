@@ -109,6 +109,11 @@
         secret:
           argocdServerAdminPassword: "$2y$10$JjhcSrVdTRz3VB2xLge85ORIt.q.KV9XEvBqXWjgs0NMlhcwmhCJS"
       controller:
+        service:
+          type: NodePort
+          nodePorts:
+            http: 32080
+            https: 32443
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"
@@ -161,17 +166,6 @@
     chart_version: 4.15.1
     values:
       controller:
-        nodeSelector:
-          kubernetes.io/hostname: master
-        tolerations:
-          - key: "node-role.kubernetes.io/control-plane"
-            operator: "Exists"
-            effect: "NoSchedule"
-        service:
-          type: NodePort
-          nodePorts:
-            http: 32080
-            https: 32443
         extraArgs:
           default-ssl-certificate: "cert-manager/wildcard-cert-secret"
 

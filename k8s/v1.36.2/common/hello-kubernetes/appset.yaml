@@ -17,7 +17,7 @@ spec:
           - clusters:
               selector:
                 matchLabels:
-                  cluster: '{{ index .path.segments 3}}'
+                  cluster-name: '{{ index .path.segments 3}}'
   template:
     metadata:
       name: '{{ index .path.segments 4}}-{{ index .path.segments 3}}'

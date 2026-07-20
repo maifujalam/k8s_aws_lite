@@ -26,7 +26,7 @@ spec:
         cluster-name: '{{ index .path.segments 3}}'
     spec:
       project: dev-project
-      source:
+      sources:
         - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'

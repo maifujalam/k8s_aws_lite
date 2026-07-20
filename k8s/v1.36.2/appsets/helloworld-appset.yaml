@@ -11,7 +11,7 @@ spec:
         generators:
           - git:
               repoURL: https://github.com/maifujalam/k8s_aws_lite.git
-              revision: HEAD
+              revision: main
               files:
                 - path: k8s/v1.36.2/clusters/*/helloworld/appset-config.yaml
           - clusters:
@@ -28,7 +28,7 @@ spec:
       project: sample-project
       source:
         repoURL: https://github.com/infra-team/cluster-deployments.git
-        targetRevision: HEAD
+        targetRevision: main
         path: guestbook/{{.cluster}}
       destination:
         server: '{{.server}}'

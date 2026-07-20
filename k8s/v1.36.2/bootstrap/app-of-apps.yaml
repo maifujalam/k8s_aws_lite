@@ -16,10 +16,10 @@ spec:
     metadata:
       name: 'app-of-apps-{{ .path.basename | trimSuffix ".yaml" }}'
     spec:
-      project: my-project
+      project: dev-project
       source:
         repoURL: https://github.com/maifujalam/k8s_aws_lite.git
-        targetRevision: master
+        targetRevision: main
         path: '{{.path.path}}'
       destination:
         namespace: argo-cd

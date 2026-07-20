@@ -101,15 +101,25 @@
     chart_version: 10.1.3
     values:
       installCRDs: true
+      global:
+        domain: argocd.maifuj.com
       configs:
         params:
           server.insecure: true
         secret:
           argocdServerAdminPassword: "$2y$10$JjhcSrVdTRz3VB2xLge85ORIt.q.KV9XEvBqXWjgs0NMlhcwmhCJS"
+      controller:
         nodeSelector:
           kubernetes.io/hostname: master
-      global:
-        domain: argocd.maifuj.com
+      dex:
+        nodeSelector:
+          kubernetes.io/hostname: master
+      redis:
+        nodeSelector:
+          kubernetes.io/hostname: master
+      repoServer:
+        nodeSelector:
+          kubernetes.io/hostname: master
       server:
         ingress:
           enabled: true
@@ -122,6 +132,8 @@
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"
             effect: "NoSchedule"
+        nodeSelector:
+          kubernetes.io/hostname: master
 
 
 - name: Make default ssl backend

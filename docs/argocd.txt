@@ -1,5 +1,10 @@
 1. Issue with remote repo unable to pull for a commit: https://github.com/argoproj/argo-cd/issues/7898
 2. Argocd-Vault-Plugin: https://itnext.io/argocd-secret-management-with-argocd-vault-plugin-539f104aff05
-
+3. Cluster add:
+  a. argocd login argocd.maifuj.com
+  b. argocd cluster list
+  c. cp ~/.kube/config config
+  d. replace kubeconfig with hotname master with the internal IP of VM as maste ris not resolved by argocd server.
+  c. argocd cluster add kubernetes-admin@local-k8s --name dev --kubeconfig ~/.kube/config --yes --grpc-web
 
 

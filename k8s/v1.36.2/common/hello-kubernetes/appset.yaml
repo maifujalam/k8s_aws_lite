@@ -23,13 +23,13 @@ spec:
       name: '{{ index .path.segments 4}}-{{ index .path.segments 3}}'
       labels:
         app: '{{ index .path.segments 4}}'
-        cluster: '{{ index .path.segments 3}}'
+        cluster-name: '{{ index .path.segments 3}}'
     spec:
       project: dev-project
       source:
-        repoURL: https://github.com/infra-team/cluster-deployments.git
-        targetRevision: main
-        path: guestbook/{{.cluster}}
+        repoURL: https://github.com/maifujalam/k8s_aws_lite.git
+        targetRevision: '{{.chart_version}}'
+        chart: '{{.chart_name}}'
       destination:
         server: '{{.server}}'
         namespace: '{{.namespace}}'

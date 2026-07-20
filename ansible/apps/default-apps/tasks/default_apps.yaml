@@ -118,8 +118,6 @@
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"
             effect: "NoSchedule"
-        nodeSelector:
-          kubernetes.io/hostname: master
       dex:
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"

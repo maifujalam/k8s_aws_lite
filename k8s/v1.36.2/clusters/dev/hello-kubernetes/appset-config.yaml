@@ -1,4 +1,4 @@
 ---
 namespace: hello-kubernetes
 chart_name: opsmx/hello-kubernetes
-chart_version: 1.0.4
+chart_version: 1.0.3

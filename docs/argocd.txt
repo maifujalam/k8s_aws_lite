@@ -5,6 +5,6 @@
   b. argocd cluster list
   c. cp ~/.kube/config config
   d. replace kubeconfig with hotname master with the internal IP of VM as maste ris not resolved by argocd server.
-  c. argocd cluster add kubernetes-admin@local-k8s --name dev --kubeconfig ~/.kube/config --yes --grpc-web
+  c. argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig config  --grpc-web
 
 

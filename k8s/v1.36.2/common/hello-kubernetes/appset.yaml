@@ -13,7 +13,7 @@ spec:
               repoURL: https://github.com/maifujalam/k8s_aws_lite.git
               revision: main
               files:
-                - path: k8s/v1.36.2/clusters/*/helloworld/appset-config.yaml
+                - path: k8s/v1.36.2/clusters/*/hello-kubernetes/appset-config.yaml
           - clusters:
               selector:
                 matchLabels:
@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
+        - repoURL: https://helmcharts.opsmx.com
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:

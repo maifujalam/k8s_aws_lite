@@ -9,5 +9,6 @@
     MASTER_NODE_IP: 172.31.64.40
     WORKER_1_NODE_IP: 172.31.64.41
     WORKER_2_NODE_IP: 172.31.64.42
+    KUBECONFIG_PATH: "{{ lookup('env','HOME') }}/config"
   roles:
     - default-apps

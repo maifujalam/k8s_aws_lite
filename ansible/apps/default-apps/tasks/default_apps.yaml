@@ -168,19 +168,13 @@
           default-ssl-certificate: "cert-manager/wildcard-cert-secret"
 
 - name: Copy kubeconfig file
-  shell: cp -v ~/.kube/config ~/config
+  shell: cp -v ~/.kube/config {{KUBECONFIG_PATH}}
 
 - name: Update kubeconfig with MASTER_IP
-  hosts: localhost
-  gather_facts: no
-  vars:
-    kubeconfig_path: "{{ lookup('env','HOME') }}/config"
-  tasks:
-    - name: Replace master keyword with MASTER_IP in kubeconfig
-      ansible.builtin.replace:
-        path: "{{ kubeconfig_path }}"
-        regexp: 'https://master:6443'
-        replace: "https://{{ MASTER_NODE_IP }}:6443"
+  ansible.builtin.replace:
+    path: "{{ KUBECONFIG_PATH }}"
+    regexp: 'https://master:6443'
+    replace: "https://{{ MASTER_NODE_IP }}:6443"
 
 - name: Arocd login
   shell: argocd login argocd.maifuj.com --username admin --password  {{ADMIN_PASSWORD}} --insecure

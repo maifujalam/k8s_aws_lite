@@ -2,7 +2,7 @@
 2. Create a secret in the cert-manager namespace with your AWS credentials. Replace `YOUR_AWS_SECRET` with your actual AWS secret access key.
 kubectl create secret generic route53-credentials-secret \
   -n cert-manager \
-  --from-literal=access-key-id=<YOUR_AWS_ACCESS_KEY_ID> \
+  --from-literal=access-key-id=AKIAVSYLDZZPXHZ4V6HW \
   --from-literal=secret-access-key=<YOUR_AWS_SECRET_ACCESS_KEY>
 
 

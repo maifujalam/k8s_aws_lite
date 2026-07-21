@@ -176,8 +176,14 @@
     regexp: 'https://master:6443'
     replace: "https://{{ MASTER_NODE_IP }}:6443"
 
-- name: Arocd login
-  shell: argocd login argocd.maifuj.com --username admin --password  {{ADMIN_PASSWORD}} --insecure
+- name: ArgoCD login
+  command: >
+    argocd login argocd.maifuj.com
+    --username admin
+    --password $ARGOCD_PASS
+    --insecure
+  environment:
+    ARGOCD_PASS: "{{ ADMIN_PASSWORD }}"
 
 - name: Add argocd node to the cluster
   shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web

@@ -23,7 +23,7 @@ controller:
 storageClasses:
 - name: ebs-sc
   annotations:
-    storageclass.kubernetes.io/is-default-class: "true"
+    storageclass.kubernetes.io/is-default-class: "false"
   labels:
     app: aws-ebs-csi-driver
   volumeBindingMode: WaitForFirstConsumer
@@ -31,4 +31,4 @@ storageClasses:
   parameters:
     encrypted: "true"
 defaultStorageClass:
-  enabled: false
+  enabled: true

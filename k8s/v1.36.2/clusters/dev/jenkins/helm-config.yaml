@@ -1,0 +1,57 @@
+controller:
+  resources:
+    requests:
+      cpu: "300m"
+      memory: "1000Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1300Mi"
+  jenkinsUrl: https://jenkins.maifuj.com/
+  installPlugins:
+    - kubernetes:4467.vf26561292824
+    - workflow-aggregator:608.v67378e9d3db_1
+  additionalExistingSecrets:
+    - name: git-secret
+      keyName: GIT_USER
+    - name: git-secret
+      keyName: GIT_TOKEN
+    - name: kubeconfig-secret
+      keyName: KUBECONFIG
+  JCasC:
+    defaultConfig: true
+  nodeSelector:
+    kubernetes.io/hostname: master
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
+  ingress:
+    enabled: true
+    labels: {}
+    # -- Primary Ingress annotations
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      kubernetes.io/ingress.class: nginx
+    hostName: jenkins.maifuj.com
+  prometheus:
+    enabled: false
+agent:
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "256Mi"
+      # ephemeralStorage:
+    limits:
+      cpu: "512m"
+      memory: "512Mi"
+      # ephemeralStorage:
+  alwaysPullImage: false
+  nodeSelector: {}
+  podName: "jenkins-agent"
+persistence:
+  enabled: true
+  storageClass:
+  accessMode: "ReadWriteOnce"
+  # -- The size of the PVC
+  size: "3Gi"

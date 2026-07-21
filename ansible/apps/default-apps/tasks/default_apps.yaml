@@ -54,7 +54,7 @@
 #   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
 #   when: r3.rc != 0
 
- name: debug vault
+- name: debug vault
   debug:
     msg: "ADMIN_PASSWORD={{ ADMIN_PASSWORD }}"
 

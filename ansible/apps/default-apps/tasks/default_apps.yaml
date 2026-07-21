@@ -84,6 +84,13 @@
     dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml
   when: r3.rc != 0
 
+- name: Kubernertes crete c;uster issuer
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/prod-cluster-issuer-llt.yaml
+  when: r3.rc != 0
+
+- name: Kubernertes create wildcard certificate
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml
+  when: r3.rc != 0
 
 - name: Check if ingress-nginx already installed
   shell: helm list -A | grep ingress-nginx

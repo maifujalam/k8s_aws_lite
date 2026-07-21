@@ -1,7 +1,7 @@
 - hosts: k8s-master
   become: false
   vars_files:
-    - group_vars/all/vault.yml   # vaulted file
+    - /home/ubuntu/k8s_aws_lite/ansible/apps/default-apps/group_vars/all/vault.yml   # vaulted file
   vars:
     PROJECT_PATH: k8s_aws_lite   # File will be  created at home directory
     KUBERNETES_MAJOR_VERSION: v1.32

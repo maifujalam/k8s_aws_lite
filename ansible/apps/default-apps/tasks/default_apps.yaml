@@ -202,17 +202,16 @@
     regexp: 'https://master:6443'
     replace: "https://{{ MASTER_NODE_IP }}:6443"
 
-# - name: ArgoCD login
-#   command: >
-#     argocd login argocd.maifuj.com
-#     --username admin
-#     --password $ARGOCD_PASS
-#     --insecure
-#   environment:
-#     ARGOCD_PASS: "{{ ADMIN_PASSWORD }}"
+- name: ArgoCD login
+  command: >
+    argocd login argocd.maifuj.com
+    --username admin
+    --password $ARGOCD_PASS
+    --insecure
 
-# - name: Add argocd node to the cluster
-#   shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
-#
-# - name: Install Default Apps
-#   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/bootstrap/
+
+- name: Add argocd node to the cluster
+  shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
+
+- name: Install Default Apps
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/bootstrap/

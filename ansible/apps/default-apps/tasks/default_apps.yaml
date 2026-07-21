@@ -59,7 +59,7 @@
     msg: "ADMIN_PASSWORD={{ ADMIN_PASSWORD }}"
 
 - name: Recreate route53-credentials-secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     state: present
     namespace: cert-manager
     definition:

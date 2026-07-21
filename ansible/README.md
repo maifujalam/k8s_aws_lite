@@ -67,5 +67,6 @@ EOF
 Extract kubernetes dashboard token:-
 kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d > dashboard_token.txt
 
-Add default app:
-ansible-playbook apps/app.yaml 
+
+Debug Vault:-
+ansible -m debug -a "var=ACCESS_KEY_ID" k8s-master -vvv

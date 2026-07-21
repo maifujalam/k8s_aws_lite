@@ -84,6 +84,7 @@
     dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml
   when: r3.rc != 0
 
+
 - name: Check if ingress-nginx already installed
   shell: helm list -A | grep ingress-nginx
   register: r4
@@ -137,7 +138,7 @@
         params:
           server.insecure: true
         secret:
-          argocdServerAdminPassword: "$2y$10$JjhcSrVdTRz3VB2xLge85ORIt.q.KV9XEvBqXWjgs0NMlhcwmhCJS"
+          argocdServerAdminPassword: "{{ ARGOCD_ADMIN_PASSWORD_HASH }}"
       controller:
         service:
           type: NodePort
@@ -207,11 +208,7 @@
     replace: "https://{{ MASTER_NODE_IP }}:6443"
 
 - name: ArgoCD login
-  command: >
-    argocd login argocd.maifuj.com
-    --username admin
-    --password $ARGOCD_PASS
-    --insecure
+  shell: "argocd login argocd.maifuj.com --username admin --password {{ ADMIN_PASSWORD }} --insecure"
 
 
 - name: Add argocd node to the cluster

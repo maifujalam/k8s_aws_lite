@@ -54,6 +54,22 @@
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
   when: r3.rc != 0
 
+- name: Create route-t3 user secret
+  shell: kubectl -n cert-manager create secret generic route53-credentials-secret -from-literal=access-key-id={{ACCESS_KEY_ID}}  --from-literal=secret-access-key={{SECRET_ACCESS_KEY}}
+  ignore_errors: true
+
+- name: Copy the cluster issuer template
+  template:
+    src: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/prod-cluster-issuer-llt.yaml.j2
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/prod-cluster-issuer-llt.yaml
+  when: r3.rc != 0
+
+- name: Copy the wildcard certificate template
+  template:
+    src: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml.j2
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml
+  when: r3.rc != 0
+
 - name: Check if ingress-nginx already installed
   shell: helm list -A | grep ingress-nginx
   register: r4
@@ -165,7 +181,7 @@
     values:
       controller:
         extraArgs:
-          default-ssl-certificate: "cert-manager/wildcard-cert-secret"
+          default-ssl-certificate: "cert-manager/letsencrypt-cert"
 
 - name: Copy kubeconfig file
   shell: cp -v ~/.kube/config {{KUBECONFIG_PATH}}
@@ -176,17 +192,17 @@
     regexp: 'https://master:6443'
     replace: "https://{{ MASTER_NODE_IP }}:6443"
 
-- name: ArgoCD login
-  command: >
-    argocd login argocd.maifuj.com
-    --username admin
-    --password $ARGOCD_PASS
-    --insecure
-  environment:
-    ARGOCD_PASS: "{{ ADMIN_PASSWORD }}"
+# - name: ArgoCD login
+#   command: >
+#     argocd login argocd.maifuj.com
+#     --username admin
+#     --password $ARGOCD_PASS
+#     --insecure
+#   environment:
+#     ARGOCD_PASS: "{{ ADMIN_PASSWORD }}"
 
-- name: Add argocd node to the cluster
-  shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
-
-- name: Install Default Apps
-  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/bootstrap/
+# - name: Add argocd node to the cluster
+#   shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
+#
+# - name: Install Default Apps
+#   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/bootstrap/

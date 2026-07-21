@@ -1,5 +1,7 @@
 - hosts: k8s-master
   become: false
+  vars_files:
+    - group_vars/all/vault.yml   # vaulted file
   vars:
     PROJECT_PATH: k8s_aws_lite   # File will be  created at home directory
     KUBERNETES_MAJOR_VERSION: v1.32
@@ -10,5 +12,7 @@
     WORKER_1_NODE_IP: 172.31.64.41
     WORKER_2_NODE_IP: 172.31.64.42
     KUBECONFIG_PATH: "{{ lookup('env','HOME') }}/config"
+    AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   roles:
     - default-apps

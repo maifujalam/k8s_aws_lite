@@ -1,0 +1,4 @@
+---
+namespace: aws-ebs-csi-driver
+chart_name: aws-ebs-csi-driver
+chart_version: 2.62.0

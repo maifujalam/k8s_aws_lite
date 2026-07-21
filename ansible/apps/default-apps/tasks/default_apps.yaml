@@ -68,18 +68,18 @@
 - name: Copy the cluster issuer template
   template:
     src: templates/prod-cluster-issuer-llt.yaml.j2
-    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/prod-cluster-issuer-llt.yaml
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/prod-cluster-issuer-llt.yaml
 
 - name: Copy the wildcard certificate template
   template:
     src: templates/wildcard-certificate.yaml.j2
-    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml
+    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/wildcard-certificate.yaml
 
 - name: Kubernertes create cluster issuer
-  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/prod-cluster-issuer-llt.yaml
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/prod-cluster-issuer-llt.yaml
 
 - name: Kubernertes create wildcard certificate
-  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/wildcard-certificate.yaml
 
 - name: Check if ingress-nginx already installed
   shell: helm list -A | grep ingress-nginx

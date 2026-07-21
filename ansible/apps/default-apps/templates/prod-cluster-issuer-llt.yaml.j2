@@ -12,7 +12,7 @@ spec:
     - dns01:
         route53:
           region: us-east-1          # Keep it constatnt at all cost, otherwise it will fail to create the certificate
-          hostedZoneID: Z123456789   # 👈 replace with your Route53 hosted zone ID
+          hostedZoneID: Z03481592NF3WUPSPBKDG   # 👈 replace with your Route53 hosted zone ID
           accessKeyID: {{ACCESS_KEY_ID}}
           secretAccessKeySecretRef:
             name: route53-credentials-secret

@@ -28,11 +28,6 @@
     chart_version: v3.32.1
   when: r2.rc != 0
 
-# - name: Check if cert-manager already installed
-#   shell: helm list -A | grep cert-manager
-#   register: r3
-#   ignore_errors: true
-
 - name: Install cert-manager
   kubernetes.core.helm:
     name: cert-manager
@@ -48,7 +43,6 @@
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"
             effect: "NoSchedule"
-  when: r3.rc != 0
 
 - name: Install self signed certs
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
@@ -115,12 +109,6 @@
 #         extraArgs:
 #           tcp-services-configmap: "ingress-nginx/tcp-services"
 
-# - name: Sleep for 30 sec
-#   shell: sleep 30;
-# - name: Check if argo-cd already installed
-#   shell: helm list -A | grep argo-cd
-#   register: r5
-#   ignore_errors: true
 
 - name: Install argo-cd
   kubernetes.core.helm:

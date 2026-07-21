@@ -13,7 +13,7 @@ spec:
         route53:
           region: us-east-1          # Keep it constatnt at all cost, otherwise it will fail to create the certificate
           hostedZoneID: Z123456789   # 👈 replace with your Route53 hosted zone ID
-          accessKeyID: {{AWS_ACCESS_KEY_ID}}
+          accessKeyID: {{ACCESS_KEY_ID}}
           secretAccessKeySecretRef:
             name: route53-credentials-secret
             key: secret-access-key

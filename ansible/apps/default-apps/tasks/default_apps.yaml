@@ -167,5 +167,26 @@
         extraArgs:
           default-ssl-certificate: "cert-manager/wildcard-cert-secret"
 
-# - name: Install Default Apps
-#   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/default-applications.yaml
+- name: Copy kubeconfig file
+  shell: cp -v ~/.kube/config ~/config
+
+- name: Update kubeconfig with MASTER_IP
+  hosts: localhost
+  gather_facts: no
+  vars:
+    kubeconfig_path: "{{ lookup('env','HOME') }}/config"
+  tasks:
+    - name: Replace master keyword with MASTER_IP in kubeconfig
+      ansible.builtin.replace:
+        path: "{{ kubeconfig_path }}"
+        regexp: 'https://master:6443'
+        replace: "https://{{ MASTER_NODE_IP }}:6443"
+
+- name: Arocd login
+  shell: argocd login argocd.maifuj.com --username admin --password  {{ARGOCD_ADMIN_PASSWORD}} --insecure
+
+- name: Add argocd node to the cluster
+  shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
+
+- name: Install Default Apps
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/bootstrap/

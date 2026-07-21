@@ -54,9 +54,19 @@
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
   when: r3.rc != 0
 
-- name: Create route-t3 user secret
-  shell: kubectl -n cert-manager create secret generic route53-credentials-secret -from-literal=access-key-id={{ACCESS_KEY_ID}}  --from-literal=secret-access-key={{SECRET_ACCESS_KEY}}
-  ignore_errors: true
+- name: Recreate route53-credentials-secret
+  k8s:
+    state: present
+    namespace: cert-manager
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: route53-credentials-secret
+      type: Opaque
+      stringData:
+        access-key-id: "{{ ACCESS_KEY_ID }}"
+        secret-access-key: "{{ SECRET_ACCESS_KEY }}"
 
 - name: Copy the cluster issuer template
   template:

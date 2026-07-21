@@ -183,7 +183,7 @@
     values:
       controller:
         extraArgs:
-          default-ssl-certificate: "cert-manager/letsencrypt-cert"
+          default-ssl-certificate: "cert-manager/wildcard-certificate-secret-prod"
 
 - name: Copy kubeconfig file
   shell: cp -v ~/.kube/config {{KUBECONFIG_PATH}}

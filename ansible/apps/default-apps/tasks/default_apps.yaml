@@ -67,12 +67,12 @@
 
 - name: Copy the cluster issuer template
   template:
-    src: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/prod-cluster-issuer-llt.yaml.j2
+    src: templates/prod-cluster-issuer-llt.yaml.j2
     dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/prod-cluster-issuer-llt.yaml
 
 - name: Copy the wildcard certificate template
   template:
-    src: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml.j2
+    src: templates/wildcard-certificate.yaml.j2
     dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/wildcard-certificate.yaml
 
 - name: Kubernertes create cluster issuer

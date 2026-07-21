@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: https://helmcharts.opsmx.com
+        - repoURL: https://<chart_url>
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:
@@ -37,11 +37,11 @@ spec:
         - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
           targetRevision: main
           ref: values
-        - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
-          targetRevision: main
-          path: k8s/v1.36.2/clusters/dev/<sample-app>/kubernetes-objects
-          directory:
-            recurse: true
+#         - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
+#           targetRevision: main
+#           path: k8s/v1.36.2/clusters/dev/<sample-app>/kubernetes-objects
+#           directory:
+#             recurse: true
       destination:
         server: '{{.server}}'
         namespace: '{{.namespace}}'

@@ -1,0 +1,4 @@
+---
+namespace: jenkins
+chart_name: jenkins
+chart_version: 5.9.40

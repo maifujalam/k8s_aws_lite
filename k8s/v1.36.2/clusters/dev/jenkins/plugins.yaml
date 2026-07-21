@@ -1,0 +1,11 @@
+controller:
+  additionalPlugins:
+  - github:1.47.0
+  - blueocean:1.27.25
+  - job-dsl:3654.vdf58f53e2d15
+  - hashicorp-vault-plugin:383.v7529eea_ef531
+  - pipeline-stage-view:2.41
+  - configuration-as-code:2100.vb_fd699d2a_09c
+  - git:5.10.1
+  - envinject:2.941.v351a_20c0a_3ca_
+  - kubernetes-cli:1.375.v8001982544ba

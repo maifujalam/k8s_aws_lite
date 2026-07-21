@@ -35,14 +35,14 @@
     release_namespace: cert-manager
     create_namespace: true
     chart_version: v1.21.0
-    values_files:
-      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/values.yaml
     values:
       global:
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"
             effect: "NoSchedule"
+      crds:
+        enabled: true
 
 - name: Install self signed certs
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml

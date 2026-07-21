@@ -6,7 +6,7 @@ Install ansible and configure on host machine:
 
 tee /etc/ansible/ansible.cfg <<EOF
 [defaults]
-inventory=/etc/ansible/inventory.ini
+inventory=/etc/ansible/inventory.yaml
 remote_user=ubuntu
 ask_pass=false
 host_key_checking=false
@@ -25,30 +25,39 @@ EOF
 172.31.64.42 worker-2
 172.31.64.70 worker-3
 
-2. Create ansible inventory: 
-tee /etc/ansible/inventory.ini <<EOF
-[k8s-master]
-master
-[k8s-worker-1]
-worker-1
-[k8s-worker-2]
-worker-2
-[k8s-worker-3]
-worker-3
-
+2. Create ansible inventory:
+tee /etc/ansible/inventory.yaml > /dev/null <<'EOF'
 all:
   vars:
     ansible_user: ubuntu
     ansible_ssh_private_key_file: /home/ubuntu/.ssh/id_rsa
-    ansible_ssh_common_args: '-o StrictHostKeyChecking=no UserKnownHostsFile=/dev/null'
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
     ADMIN_PASSWORD: !vault |
       $ANSIBLE_VAULT;1.1;AES256
-      30366534363338336539356461353462306130393063353633616564363564333261356562386632
-      3564323039346666613665613262626265363662663261650a653662633635643664333731376234
-      30623562373065313136653630633665653666643562643931333933316431303665363066313330
-      6465633136653466310a333832623433306563323366613466353538643765616332353730666630
-      37386162303730373634346532386231336261333862303365636439663264643835
+      38383463633131643737353930646637373437386632316561326533336636316461326265663563
+      6565396466303037363064353132643738313430373334360a613963303933656662303565303830
+      31643764303665376463323834313030353030393532333330326662353033633139636538316663
+      6538363434343336370a666337306264643633623939396161626338326336303936356132383264
+      39656539383535663432646464663063316339633461356334363336393362663137
+
+  children:
+    k8s-master:
+      hosts:
+        master:
+
+    k8s-worker-1:
+      hosts:
+        worker-1:
+
+    k8s-worker-2:
+      hosts:
+        worker-2:
+
+    k8s-worker-3:
+      hosts:
+        worker-3:
 EOF
+
 
 2. List all the inventory: ansible-inventory --list
 3. Ping all hosts: ansible k8s-master -m ping

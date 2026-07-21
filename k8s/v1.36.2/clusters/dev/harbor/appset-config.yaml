@@ -1,0 +1,4 @@
+---
+namespace: harbor
+chart_name: harbor
+chart_version: 1.19.1

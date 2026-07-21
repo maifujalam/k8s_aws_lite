@@ -1,58 +1,58 @@
-# - name: Check if calico already installed
-#   shell: helm list -A | grep calico
-#   register: r2
-#   ignore_errors: true
-#
-# - name: Add helm chart repos
-#   shell: |
-#     helm repo add projectcalico https://docs.tigera.io/calico/charts;
-#     helm repo add cert-manager https://charts.jetstack.io;
-#     helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx;
-#     helm repo add argo https://argoproj.github.io/argo-helm;
-#     helm repo update;
-#   ignore_errors: true
-#
-# - name: Clone repo
-#   shell: cd;rm -rfv {{PROJECT_PATH}}; git clone https://github.com/maifujalam/{{PROJECT_PATH}}.git
-#   ignore_errors: true
-#
-# - name: Install calico tigera CIDRs
-#   shell: helm template calico-crds projectcalico/crd.projectcalico.org.v1 --version v3.32.1 | kubectl apply --server-side -f -
-#
-# - name: Install calico
-#   kubernetes.core.helm:
-#     name: calico
-#     chart_ref: projectcalico/tigera-operator
-#     release_namespace: tigera-operator
-#     create_namespace: true
-#     chart_version: v3.32.1
-#   when: r2.rc != 0
-#
-# - name: Check if cert-manager already installed
-#   shell: helm list -A | grep cert-manager
-#   register: r3
-#   ignore_errors: true
-#
-# - name: Install cert-manager
-#   kubernetes.core.helm:
-#     name: cert-manager
-#     chart_ref: cert-manager/cert-manager
-#     release_namespace: cert-manager
-#     create_namespace: true
-#     chart_version: v1.21.0
-#     values_files:
-#       - /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/values.yaml
-#     values:
-#       global:
-#         tolerations:
-#           - key: "node-role.kubernetes.io/control-plane"
-#             operator: "Exists"
-#             effect: "NoSchedule"
-#   when: r3.rc != 0
-#
-# - name: Install self signed certs
-#   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
-#   when: r3.rc != 0
+- name: Check if calico already installed
+  shell: helm list -A | grep calico
+  register: r2
+  ignore_errors: true
+
+- name: Add helm chart repos
+  shell: |
+    helm repo add projectcalico https://docs.tigera.io/calico/charts;
+    helm repo add cert-manager https://charts.jetstack.io;
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx;
+    helm repo add argo https://argoproj.github.io/argo-helm;
+    helm repo update;
+  ignore_errors: true
+
+- name: Clone repo
+  shell: cd;rm -rfv {{PROJECT_PATH}}; git clone https://github.com/maifujalam/{{PROJECT_PATH}}.git
+  ignore_errors: true
+
+- name: Install calico tigera CIDRs
+  shell: helm template calico-crds projectcalico/crd.projectcalico.org.v1 --version v3.32.1 | kubectl apply --server-side -f -
+
+- name: Install calico
+  kubernetes.core.helm:
+    name: calico
+    chart_ref: projectcalico/tigera-operator
+    release_namespace: tigera-operator
+    create_namespace: true
+    chart_version: v3.32.1
+  when: r2.rc != 0
+
+- name: Check if cert-manager already installed
+  shell: helm list -A | grep cert-manager
+  register: r3
+  ignore_errors: true
+
+- name: Install cert-manager
+  kubernetes.core.helm:
+    name: cert-manager
+    chart_ref: cert-manager/cert-manager
+    release_namespace: cert-manager
+    create_namespace: true
+    chart_version: v1.21.0
+    values_files:
+      - /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/values.yaml
+    values:
+      global:
+        tolerations:
+          - key: "node-role.kubernetes.io/control-plane"
+            operator: "Exists"
+            effect: "NoSchedule"
+  when: r3.rc != 0
+
+- name: Install self signed certs
+  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
+  when: r3.rc != 0
 
 - name: debug vault
   debug:

@@ -5,9 +5,9 @@ Install ansible and configure on host machine:
 4. Create ansible config file in controller node.Here we are doing it in bastion host as:-
    5. Install collections:
       a. ansible-galaxy collection install -r requirements.yml
-      b. sudo apt-get update
+      b. sudo apt-get update on remote hosts:
          sudo apt-get install -y python3-pip
-         pip3 install kubernetes openshift
+         pip3 install kubernetes openshift --break-system-packages
 
 tee /etc/ansible/ansible.cfg <<EOF
 [defaults]

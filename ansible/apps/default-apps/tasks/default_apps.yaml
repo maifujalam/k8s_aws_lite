@@ -107,7 +107,7 @@
             http: 32080
             https: 32443
         extraArgs:
-          tcp-services-configmap: "ingress-nginx/tcp-services"
+          default-ssl-certificate: "cert-manager/wildcard-certificate-secret-prod"
 
 
 - name: Install argo-cd
@@ -171,17 +171,6 @@
             effect: "NoSchedule"
         nodeSelector:
           kubernetes.io/hostname: master
-
-
-# - name: Make default ssl backend
-#   kubernetes.core.helm:
-#     name: ingress-nginx
-#     chart_ref: ingress-nginx/ingress-nginx
-#     release_namespace: ingress-nginx
-#     create_namespace: true
-#     chart_version: 4.15.1
-#     values:
-
 
 - name: Copy kubeconfig file
   shell: cp -v ~/.kube/config {{KUBECONFIG_PATH}}

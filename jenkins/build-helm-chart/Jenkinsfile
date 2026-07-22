@@ -22,7 +22,7 @@ pipeline {
                   value: "/home/jenkins/agent"
                 - name: "JENKINS_URL"
                   value: "http://jenkins-dev.jenkins.svc.cluster.local:8080/"
-                image: "docker.io/jenkins/inbound-agent:3383.vc8881d4b_0e76-1-jdk25"
+                image: "harbor.maifuj.com/dev-apps/jnlp-agent:7"
                 imagePullPolicy: "IfNotPresent"
                 name: "jnlp"
                 resources:

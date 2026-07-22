@@ -1,0 +1,1 @@
+1. Install VM operator first: helm install vmo vm/victoria-metrics-operator  -n vm

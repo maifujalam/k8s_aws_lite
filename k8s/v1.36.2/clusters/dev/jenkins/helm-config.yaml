@@ -37,6 +37,8 @@ controller:
   prometheus:
     enabled: false
 agent:
+  garbageCollection:
+    enabled: true
   resources:
     requests:
       cpu: "250m"

@@ -1,0 +1,4 @@
+---
+namespace: vm
+chart_name: victoria-metrics-k8s-stack
+chart_version: 0.87.0

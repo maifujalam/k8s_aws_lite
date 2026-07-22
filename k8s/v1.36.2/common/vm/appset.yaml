@@ -60,6 +60,7 @@ spec:
         kind: Deployment
         jsonPointers:
           - /spec/template/metadata/annotations/checksum~1secret
+          - /spec/template/metadata/annotations/checksum~1config
       - group: ""
         kind: Secret
         name: vm-dev-victoria-metrics-operator-validation

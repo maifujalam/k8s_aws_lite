@@ -81,7 +81,7 @@ spec:
                         echo "Pushing chart: ${chartFile}"
                         sh """
                           export HELM_EXPERIMENTAL_OCI=1
-                          helm registry login harbor.maifuj.com --username $HARBOR_USER --password $HARBOR_PASS
+                          HELM_REGISTRY_CONFIG=/home/jenkins/.docker/config.json
                           helm push --force ${chartFile} ${HELM_REPO}
                         """
                     }

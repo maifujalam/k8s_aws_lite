@@ -60,3 +60,14 @@ spec:
         kind: Deployment
         jsonPointers:
           - /spec/template/metadata/annotations/checksum~1secret
+      - group: ""
+        kind: Secret
+        name: vm-dev-victoria-metrics-operator-validation
+        namespace: vm
+        jsonPointers:
+          - /data
+      - group: admissionregistration.k8s.io
+        kind: ValidatingWebhookConfiguration
+        name: vm-dev-victoria-metrics-operator-admission
+        jqPathExpressions:
+        - '.webhooks[]?.clientConfig.caBundle'

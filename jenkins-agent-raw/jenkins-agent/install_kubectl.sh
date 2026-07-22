@@ -1,7 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-curl -LO "https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-chmod +x kubectl
-mv kubectl /usr/local/bin/
-kubectl version --client
+# Pass version as first argument, e.g. ./install-terraform.sh 1.5.8
+TERRAFORM_VERSION=1.15.8
+
+# Download and install
+curl -fsSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o /tmp/terraform.zip
+unzip -o /tmp/terraform.zip -d /usr/local/bin
+rm -f /tmp/terraform.zip
+
+terraform version

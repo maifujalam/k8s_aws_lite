@@ -4,7 +4,7 @@ pipeline {
         string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name')
         string(name: 'APP_FOLDER_PATH', defaultValue: 'k8s_aws_lite/apps/ttyd-k9s', description: 'Folder containing the Dockerfile')
         string(name: 'APP_NAME', defaultValue: 'ttyd-k9s', description: 'App name')
-        string(name: 'HARBOR_ENDPOINT', defaultValue: 'harbor.maifuj.com/dev-apps/', description: 'Docker Hub Username')
+        string(name: 'REGISTRY_ENDPOINT', defaultValue: 'harbor.maifuj.com/dev-apps/', description: 'Image registry endpoint')
     }
     agent {
         kubernetes {

@@ -69,7 +69,7 @@ pipelineJob('ttyd-k9s.build') {
                     }
                     branch('main')
                 }
-                scriptPath('k8s_aws_lite/app-build-pipeline/ttyd-k9s/Jenkinsfile') // Path to your pipeline script
+                scriptPath('app-build-pipeline/ttyd-k9s/Jenkinsfile') // Path to your pipeline script
             }
         }
     }

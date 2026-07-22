@@ -15,13 +15,13 @@ pipeline {
               - args:
                 env:
                 - name: "JENKINS_TUNNEL"
-                  value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+                  value: "jenkins-vev-agent.jenkins.svc.cluster.local:50000"
                 - name: "REMOTING_OPTS"
                   value: "-noReconnectAfter 1d"
                 - name: "JENKINS_AGENT_WORKDIR"
                   value: "/home/jenkins/agent"
                 - name: "JENKINS_URL"
-                  value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+                  value: "http://jenkins-dev.jenkins.svc.cluster.local:8080/"
                 image: "docker.io/skmaifujalam/jenkins-agent:5"
                 imagePullPolicy: "IfNotPresent"
                 name: "jnlp"

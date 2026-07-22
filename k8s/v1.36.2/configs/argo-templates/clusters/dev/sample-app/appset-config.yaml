@@ -1,4 +1,4 @@
 ---
-namespace: metrics-server
-chart_name: metrics-server
-chart_version: 3.13.1
+namespace: hello-kubernetes
+chart_name: hello-kubernetes
+chart_version: 1.0.4

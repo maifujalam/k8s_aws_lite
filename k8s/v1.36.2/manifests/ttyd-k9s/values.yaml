@@ -7,6 +7,12 @@ service:
   type: ClusterIP
   port: 7681
 
+command:
+  - "ttyd"
+args:
+  - "--writable"
+  - "k9s"
+
 ingress:
   enabled: true
   className: nginx

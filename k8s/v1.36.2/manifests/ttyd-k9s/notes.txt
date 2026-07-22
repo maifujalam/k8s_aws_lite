@@ -1,2 +1,5 @@
 Dependency:
 Need ot create kubeconfig secret:
+kubectl create secret k9s-kubeconfig generic config= --from path config
+
+kubectl -n ttyd-k9s create secret generic k9s-kubeconfig --from-file=config=./config

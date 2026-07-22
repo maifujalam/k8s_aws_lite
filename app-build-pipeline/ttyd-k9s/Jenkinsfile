@@ -40,7 +40,7 @@ pipeline {
             steps {
                 container(name: 'kaniko',shell: '/busybox/sh') {
                   sh '''#!/busybox/sh
-                  /kaniko/executor --context ${APP_FOLDER_PATH} --destination ${HREGISTRY_ENDPOINT}/${APP_NAME}:${BUILD_NUMBER}
+                  /kaniko/executor --context ${APP_FOLDER_PATH} --destination ${REGISTRY_ENDPOINT}/${APP_NAME}:${BUILD_NUMBER}
                   '''
                 }
             }

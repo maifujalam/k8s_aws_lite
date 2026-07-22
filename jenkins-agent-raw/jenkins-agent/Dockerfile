@@ -12,7 +12,7 @@ RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm
 
 # Install Terraform (version passed as ARG)
 ARG TERRAFORM_VERSION=1.15.8
-RUN curl -fsSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o /tmp/terraform.zip \
+RUN curl -fsSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_arm64.zip -o /tmp/terraform.zip \
     && unzip /tmp/terraform.zip -d /usr/local/bin \
     && rm -f /tmp/terraform.zip
 

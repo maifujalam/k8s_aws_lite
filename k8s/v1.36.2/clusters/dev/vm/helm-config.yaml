@@ -463,10 +463,10 @@ vmsingle:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 20Gi
+          storage: 5Gi
   ingress:
     # -- Enable deployment of ingress for server component
-    enabled: false
+    enabled: true
     # -- Ingress annotations
     annotations:
       {}
@@ -482,8 +482,8 @@ vmsingle:
     ingressClassName: ""
 
     # -- Array of host objects
-    hosts: []
-    #  - vmsingle.domain.com
+    hosts:
+     - vmsingle.maifuj.com
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -494,33 +494,6 @@ vmsingle:
     #       port:
     #         name: service
 
-    # -- Array of TLS objects
-    tls: []
-    #  - secretName: vmsingle-ingress-tls
-    #    hosts:
-    #      - vmsingle.domain.com
-  route:
-    # -- Enable deployment of HTTPRoute for server component
-    enabled: false
-    # -- HTTPRoute annotations
-    annotations: {}
-    # -- HTTPRoute extra labels
-    labels: {}
-    # -- HTTPGateway objects refs
-    parentRefs: []
-    # -- Array of hostnames
-    hostnames: []
-    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
-    extraRules: []
-    # -- Route port
-    port: '{{ .Values.vmsingle.spec.port }}'
-    # -- Filters for a default rule in HTTPRoute
-    filters: []
-    # -- Matches for a default rule in HTTPRoute
-    matches:
-      - path:
-          type: PathPrefix
-          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vmsingle }}'
 
 alertmanager:
   # -- Create VMAlertmanager CR
@@ -695,29 +668,6 @@ alertmanager:
     #    hosts:
     #      - alertmanager.domain.com
 
-  # -- (object) VMAlertmanager route configuration
-  route:
-    # -- Enable deployment of HTTPRoute for alertmanager component
-    enabled: false
-    # -- HTTPRoute annotations
-    annotations: {}
-    # -- HTTPRoute extra labels
-    labels: {}
-    # -- HTTPGateway objects refs
-    parentRefs: []
-    # -- Array of hostnames
-    hostnames: []
-    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
-    extraRules: []
-    # -- Route port
-    port: '{{ .Values.alertmanager.spec.port }}'
-    # -- Filters for a default rule in HTTPRoute
-    filters: []
-    # -- Matches for a default rule in HTTPRoute
-    matches:
-      - path:
-          type: PathPrefix
-          value: '{{ .Values.alertmanager.spec.routePrefix | default "/" }}'
 
 vmalert:
   # -- VMAlert annotations
@@ -760,7 +710,7 @@ vmalert:
     #     port: 9093
   # -- (object) VMAlert ingress config
   ingress:
-    enabled: false
+    enabled: true
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
@@ -774,7 +724,7 @@ vmalert:
     pathType: Prefix
 
     hosts:
-      - vmalert.domain.com
+      - vmalert.maifuj.com
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -788,61 +738,6 @@ vmalert:
     #  - secretName: vmalert-ingress-tls
     #    hosts:
     #      - vmalert.domain.com
-
-  # -- (object) VMAlert route configuration
-  route:
-    # -- Enable deployment of HTTPRoute for vmalert component
-    enabled: false
-    # -- HTTPRoute annotations
-    annotations: {}
-    # -- HTTPRoute extra labels
-    labels: {}
-    # -- HTTPGateway objects refs
-    parentRefs: []
-    # -- Array of hostnames
-    hostnames: []
-    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
-    extraRules: []
-    # -- Route port
-    port: '{{ .Values.vmalert.spec.port }}'
-    # -- Filters for a default rule in HTTPRoute
-    filters: []
-    # -- Matches for a default rule in HTTPRoute
-    matches:
-      - path:
-          type: PathPrefix
-          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vmalert }}'
-
-vmauth:
-  # -- Enable VMAuth CR
-  enabled: false
-  # -- VMAuth labels
-  labels: {}
-  # -- VMAuth annotations
-  annotations: {}
-  # -- (object) Full spec for VMAuth CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api/#vmauthspec)
-  # It's possible to use given below predefined variables in spec:
-  # * `{{ .vm.read }}` - parsed vmselect, vmsingle or external.vm.read URL
-  # * `{{ .vm.write }}` - parsed vminsert, vmsingle or external.vm.write URL
-  # * `{{ .vl.read }}` - parsed vlselect, vlsingle or external.vl.read URL
-  # * `{{ .vl.write }}` - parsed vlinsert, vlsingle or external.vl.write URL
-  # * `{{ .vt.read }}` - parsed vtselect, vtsingle or external.vt.read URL
-  # * `{{ .vt.write }}` - parsed vtinsert, vtsingle or external.vt.write URL
-  spec:
-    port: "8427"
-    unauthorizedUserAccessSpec:
-      # -- Flag, that allows to disable default VMAuth unauthorized user access config
-      disabled: false
-      discover_backend_ips: true
-      url_map:
-        - src_paths:
-            - '{{ .vm.read.path }}/.*'
-          url_prefix:
-            - '{{ urlJoin (omit .vm.read "path") }}/'
-        - src_paths:
-            - '{{ .vm.write.path }}/.*'
-          url_prefix:
-            - '{{ urlJoin (omit .vm.write "path") }}/'
 
 vmagent:
   # -- Create VMAgent CR
@@ -877,7 +772,7 @@ vmagent:
       promscrape.streamParse: "true"
   # -- (object) VMAgent ingress configuration
   ingress:
-    enabled: false
+    enabled: true
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
@@ -891,7 +786,7 @@ vmagent:
     pathType: Prefix
 
     hosts:
-      - vmagent.domain.com
+      - vmagent.maifuj.com
     extraPaths: []
     # - path: /*
     #   pathType: Prefix
@@ -905,34 +800,11 @@ vmagent:
     #    hosts:
     #      - vmagent.domain.com
 
-  # -- (object) VMAgent route configuration
-  route:
-    # -- Enable deployment of HTTPRoute for vmagent component
-    enabled: false
-    # -- HTTPRoute annotations
-    annotations: {}
-    # -- HTTPRoute extra labels
-    labels: {}
-    # -- HTTPGateway objects refs
-    parentRefs: []
-    # -- Array of hostnames
-    hostnames: []
-    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
-    extraRules: []
-    # -- Route port
-    port: '{{ .Values.vmagent.spec.port }}'
-    # -- Filters for a default rule in HTTPRoute
-    filters: []
-    # -- Matches for a default rule in HTTPRoute
-    matches:
-      - path:
-          type: PathPrefix
-          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vmagent }}'
 
 defaultDatasources:
   grafanaOperator:
     # -- Create datasources as CRDs (requires grafana-operator to be installed)
-    enabled: false
+    enabled: true
     annotations: {}
     spec:
       instanceSelector:

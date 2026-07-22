@@ -132,10 +132,10 @@ pipeline {
                 def chartFile = sh(script: "ls -t *.tgz | head -n 1", returnStdout: true).trim()
                 echo "Pushing chart: ${chartFile}"
                 sh """
-                  export HELM_EXPERIMENTAL_OCI=1
+                  export HELM_EXPERIMENTAL_OCI=1;
                   # Helm will reuse docker config mounted at /home/jenkins/.docker/config.json
                   HELM_REGISTRY_CONFIG=/home/jenkins/.docker/config.json \
-                  helm push --force ${chartFile} ${params.HELM_REPO}
+                  helm push ${chartFile} ${params.HELM_REPO}
                 """
               }
             }

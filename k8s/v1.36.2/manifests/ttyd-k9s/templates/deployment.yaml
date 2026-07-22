@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttyd-k9s
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ttyd-k9s
+  template:
+    metadata:
+      labels:
+        app: ttyd-k9s
+    spec:
+      containers:
+      - name: ttyd-k9s
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 7681
+        volumeMounts:
+        - name: kubeconfig
+          mountPath: /root/.kube/config
+          subPath: config
+        env:
+        - name: KUBECONFIG
+          value: /root/.kube/config
+      volumes:
+      - name: kubeconfig
+        secret:
+          secretName: k9s-kubeconfig

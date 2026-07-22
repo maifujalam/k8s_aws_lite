@@ -14,7 +14,7 @@ pipelineJob('cicd-pipeline') {
         }
     }
 }
-pipelineJob('ci-pipeline') {
+pipelineJob('build-helm-chart') {
     definition {
         cpsScm {
             scm {
@@ -24,7 +24,7 @@ pipelineJob('ci-pipeline') {
                     }
                     branch('main')
                 }
-                scriptPath('jenkins/ci/Jenkinsfile') // Path to your pipeline script
+                scriptPath('jenkins/build-helm-chart/Jenkinsfile') // Path to your pipeline script
             }
         }
     }

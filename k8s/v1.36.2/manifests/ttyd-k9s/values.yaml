@@ -1,0 +1,17 @@
+image:
+  repository: harbor.maifuj.com/dev-apps/ttyd-k9s
+  tag: 15
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 7681
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: k9s.maifuj.com
+      paths:
+        - path: /
+          pathType: Prefix

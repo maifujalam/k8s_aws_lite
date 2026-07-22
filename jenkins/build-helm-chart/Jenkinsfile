@@ -38,7 +38,7 @@ pipeline {
                   name: "workspace-volume"
                   readOnly: false
                 - name: jenkins-docker-cfg
-                    mountPath: /home/jenkins/.docker
+                  mountPath: /home/jenkins/.docker
                 workingDir: "/home/jenkins/agent"
               nodeSelector:
                 kubernetes.io/os: "linux"

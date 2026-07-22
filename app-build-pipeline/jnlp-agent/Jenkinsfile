@@ -3,8 +3,8 @@ pipeline {
         string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws.git', description: 'Enter the git repo URL')
         string(name: 'GIT_BRANCH_NAME', defaultValue: 'master', description: 'Enter the branch name')
         string(name: 'APP_FOLDER_PATH', defaultValue: 'jenkins-agent-raw/jenkins-agent', description: 'Folder containing the Dockerfile')
-        string(name: 'APP_NAME', defaultValue: 'jenkins-agent', description: 'App name')
-        string(name: 'DOCKER_USER_NAME', defaultValue: 'skmaifujalam', description: 'Docker Hub Username')
+        string(name: 'APP_NAME', defaultValue: 'jnlp-agent', description: 'App name')
+        string(name: 'REGISTRY_ENDPOINT', defaultValue: 'harbor.maifuj.com/dev-apps/', description: 'Image registry endpoint')
     }
     agent {
         kubernetes {
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 container(name: 'kaniko',shell: '/busybox/sh') {
                   sh '''#!/busybox/sh
-                  /kaniko/executor --context ${APP_FOLDER_PATH} --destination ${DOCKER_USER_NAME}/${APP_NAME}:${BUILD_NUMBER}
+                  /kaniko/executor --context ${APP_FOLDER_PATH} --destination ${REGISTRY_ENDPOINT}/${APP_NAME}:${BUILD_NUMBER}
                   '''
                 }
             }

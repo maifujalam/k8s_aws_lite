@@ -1,3 +1,32 @@
+global:
+  # -- Cluster label to use for dashboards and rules
+  clusterLabel: cluster
+  # -- Global license configuration
+  license:
+    key: ""
+    keyRef: {}
+      # name: secret-license
+      # key: license
+  cluster:
+    # -- K8s cluster domain suffix, uses for building storage pods' FQDN. Details are [here](https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/)
+    dnsDomain: cluster.local.
+  # -- Labels added to all resources
+  extraLabels: {}
+  # -- Annotations added to all resources
+  extraAnnotations: {}
+
+# -- Override chart name
+nameOverride: ""
+# -- Resource full name override
+fullnameOverride: ""
+# -- Tenant to use for Grafana datasources and remote write
+tenant: "0"
+# -- If this chart is used in "Argocd" with "releaseName" field then
+# VMServiceScrapes couldn't select the proper services.
+# For correct working need set value 'argocdReleaseOverride=$ARGOCD_APP_NAME'
+argocdReleaseOverride: ""
+
+# -- VictoriaMetrics Operator dependency chart configuration. More values can be found [here](https://docs.victoriametrics.com/helm/victoria-metrics-operator/#parameters). Also checkout [here](https://docs.victoriametrics.com/operator/configuration/#environment-variables) possible ENV variables to configure operator behaviour
 victoria-metrics-operator:
   enabled: true
   crds:
@@ -25,7 +54,7 @@ defaultDashboards:
   annotations: {}
   grafanaOperator:
     # -- Create GrafanaDashboard CRDs instead of ConfigMaps (requires grafana-operator)
-    enabled: true
+    enabled: false
     spec:
       instanceSelector:
         matchLabels:
@@ -402,7 +431,7 @@ additionalVictoriaMetricsMap: {}
 external:
   grafana:
     # -- External Grafana host
-    host: "grafana.maifuj.com"
+    host: ""
     # -- External Grafana datasource name
     datasource: VictoriaMetrics
   # -- External VM read and write URLs
@@ -442,6 +471,738 @@ external:
       #   name: dbaas-read-access-token
       #   key: bearerToken
 
+# Configures VLSingle params
+vlsingle:
+  # -- VLSingle labels
+  labels: {}
+  # -- VLSingle annotations
+  annotations: {}
+  # -- Create VLSingle CR
+  enabled: false
+  # -- Full spec for VLSingle CRD. Allowed values describe [here](https://docs.victoriametrics.com/operator/api/#vlsinglespec)
+  spec:
+    port: "9428"
+    image:
+      # renovate: image=victoriametrics/victoria-logs
+      tag: v1.52.0
+    # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/victoriametrics/single-server-victoriametrics/#retention)
+    retentionPeriod: "1"
+    replicaCount: 1
+    extraArgs: {}
+    storage:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
+  ingress:
+    # -- Enable deployment of ingress for server component
+    enabled: false
+    # -- Ingress annotations
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    # -- Ingress extra labels
+    labels: {}
+    # -- Ingress default path
+    path: ""
+    # -- Ingress path type
+    pathType: Prefix
+    # -- Ingress controller class name
+    ingressClassName: ""
+
+    # -- Array of host objects
+    hosts: []
+    #  - vlsingle.domain.com
+    # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   pathType: Prefix
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: service
+
+    # -- Array of TLS objects
+    tls: []
+    #  - secretName: vlsingle-ingress-tls
+    #    hosts:
+    #      - vlsingle.domain.com
+  route:
+    # -- Enable deployment of HTTPRoute for server component
+    enabled: false
+    # -- HTTPRoute annotations
+    annotations: {}
+    # -- HTTPRoute extra labels
+    labels: {}
+    # -- HTTPGateway objects refs
+    parentRefs: []
+    # -- Array of hostnames
+    hostnames: []
+    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+    extraRules: []
+    # -- Route port
+    port: '{{ .Values.vlsingle.spec.port }}'
+    # -- Filters for a default rule in HTTPRoute
+    filters: []
+    # -- Matches for a default rule in HTTPRoute
+    matches:
+      - path:
+          type: PathPrefix
+          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vlsingle }}'
+vlcluster:
+  # -- Create VLCluster CR
+  enabled: false
+  # -- VLCluster labels
+  labels: {}
+  # -- VLCluster annotations
+  annotations: {}
+  # -- Full spec for VLCluster CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api/#vlclusterspec)
+  spec:
+    # renovate: image=victoriametrics/victoria-logs
+    clusterVersion: v1.52.0
+    vlstorage:
+      replicaCount: 2
+      # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/victorialogs/#retention)
+      retentionPeriod: 14d
+      storageDataPath: /vl-data
+      port: "9491"
+      storage:
+        volumeClaimTemplate:
+          spec:
+            resources:
+              requests:
+                storage: 10Gi
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: 1500Mi
+    vlselect:
+      # -- Set this value to false to disable VMSelect
+      enabled: true
+      port: "9471"
+      replicaCount: 2
+      extraArgs: {}
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: "1000Mi"
+        # requests:
+        #   cpu: "0.5"
+        #   memory: "500Mi"
+    vlinsert:
+      # -- Set this value to false to disable VMInsert
+      enabled: true
+      port: "9481"
+      replicaCount: 2
+      extraArgs: {}
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: 1000Mi
+        # requests:
+        #   cpu: "0.5"
+        #   memory: "500Mi"
+
+  ingress:
+    vlstorage:
+      # -- Enable deployment of ingress for server component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: ""
+
+      # -- Array of host objects
+      hosts: []
+      #  - vlstorage.domain.com
+
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vlstorage-ingress-tls
+      #    hosts:
+      #      - vlstorage.domain.com
+    vlselect:
+      # -- Enable deployment of ingress for server component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vlcluster.spec.vlselect }}'
+
+      # -- Array of host objects
+      hosts: []
+      #  - vlselect.domain.com
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vlselect-ingress-tls
+      #    hosts:
+      #      - vlselect.domain.com
+    vlinsert:
+      # -- Enable deployment of ingress for server component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations:
+        {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vlcluster.spec.vlinsert }}'
+
+      # -- Array of host objects
+      hosts: []
+      #  - vlinsert.domain.com
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vlinsert-ingress-tls
+      #    hosts:
+      #      - vlinsert.domain.com
+  route:
+    vlstorage:
+      # -- Enable deployment of HTTPRoute for storage component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vlcluster.spec.vlstorage.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vlcluster.spec.vlstorage }}'
+    vlselect:
+      # -- Enable deployment of HTTPRoute for select component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vlcluster.spec.vlselect.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vlcluster.spec.vlselect }}'
+    vlinsert:
+      # -- Enable deployment of HTTPRoute for insert component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vlcluster.spec.vlinsert.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vlcluster.spec.vlinsert }}'
+
+vlagent:
+  # -- Create VLAgent CR
+  enabled: false
+  # -- VLAgent labels
+  labels: {}
+  # -- VLAgent annotations
+  annotations: {}
+  rbac:
+    # -- Role/RoleBinding annotations
+    annotations: {}
+    # -- Defines if ClusterRole or Role with respective bindings should be created
+    namespaced: true
+    # -- Role/RoleBinding labels
+    extraLabels: {}
+    # -- additional rules for a role
+    rules: []
+  # -- Remote write configuration of VLAgent, allowed parameters defined in a [spec](https://docs.victoriametrics.com/operator/api/#vlagentremotewritespec)
+  additionalRemoteWrites:
+    []
+    #- url: http://some-remote-write/api/v1/write
+  # -- (object) Full spec for VLAgent CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api/#vlagentspec)
+  spec:
+    port: "9429"
+    image:
+      # renovate: image=victoriametrics/victoria-logs
+      tag: v1.52.0
+    k8sCollector:
+      enabled: true
+  # -- (object) VLAgent ingress configuration
+  ingress:
+    enabled: false
+    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+    # ingressClassName: nginx
+    # Values can be templated
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    labels: {}
+    path: ""
+    pathType: Prefix
+
+    hosts:
+      - vlagent.domain.com
+    extraPaths: []
+    # - path: /*
+    #   pathType: Prefix
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: service
+    tls: []
+    #  - secretName: vlagent-ingress-tls
+    #    hosts:
+    #      - vlagent.domain.com
+
+  # -- (object) VLAgent route configuration
+  route:
+    # -- Enable deployment of HTTPRoute for vlagent component
+    enabled: false
+    # -- HTTPRoute annotations
+    annotations: {}
+    # -- HTTPRoute extra labels
+    labels: {}
+    # -- HTTPGateway objects refs
+    parentRefs: []
+    # -- Array of hostnames
+    hostnames: []
+    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+    extraRules: []
+    # -- Route port
+    port: '{{ .Values.vlagent.spec.port }}'
+    # -- Filters for a default rule in HTTPRoute
+    filters: []
+    # -- Matches for a default rule in HTTPRoute
+    matches:
+      - path:
+          type: PathPrefix
+          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vlagent }}'
+
+# Configures VTSingle params
+vtsingle:
+  # -- VTSingle labels
+  labels: {}
+  # -- VTSingle annotations
+  annotations: {}
+  # -- Create VTSingle CR
+  enabled: false
+  # -- Full spec for VTSingle CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api/#vtsinglespec)
+  spec:
+    port: "10428"
+    image:
+      # renovate: image=victoriametrics/victoria-traces
+      tag: v0.9.4
+    # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h.
+    retentionPeriod: "1"
+    replicaCount: 1
+    extraArgs: {}
+    storage:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
+  ingress:
+    # -- Enable deployment of ingress for server component
+    enabled: false
+    # -- Ingress annotations
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    # -- Ingress extra labels
+    labels: {}
+    # -- Ingress default path
+    path: ""
+    # -- Ingress path type
+    pathType: Prefix
+    # -- Ingress controller class name
+    ingressClassName: ""
+    # -- Array of host objects
+    hosts: []
+    #  - vtsingle.domain.com
+    # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   pathType: Prefix
+    #   backend:
+    #     service:
+    #       name: ssl-redirect
+    #       port:
+    #         name: service
+    # -- Array of TLS objects
+    tls: []
+    #  - secretName: vtsingle-ingress-tls
+    #    hosts:
+    #      - vtsingle.domain.com
+  route:
+    # -- Enable deployment of HTTPRoute for server component
+    enabled: false
+    # -- HTTPRoute annotations
+    annotations: {}
+    # -- HTTPRoute extra labels
+    labels: {}
+    # -- HTTPGateway objects refs
+    parentRefs: []
+    # -- Array of hostnames
+    hostnames: []
+    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+    extraRules: []
+    # -- Route port
+    port: '{{ .Values.vtsingle.spec.port }}'
+    # -- Filters for a default rule in HTTPRoute
+    filters: []
+    # -- Matches for a default rule in HTTPRoute
+    matches:
+      - path:
+          type: PathPrefix
+          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vtsingle }}'
+
+vtcluster:
+  # -- Create VTCluster CR
+  enabled: false
+  # -- VTCluster labels
+  labels: {}
+  # -- VTCluster annotations
+  annotations: {}
+  # -- Full spec for VTCluster CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api/#vtclusterspec)
+  spec:
+    # renovate: image=victoriametrics/victoria-traces
+    clusterVersion: v0.9.4
+    vtstorage:
+      replicaCount: 2
+      storageDataPath: /vt-data
+      # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h.
+      retentionPeriod: 14d
+      port: "10491"
+      storage:
+        volumeClaimTemplate:
+          spec:
+            resources:
+              requests:
+                storage: 10Gi
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: 1500Mi
+    vtselect:
+      # -- Set this value to false to disable VTSelect
+      enabled: true
+      port: "10471"
+      replicaCount: 2
+      extraArgs: {}
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: "1000Mi"
+        # requests:
+        #   cpu: "0.5"
+        #   memory: "500Mi"
+    vtinsert:
+      # -- Set this value to false to disable VTInsert
+      enabled: true
+      port: "10481"
+      replicaCount: 2
+      extraArgs: {}
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: 1000Mi
+        # requests:
+        #   cpu: "0.5"
+        #   memory: "500Mi"
+
+  ingress:
+    vtstorage:
+      # -- Enable deployment of ingress for storage component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: ""
+
+      # -- Array of host objects
+      hosts: []
+      #  - vtstorage.domain.com
+
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vtstorage-ingress-tls
+      #    hosts:
+      #      - vtstorage.domain.com
+    vtselect:
+      # -- Enable deployment of ingress for select component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vtcluster.spec.vtselect }}'
+
+      # -- Array of host objects
+      hosts: []
+      #  - vtselect.domain.com
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vtselect-ingress-tls
+      #    hosts:
+      #      - vtselect.domain.com
+    vtinsert:
+      # -- Enable deployment of ingress for insert component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations:
+        {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vtcluster.spec.vtinsert }}'
+
+      # -- Array of host objects
+      hosts: []
+      #  - vtinsert.domain.com
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vtinsert-ingress-tls
+      #    hosts:
+      #      - vtinsert.domain.com
+  route:
+    vtstorage:
+      # -- Enable deployment of HTTPRoute for storage component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vtcluster.spec.vtstorage.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vtcluster.spec.vtstorage }}'
+    vtselect:
+      # -- Enable deployment of HTTPRoute for select component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vtcluster.spec.vtselect.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vtcluster.spec.vtselect }}'
+    vtinsert:
+      # -- Enable deployment of HTTPRoute for insert component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vtcluster.spec.vtinsert.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vtcluster.spec.vtinsert }}'
 
 # Configures vmsingle params
 vmsingle:
@@ -463,10 +1224,10 @@ vmsingle:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 5Gi
+          storage: 20Gi
   ingress:
     # -- Enable deployment of ingress for server component
-    enabled: true
+    enabled: false
     # -- Ingress annotations
     annotations:
       {}
@@ -482,8 +1243,8 @@ vmsingle:
     ingressClassName: ""
 
     # -- Array of host objects
-    hosts:
-     - vmsingle.maifuj.com
+    hosts: []
+    #  - vmsingle.domain.com
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -494,6 +1255,321 @@ vmsingle:
     #       port:
     #         name: service
 
+    # -- Array of TLS objects
+    tls: []
+    #  - secretName: vmsingle-ingress-tls
+    #    hosts:
+    #      - vmsingle.domain.com
+  route:
+    # -- Enable deployment of HTTPRoute for server component
+    enabled: false
+    # -- HTTPRoute annotations
+    annotations: {}
+    # -- HTTPRoute extra labels
+    labels: {}
+    # -- HTTPGateway objects refs
+    parentRefs: []
+    # -- Array of hostnames
+    hostnames: []
+    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+    extraRules: []
+    # -- Route port
+    port: '{{ .Values.vmsingle.spec.port }}'
+    # -- Filters for a default rule in HTTPRoute
+    filters: []
+    # -- Matches for a default rule in HTTPRoute
+    matches:
+      - path:
+          type: PathPrefix
+          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vmsingle }}'
+
+vmdistributed:
+  # -- Create VMDistributed CR
+  enabled: false
+  # -- VMDistributed labels
+  labels: {}
+  # -- VMDistributed annotations
+  annotations: {}
+  # -- Full spec for VMDistributed CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api/#vmdistributedspec)
+  spec:
+    vmauth:
+      spec:
+        port: "8427"
+    zoneCommon:
+      vmcluster:
+        spec:
+          vmstorage:
+            replicaCount: 2
+            storageDataPath: /vm-data
+            storage:
+              volumeClaimTemplate:
+                spec:
+                  resources:
+                    requests:
+                      storage: 10Gi
+          vmselect:
+            replicaCount: 2
+            cacheMountPath: /select-cache
+            storage:
+              volumeClaimTemplate:
+                spec:
+                  resources:
+                    requests:
+                      storage: 2Gi
+          vminsert:
+            replicaCount: 2
+    zones:
+      - name: us-east-1
+
+vmcluster:
+  # -- Create VMCluster CR
+  enabled: false
+  # -- VMCluster labels
+  labels: {}
+  # -- VMCluster annotations
+  annotations: {}
+  # -- Full spec for VMCluster CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api/#vmclusterspec)
+  spec:
+    # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/victoriametrics/single-server-victoriametrics/#retention)
+    retentionPeriod: "1"
+    replicationFactor: 2
+    vmstorage:
+      replicaCount: 2
+      storageDataPath: /vm-data
+      storage:
+        volumeClaimTemplate:
+          spec:
+            resources:
+              requests:
+                storage: 10Gi
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: 1500Mi
+    vmselect:
+      # -- Set this value to false to disable VMSelect
+      enabled: true
+      port: "8481"
+      replicaCount: 2
+      cacheMountPath: /select-cache
+      extraArgs: {}
+      storage:
+        volumeClaimTemplate:
+          spec:
+            resources:
+              requests:
+                storage: 2Gi
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: "1000Mi"
+        # requests:
+        #   cpu: "0.5"
+        #   memory: "500Mi"
+    vminsert:
+      # -- Set this value to false to disable VMInsert
+      enabled: true
+      port: "8480"
+      replicaCount: 2
+      extraArgs: {}
+      resources:
+        {}
+        # limits:
+        #   cpu: "1"
+        #   memory: 1000Mi
+        # requests:
+        #   cpu: "0.5"
+        #   memory: "500Mi"
+
+  ingress:
+    storage:
+      # -- Enable deployment of ingress for server component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: ""
+
+      # -- Array of host objects
+      hosts: []
+      #  - vmstorage.domain.com
+
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vmstorage-ingress-tls
+      #    hosts:
+      #      - vmstorage.domain.com
+    select:
+      # -- Enable deployment of ingress for server component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vmcluster.spec.vmselect }}'
+
+      # -- Array of host objects
+      hosts: []
+      #  - vmselect.domain.com
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vmselect-ingress-tls
+      #    hosts:
+      #      - vmselect.domain.com
+    insert:
+      # -- Enable deployment of ingress for server component
+      enabled: false
+
+      # -- Ingress annotations
+      annotations:
+        {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+
+      # -- Ingress extra labels
+      labels: {}
+
+      # -- Ingress controller class name
+      ingressClassName: ""
+
+      # -- Ingress path type
+      pathType: Prefix
+
+      # -- Ingress default path
+      path: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vmcluster.spec.vminsert }}'
+
+      # -- Array of host objects
+      hosts: []
+      #  - vminsert.domain.com
+      # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
+      extraPaths: []
+      # - path: /*
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: ssl-redirect
+      #       port:
+      #         name: service
+
+      # -- Array of TLS objects
+      tls: []
+      #  - secretName: vminsert-ingress-tls
+      #    hosts:
+      #      - vminsert.domain.com
+  route:
+    storage:
+      # -- Enable deployment of HTTPRoute for storage component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vmcluster.spec.vmstorage.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vmcluster.spec.vmstorage }}'
+    select:
+      # -- Enable deployment of HTTPRoute for select component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vmcluster.spec.vmselect.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vmcluster.spec.vmselect }}'
+    insert:
+      # -- Enable deployment of HTTPRoute for insert component
+      enabled: false
+      # -- HTTPRoute annotations
+      annotations: {}
+      # -- HTTPRoute extra labels
+      labels: {}
+      # -- HTTPGateway objects refs
+      parentRefs: []
+      # -- Array of hostnames
+      hostnames: []
+      # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+      extraRules: []
+      # -- Route port
+      port: '{{ .Values.vmcluster.spec.vminsert.port }}'
+      # -- Filters for a default rule in HTTPRoute
+      filters: []
+      # -- Matches for a default rule in HTTPRoute
+      matches:
+        - path:
+            type: PathPrefix
+            value: '{{ dig "extraArgs" "http.pathPrefix" "/" .Values.vmcluster.spec.vminsert }}'
 
 alertmanager:
   # -- Create VMAlertmanager CR
@@ -668,6 +1744,29 @@ alertmanager:
     #    hosts:
     #      - alertmanager.domain.com
 
+  # -- (object) VMAlertmanager route configuration
+  route:
+    # -- Enable deployment of HTTPRoute for alertmanager component
+    enabled: false
+    # -- HTTPRoute annotations
+    annotations: {}
+    # -- HTTPRoute extra labels
+    labels: {}
+    # -- HTTPGateway objects refs
+    parentRefs: []
+    # -- Array of hostnames
+    hostnames: []
+    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+    extraRules: []
+    # -- Route port
+    port: '{{ .Values.alertmanager.spec.port }}'
+    # -- Filters for a default rule in HTTPRoute
+    filters: []
+    # -- Matches for a default rule in HTTPRoute
+    matches:
+      - path:
+          type: PathPrefix
+          value: '{{ .Values.alertmanager.spec.routePrefix | default "/" }}'
 
 vmalert:
   # -- VMAlert annotations
@@ -710,7 +1809,7 @@ vmalert:
     #     port: 9093
   # -- (object) VMAlert ingress config
   ingress:
-    enabled: true
+    enabled: false
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
@@ -724,7 +1823,7 @@ vmalert:
     pathType: Prefix
 
     hosts:
-      - vmalert.maifuj.com
+      - vmalert.domain.com
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -738,6 +1837,61 @@ vmalert:
     #  - secretName: vmalert-ingress-tls
     #    hosts:
     #      - vmalert.domain.com
+
+  # -- (object) VMAlert route configuration
+  route:
+    # -- Enable deployment of HTTPRoute for vmalert component
+    enabled: false
+    # -- HTTPRoute annotations
+    annotations: {}
+    # -- HTTPRoute extra labels
+    labels: {}
+    # -- HTTPGateway objects refs
+    parentRefs: []
+    # -- Array of hostnames
+    hostnames: []
+    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+    extraRules: []
+    # -- Route port
+    port: '{{ .Values.vmalert.spec.port }}'
+    # -- Filters for a default rule in HTTPRoute
+    filters: []
+    # -- Matches for a default rule in HTTPRoute
+    matches:
+      - path:
+          type: PathPrefix
+          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vmalert }}'
+
+vmauth:
+  # -- Enable VMAuth CR
+  enabled: false
+  # -- VMAuth labels
+  labels: {}
+  # -- VMAuth annotations
+  annotations: {}
+  # -- (object) Full spec for VMAuth CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api/#vmauthspec)
+  # It's possible to use given below predefined variables in spec:
+  # * `{{ .vm.read }}` - parsed vmselect, vmsingle or external.vm.read URL
+  # * `{{ .vm.write }}` - parsed vminsert, vmsingle or external.vm.write URL
+  # * `{{ .vl.read }}` - parsed vlselect, vlsingle or external.vl.read URL
+  # * `{{ .vl.write }}` - parsed vlinsert, vlsingle or external.vl.write URL
+  # * `{{ .vt.read }}` - parsed vtselect, vtsingle or external.vt.read URL
+  # * `{{ .vt.write }}` - parsed vtinsert, vtsingle or external.vt.write URL
+  spec:
+    port: "8427"
+    unauthorizedUserAccessSpec:
+      # -- Flag, that allows to disable default VMAuth unauthorized user access config
+      disabled: false
+      discover_backend_ips: true
+      url_map:
+        - src_paths:
+            - '{{ .vm.read.path }}/.*'
+          url_prefix:
+            - '{{ urlJoin (omit .vm.read "path") }}/'
+        - src_paths:
+            - '{{ .vm.write.path }}/.*'
+          url_prefix:
+            - '{{ urlJoin (omit .vm.write "path") }}/'
 
 vmagent:
   # -- Create VMAgent CR
@@ -772,7 +1926,7 @@ vmagent:
       promscrape.streamParse: "true"
   # -- (object) VMAgent ingress configuration
   ingress:
-    enabled: true
+    enabled: false
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
@@ -786,7 +1940,7 @@ vmagent:
     pathType: Prefix
 
     hosts:
-      - vmagent.maifuj.com
+      - vmagent.domain.com
     extraPaths: []
     # - path: /*
     #   pathType: Prefix
@@ -800,11 +1954,34 @@ vmagent:
     #    hosts:
     #      - vmagent.domain.com
 
+  # -- (object) VMAgent route configuration
+  route:
+    # -- Enable deployment of HTTPRoute for vmagent component
+    enabled: false
+    # -- HTTPRoute annotations
+    annotations: {}
+    # -- HTTPRoute extra labels
+    labels: {}
+    # -- HTTPGateway objects refs
+    parentRefs: []
+    # -- Array of hostnames
+    hostnames: []
+    # -- Extra rules to prepend to route. This is useful when working with annotation based services.
+    extraRules: []
+    # -- Route port
+    port: '{{ .Values.vmagent.spec.port }}'
+    # -- Filters for a default rule in HTTPRoute
+    filters: []
+    # -- Matches for a default rule in HTTPRoute
+    matches:
+      - path:
+          type: PathPrefix
+          value: '{{ dig "spec" "extraArgs" "http.pathPrefix" "/" .Values.vmagent }}'
 
 defaultDatasources:
   grafanaOperator:
     # -- Create datasources as CRDs (requires grafana-operator to be installed)
-    enabled: true
+    enabled: false
     annotations: {}
     spec:
       instanceSelector:
@@ -897,7 +2074,7 @@ grafana:
   # - victoriametrics-logs-datasource
 
   ingress:
-    enabled: true
+    enabled: false
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
@@ -911,7 +2088,7 @@ grafana:
     pathType: Prefix
 
     hosts:
-      - grafana.maifuj.com
+      - grafana.domain.com
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -1249,7 +2426,7 @@ kubeScheduler:
 # Component scraping kube proxy
 kubeProxy:
   # -- Enable kube proxy metrics scraping
-  enabled: true
+  enabled: false
 
   # -- If your kube proxy is not deployed as a pod, specify IPs it can be found on
   endpoints: []
@@ -1269,4 +2446,44 @@ kubeProxy:
     # -- Kube proxy service pod selector
     selector:
       k8s-app: kube-proxy
+
+  # -- Spec for VMServiceScrape CRD is [here](https://docs.victoriametrics.com/operator/api/#vmservicescrapespec)
+  vmScrape:
+    spec:
+      jobLabel: app.kubernetes.io/component
+      namespaceSelector:
+        matchNames: []
+      endpoints:
+        - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+          # bearerTokenSecret:
+          #   key: ""
+          port: http-metrics
+          scheme: https
+          tlsConfig:
+            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+internal:
+  vmauth:
+    # -- name is a template for the internal VMAuth CR used for vmalert datasource routing
+    name: '{{ .fullname }}-internal'
+    # -- (object) Spec for internal VMAuth CRD used as a vmalert datasource proxy.
+    # It's possible to use given below predefined variables in spec:
+    # * `{{ .vm.read }}` - parsed vmselect, vmsingle or external.vm.read URL
+    # * `{{ .vl.read }}` - parsed vlselect, vlsingle or external.vl.read URL
+    # * `{{ .vt.read }}` - parsed vtselect, vtsingle or external.vt.read URL
+    spec:
+      port: "8427"
+      unauthorizedUserAccessSpec:
+        url_map:
+          - src_paths:
+              - '/select/logsql/.*'
+            url_prefix:
+              - '{{ urlJoin (omit .vl.read "path") }}/'
+          - src_paths:
+              - '/.*'
+            url_prefix:
+              - '{{ (include "vm.prometheus.read" . | fromYaml).url }}/'
+
+# -- Add extra objects dynamically to this chart
+extraObjects: []
 

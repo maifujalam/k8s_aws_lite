@@ -2,5 +2,5 @@ apiVersion: v2
 name: ttyd-k9s
 description: Helm chart for ttyd-k9s
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "1.0.0"

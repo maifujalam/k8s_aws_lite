@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: oci://harbor.maifuj.com/dev-apps
+        - repoURL: oci://harbor.maifuj.com/dev-apps/{{.chart_name}}
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:

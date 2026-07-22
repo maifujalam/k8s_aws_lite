@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pvt-harbor-repository
+  namespace: argo-cd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: pvt-harbor-repository
+  url: harbor.maifuj.com
+  type: helm
+  enableOCI: "true"

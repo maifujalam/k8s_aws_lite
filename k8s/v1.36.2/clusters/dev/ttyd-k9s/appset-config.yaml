@@ -1,0 +1,4 @@
+---
+namespace: ttyd-k9s
+chart_name: ttyd-k9s
+chart_version: 0.1.0

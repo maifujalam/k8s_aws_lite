@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: metrics-server-repository
+  namespace: argo-cd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: metrics-server-repository
+  url: kubernetes-sigs.github.io/metrics-server
+  type: helm
+  enableOCI: "true"

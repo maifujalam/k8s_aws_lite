@@ -51,13 +51,13 @@ pipeline {
     }
     environment {
         HELM_VALUES_FILE = 'values.yaml'
-        HELM_REPO_NAME="public-helm-repository"
+        HELM_REPO_NAME="dev-apps"
     }
     parameters {
         string(name: 'GIT_REPO_NAME', defaultValue: 'https://github.com/maifujalam/k8s_aws_lite.git', description: 'Enter the git remote name')
         string(name: 'GIT_BRANCH_NAME', defaultValue: 'main', description: 'Enter the branch name to pull from')
-        string(name: 'CHART_FOLDER_PATH', defaultValue: 'k8s/v1.32.2/manifests/evicted-pod-cleaner/', description: 'Enter the folder path name which to be helm build')
-        string(name: 'HELM_REPO', defaultValue: 's3://public-helm-repository-20231023095000508500000001', description: 'Enter the helm remote name,where to push')
+        string(name: 'CHART_FOLDER_PATH', defaultValue: 'k8s/v1.36.2/manifests/ttyd-k9s/', description: 'Enter the folder path name which to be helm build')
+        string(name: 'HELM_REPO', defaultValue: 'oci://harbor.maifuj.com/dev-apps', description: 'Enter the helm remote name,where to push')
     }
     stages {
         stage('Git Checkout') {
@@ -128,9 +128,7 @@ pipeline {
                             string(credentialsId: 'S3_WRITE_AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
                             string(credentialsId: 'S3_WRITE_AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY')
                         ]) {
-                            def INIT_HELM_REPO=sh(script: "helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.16.2;helm plugin ls;helm repo add ${HELM_REPO_NAME} ${params.HELM_REPO};helm repo update;helm s3 reindex public-helm-repository;",returnStdout: true).trim()
-                            echo "Latest helm initialize: ${INIT_HELM_REPO}"
-                            def HELM_PUSH_REPO=sh(script: "helm s3 push --force ${LATEST_HELM_CHART} ${HELM_REPO_NAME};",returnStdout: true).trim()
+                            def HELM_PUSH_REPO=sh(script: "helm push --force ${LATEST_HELM_CHART} ${HELM_REPO_NAME};",returnStdout: true).trim()
                             echo "Push Helm Chart: ${HELM_PUSH_REPO}"
                         }
                     }

@@ -15,7 +15,7 @@ pipeline {
               - args:
                 env:
                 - name: "JENKINS_TUNNEL"
-                  value: "jenkins-vev-agent.jenkins.svc.cluster.local:50000"
+                  value: "jenkins-dev-agent.jenkins.svc.cluster.local:50000"
                 - name: "REMOTING_OPTS"
                   value: "-noReconnectAfter 1d"
                 - name: "JENKINS_AGENT_WORKDIR"

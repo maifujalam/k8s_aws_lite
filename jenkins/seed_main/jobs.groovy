@@ -59,6 +59,21 @@ pipelineJob('evicted-pod-cleaner.build') {
         }
     }
 }
+pipelineJob('ttyd-k9s.build') {
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/maifujalam/k8s_aws_lite.git')
+                    }
+                    branch('main')
+                }
+                scriptPath('k8s_aws_lite/app-build-pipeline/ttyd-k9s/Jenkinsfile') // Path to your pipeline script
+            }
+        }
+    }
+}
 pipelineJob('jnlp-agent.build') {
     definition {
         cpsScm {

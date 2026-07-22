@@ -13,15 +13,21 @@ fi
 
 DOCKER_USERNAME=skmaifujalam
 DOCKER_EMAIL=sk.maifujalam@gmail.com
+DOCKER_CONFIG_PATH=/tmp/config.json
 NAMESPACE=jenkins
 
 # Create or replace the secret
 kubectl delete secret docker-credentials --namespace $NAMESPACE --ignore-not-found
 
-kubectl create secret docker-registry docker-credentials \
-  --docker-username="$DOCKER_USERNAME" \
-  --docker-password="$DOCKER_PASSWORD" \
-  --docker-email="$DOCKER_EMAIL" \
+#kubectl create secret docker-registry docker-credentials \
+#  --docker-username="$DOCKER_USERNAME" \
+#  --docker-password="$DOCKER_PASSWORD" \
+#  --docker-email="$DOCKER_EMAIL" \
+#  --namespace "$NAMESPACE"
+
+kubectl create secret generic docker-credentials \
+  --from-file=.dockerconfigjson=$DOCKER_CONFIG_PATH \
+  --type=kubernetes.io/dockerconfigjson \
   --namespace "$NAMESPACE"
 
 echo "✅ Docker registry secret 'docker-credentials' created in namespace '$NAMESPACE'."

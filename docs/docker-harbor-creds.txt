@@ -1,0 +1,18 @@
+1. To login to dockerhub(public) and haroor(pvt) image registry:
+2. Create file ~/.docker/config.json
+{
+  "auths": {
+    "https://index.docker.io/v1/": {
+      "auth": "BASE64_ENCODED_DOCKERHUB_CREDS"
+    },
+    "harbor.maifuj.com": {
+      "auth": "BASE64_ENCODED_HARBOR_TOKEN"
+    }
+  },
+  "HttpHeaders": {
+    "User-Agent": "Docker-Client/26.0 (linux)"
+  }
+}
+
+3. Dockerhub token create: echo -n "mydockerhubuser:mydockertoken" | base64
+4. Harbor token create : echo -n "myharboruser:myharborpassword" | base64

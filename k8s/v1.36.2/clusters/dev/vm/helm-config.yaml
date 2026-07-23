@@ -29,7 +29,8 @@ defaultDashboards:
     spec:
       instanceSelector:
         matchLabels:
-          dashboards: grafana
+#           dashboards: grafana
+          app.kubernetes.io/name: grafana
       allowCrossNamespaceImport: false
   # -- Per-dashboard configuration. Keys match dashboard names from JSON content.
   # Set enabled: false to skip a dashboard. Set clusterMetric to patch the cluster variable query.

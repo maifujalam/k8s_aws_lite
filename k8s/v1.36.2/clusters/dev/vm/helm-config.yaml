@@ -870,6 +870,15 @@ defaultDatasources:
 grafana:
   enabled: false
   # all values for grafana helm chart can be specified here
+  persistence:
+    type: pvc
+    enabled: true
+    # storageClassName: default
+    ## (Optional) Use this to bind the claim to an existing PersistentVolume (PV) by name.
+    volumeName: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
   sidecar:
     datasources:
       enabled: true

@@ -29,8 +29,7 @@ defaultDashboards:
     spec:
       instanceSelector:
         matchLabels:
-#           dashboards: grafana
-          app.kubernetes.io/name: grafana
+          dashboards: grafana
       allowCrossNamespaceImport: false
   # -- Per-dashboard configuration. Keys match dashboard names from JSON content.
   # Set enabled: false to skip a dashboard. Set clusterMetric to patch the cluster variable query.
@@ -869,7 +868,7 @@ defaultDatasources:
 
 # -- Grafana dependency chart configuration. For possible values refer [here](https://github.com/grafana-community/helm-charts/tree/main/charts/grafana#configuration)
 grafana:
-  enabled: true
+  enabled: false
   # all values for grafana helm chart can be specified here
   sidecar:
     datasources:

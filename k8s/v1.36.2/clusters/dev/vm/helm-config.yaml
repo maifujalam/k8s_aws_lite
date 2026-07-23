@@ -463,7 +463,7 @@ vmsingle:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 5Gi
+          storage: 3Gi
   ingress:
     # -- Enable deployment of ingress for server component
     enabled: true

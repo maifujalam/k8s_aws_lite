@@ -653,7 +653,7 @@ alertmanager:
     pathType: Prefix
 
     hosts:
-      - alertmanager.domain.com
+      - alertmanager.maifuj.com
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*

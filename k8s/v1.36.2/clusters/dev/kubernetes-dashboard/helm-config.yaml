@@ -24,7 +24,8 @@ app:
   scheduling:
     # Node labels for pod assignment
     # Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
-    nodeSelector: {}
+    nodeSelector:
+      kubernetes.io/hostname: worker-1
   security:
     # Allow overriding csrfKey used by API/Auth containers.
     # It has to be base64 encoded random 256 bytes string.

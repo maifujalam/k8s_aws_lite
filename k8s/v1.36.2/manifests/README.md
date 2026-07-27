@@ -221,4 +221,8 @@ Kibana:
 Grafana-Operator:-
 1. helm pull oci://ghcr.io/grafana/helm-charts/grafana-operator --version v5.17.1 --untar
 
+
+K8s Dashboard Token:
+kubectl -n kubernetes-dashboard create token admin-user 
 helm template oci://harbor.maifuj.com/dev-apps/kubernetes-dashboard -f helm-config.yaml 
+

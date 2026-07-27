@@ -23,8 +23,9 @@ app:
     pullSecrets: []
   scheduling:
     # Node labels for pod assignment
-    # Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
-    nodeSelector: {}
+    # Ref: https://kubernetes.io/docs/user-guide/node-selection/
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ""
   security:
     # Allow overriding csrfKey used by API/Auth containers.
     # It has to be base64 encoded random 256 bytes string.
@@ -76,21 +77,12 @@ app:
     #  clusterName: ""
     #  # Max number of items that can be displayed on each list page
     #  itemsPerPage: 10
-    #  # Max number of labels that are displayed by default on most views.
-    #  labelsLimit: 3
     #  # Number of seconds between every auto-refresh of logs
     #  logsAutoRefreshTimeInterval: 5
     #  # Number of seconds between every auto-refresh of every resource. Set 0 to disable
-    #  resourceAutoRefreshTimeInterval: 10
+    #  resourceAutoRefreshTimeInterval: 5
     #  # Hide all access denied warnings in the notification panel
     #  disableAccessDeniedNotifications: false
-    #  # Hide all namespaces option in namespace selection dropdown to avoid accidental selection in large clusters thus preventing OOM errors
-    #  hideAllNamespaces: false
-    #  # Namespace that should be selected by default after logging in.
-    #  defaultNamespace: default
-    #  # List of namespaces that should be presented to user without namespace list privileges.
-    #  namespaceFallbackList:
-    #  - default
     ## Pinned resources that will be displayed in dashboard's menu
     pinnedResources: []
     # - kind: customresourcedefinition
@@ -106,7 +98,6 @@ app:
       # Keep 'localhost' host only if you want to access Dashboard using 'kubectl port-forward ...' on:
       # https://localhost:8443
       - dashboard.maifuj.com
-    # - kubernetes.dashboard.domain.com
     ingressClassName: nginx
     # Use only if your ingress controllers support default ingress classes.
     # If set to true ingressClassName will be ignored and not added to the Ingress resources.
@@ -135,18 +126,15 @@ app:
       secretName: ""
     labels: {}
     annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      kubernetes.io/ingress.class: nginx
   # Use the following toleration if Dashboard can be deployed on a tainted control-plane nodes
   # - key: node-role.kubernetes.io/control-plane
   #   effect: NoSchedule
-  nodeSelector:
-    kubernetes.io/hostname: master
   tolerations:
-    - key: "node-role.kubernetes.io/control-plane"
-      operator: "Exists"
-      effect: "NoSchedule"
+     - key: node-role.kubernetes.io/control-plane
+       effect: NoSchedule
   affinity: {}
 
 auth:
@@ -157,9 +145,6 @@ auth:
   scaling:
     replicas: 1
     revisionHistoryLimit: 10
-  service:
-    type: ClusterIP
-    extraSpec: ~
   containers:
     ports:
       - name: auth
@@ -187,8 +172,6 @@ auth:
   # Labels & annotations for Auth related resources
   labels: {}
   annotations: {}
-  serviceLabels: {}
-  serviceAnnotations: {}
 
 # API deployment configuration
 api:
@@ -199,9 +182,6 @@ api:
   scaling:
     replicas: 1
     revisionHistoryLimit: 10
-  service:
-    type: ClusterIP
-    extraSpec: ~
   containers:
     ports:
       - name: api
@@ -247,8 +227,6 @@ api:
   # Labels & annotations for API related resources
   labels: {}
   annotations: {}
-  serviceLabels: {}
-  serviceAnnotations: {}
 
 # WEB UI deployment configuration
 web:
@@ -259,9 +237,6 @@ web:
   scaling:
     replicas: 1
     revisionHistoryLimit: 10
-  service:
-    type: ClusterIP
-    extraSpec: ~
   containers:
     ports:
       - name: web
@@ -307,8 +282,6 @@ web:
   # Labels & annotations for WEB UI related resources
   labels: {}
   annotations: {}
-  serviceLabels: {}
-  serviceAnnotations: {}
 
 ### Metrics Scraper
 ### Container to scrape, store, and retrieve a window of time from the Metrics Server.
@@ -322,9 +295,6 @@ metricsScraper:
   scaling:
     replicas: 1
     revisionHistoryLimit: 10
-  service:
-    type: ClusterIP
-    extraSpec: ~
   containers:
     ports:
       - containerPort: 8000
@@ -371,8 +341,6 @@ metricsScraper:
   # Labels & annotations for Metrics Scraper related resources
   labels: {}
   annotations: {}
-  serviceLabels: {}
-  serviceAnnotations: {}
 
 ## Optional Metrics Server sub-chart configuration
 ## Enable this if you don't already have metrics-server enabled on your cluster and
@@ -397,14 +365,15 @@ kong:
     nginx_worker_processes: 1
   ingressController:
     enabled: false
-  manager:
-    enabled: false
   dblessConfig:
     configMap: kong-dbless-config
   proxy:
     type: ClusterIP
     http:
       enabled: false
+  tolerations:
+     - key: node-role.kubernetes.io/control-plane
+       effect: NoSchedule
 
 ## Optional Cert Manager sub-chart configuration
 ## Enable this if you don't already have cert-manager enabled on your cluster.
@@ -439,7 +408,52 @@ extras:
   #     name: additional-configmap
   #   data:
   #     mykey: myvalue
-  manifests: []
+  manifests:
+    - apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: admin-user
+        namespace: kubernetes-dashboard
+        labels:
+           app.kubernetes.io/managed-by: "Helm"
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: admin-user
+        labels:
+           app.kubernetes.io/managed-by: "Helm"
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+        - kind: ServiceAccount
+          name: admin-user
+          namespace: kubernetes-dashboard
+    - apiVersion: v1
+      kind: Secret
+      metadata:
+        name: admin-user
+        namespace: kubernetes-dashboard
+        annotations:
+          kubernetes.io/service-account.name: "admin-user"
+      type: kubernetes.io/service-account-token
+
+  # Start in ReadOnly mode.
+  # Specifies whether cluster-wide RBAC resources (ClusterRole, ClusterRolebinding) with read only permissions to all resources listed inside the cluster should be created
+  # Only dashboard-related Secrets and ConfigMaps will still be available for writing.
+  #
+  # The basic idea of the clusterReadOnlyRole
+  # is not to hide all the secrets and sensitive data but more
+  # to avoid accidental changes in the cluster outside the standard CI/CD.
+  #
+  # It is NOT RECOMMENDED to use this version in production.
+  # Instead, you should review the role and remove all potentially sensitive parts such as
+  # access to persistentvolumes, pods/log etc.
+  clusterReadOnlyRole: false
+  # It is possible to add additional rules if read only role is enabled.
+  # This can be useful, for example, to show CRD resources.
+  clusterReadOnlyRoleAdditionalRules: []
   serviceMonitor:
     # Whether to create a Prometheus Operator service monitor.
     enabled: false

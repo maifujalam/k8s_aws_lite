@@ -126,8 +126,7 @@ app:
       secretName: ""
     labels: {}
     annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
   # Use the following toleration if Dashboard can be deployed on a tainted control-plane nodes
   # - key: node-role.kubernetes.io/control-plane
@@ -168,7 +167,8 @@ auth:
     # Create on-disk volume to store exec logs (required)
     - name: tmp-volume
       emptyDir: {}
-  nodeSelector: {}
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
   # Labels & annotations for Auth related resources
   labels: {}
   annotations: {}
@@ -223,7 +223,8 @@ api:
     # Create on-disk volume to store exec logs (required)
     - name: tmp-volume
       emptyDir: {}
-  nodeSelector: {}
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
   # Labels & annotations for API related resources
   labels: {}
   annotations: {}
@@ -278,7 +279,8 @@ web:
     # Create on-disk volume to store exec logs (required)
     - name: tmp-volume
       emptyDir: {}
-  nodeSelector: {}
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
   # Labels & annotations for WEB UI related resources
   labels: {}
   annotations: {}
@@ -337,7 +339,8 @@ metricsScraper:
   volumes:
     - name: tmp-volume
       emptyDir: {}
-  nodeSelector: {}
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: ""
   # Labels & annotations for Metrics Scraper related resources
   labels: {}
   annotations: {}

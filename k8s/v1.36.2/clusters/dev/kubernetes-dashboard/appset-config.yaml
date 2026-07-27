@@ -1,0 +1,4 @@
+---
+namespace: kubernetes-dashboard
+chart_name: kubernetes-dashboard
+chart_version: 7.14.0

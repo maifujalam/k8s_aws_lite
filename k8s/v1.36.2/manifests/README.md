@@ -220,3 +220,5 @@ Kibana:
 
 Grafana-Operator:-
 1. helm pull oci://ghcr.io/grafana/helm-charts/grafana-operator --version v5.17.1 --untar
+
+helm template oci://harbor.maifuj.com/dev-apps/kubernetes-dashboard -f helm-config.yaml 

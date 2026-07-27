@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: kockpit.k8s
+    - host: dashboard.maifuj.com
       http:
         paths:
           - path: /

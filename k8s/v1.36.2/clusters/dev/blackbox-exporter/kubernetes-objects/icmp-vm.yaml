@@ -6,8 +6,8 @@ metadata:
 spec:
   scrapeInterval: 10s
   module: icmp
-  staticConfig:
-    targets:
+  staticConfigs:
+    - targets:
       - 8.8.8.8       # Google DNS
       - 13.207.12.184 # Example external IP
   relabelConfigs:

@@ -52,3 +52,14 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
+      ignoreDifferences:
+      - group: apps
+        kind: Deployment
+        jsonPointers:
+          - /spec/template/metadata/annotations/checksum~1secret
+          - /spec/template/metadata/annotations/checksum~1config
+      - group: ""
+        kind: Secret
+        namespace: '{{.namespace}}'
+        jsonPointers:
+          - /data

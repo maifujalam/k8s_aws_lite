@@ -56,8 +56,8 @@ spec:
       - group: apps
         kind: Deployment
         jsonPointers:
-          - /spec/template/metadata/annotations/checksum~1secret
-          - /spec/template/metadata/annotations/checksum~1config
+          - /spec/template/metadata/annotations/checksum~1secret-jobservice
+          - /spec/template/metadata/annotations/checksum~1secret-core
       - group: ""
         kind: Secret
         namespace: '{{.namespace}}'

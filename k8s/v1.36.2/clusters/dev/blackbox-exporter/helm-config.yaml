@@ -237,7 +237,7 @@ serviceAccount:
 ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: true
-  className: ""
+  className: "nginx"
   labels: {}
   annotations: {}
     # kubernetes.io/tls-acme: "true"

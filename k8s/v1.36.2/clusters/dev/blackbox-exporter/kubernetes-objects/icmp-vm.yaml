@@ -1,19 +1,15 @@
 apiVersion: operator.victoriametrics.com/v1beta1
-kind: VMScrapeConfig
+kind: VMProbe
 metadata:
   name: icmp-external
   namespace: blackbox-exporter
 spec:
-  scrapeInterval: 10s
+  vmProberSpec:
+     url: blackbox-exporter-dev-prometheus-blackbox-exporter.blackbox-exporter.svc.cluster.local:9115
   module: icmp
-  staticConfigs:
-    - targets:
-      - 8.8.8.8       # Google DNS
-      - 13.207.12.184 # Example external IP
-  relabelConfigs:
-    - sourceLabels: [__address__]
-      targetLabel: __param_target
-    - sourceLabels: [__param_target]
-      targetLabel: instance
-    - targetLabel: __address__
-      replacement: blackbox-exporter-dev-prometheus-blackbox-exporter.blackbox-exporter.svc.cluster.local:9115
+  targets:
+   static:
+      targets:
+      - 13.207.12.184
+      - 8.8.8.8
+  interval: 10s

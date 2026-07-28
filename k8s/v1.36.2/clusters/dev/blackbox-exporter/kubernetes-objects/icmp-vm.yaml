@@ -2,7 +2,7 @@ apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMScrapeConfig
 metadata:
   name: icmp-external
-  namespace: monitoring
+  namespace: blackbox-exporter
 spec:
   scrapeInterval: 10s
   module: icmp

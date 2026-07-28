@@ -1,0 +1,16 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMProbe
+metadata:
+  name: nodes-prob
+  namespace: blackbox-exporter
+spec:
+  vmProberSpec:
+     url: blackbox-exporter-dev-prometheus-blackbox-exporter.blackbox-exporter.svc.cluster.local:9115
+  module: http_2xx
+  targets:
+    kubernetes:
+      - role: node
+        selector:
+          matchLabels:
+            beta.kubernetes.io/os: linux
+  interval: 10s

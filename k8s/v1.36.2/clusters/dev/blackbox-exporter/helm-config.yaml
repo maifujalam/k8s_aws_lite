@@ -244,7 +244,7 @@ ingress:
   hosts:
     ## The host property on hosts and tls is passed through helm tpl function.
     ## ref: https://helm.sh/docs/developing_charts/#using-the-tpl-function
-    - host: blackbox.maifuj.com/
+    - host: blackbox.maifuj.com
       paths:
         - path: /
           pathType: ImplementationSpecific

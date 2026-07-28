@@ -1,0 +1,4 @@
+---
+namespace: blackbox-exporter
+chart_name: prometheus-blackbox-exporter
+chart_version: 11.15.1

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: blackbox-exporter-repository
+  namespace: argo-cd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: blackbox-exporter-repository
+  url: prometheus-community.github.io/helm-charts
+  type: helm
+  enableOCI: "true"

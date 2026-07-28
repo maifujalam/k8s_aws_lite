@@ -1,6 +1,6 @@
-# k8s_aws_lite
+# Self managed Kubernetes Cluster on AWS
 
-Steps to orovision the AWS imfrastructure for a Kubernetes cluster using Terraform.
+Steps to provision the AWS infrastructure for a Kubernetes cluster using Terraform.
 1. Build aws s3 bucket manually/aws console: terraform-s3-maifuj
 2. AWS Key pair: k8s_aws_lite/terraform/key_pairs/default_rsa
 3. AWS IAM ec2 full profile: k8s_aws_lite/terraform/iam/policies/ec2-full
@@ -26,6 +26,11 @@ Steps to orovision the AWS imfrastructure for a Kubernetes cluster using Terrafo
     b. Terraform apply
 11. Make the IP forwarding rule:
     a. sh k8s_aws_lite/shellscripts/nat-forward.sh
-12. Provision 4 nodes:
+12. Provision 3 k8s nodes:
     a. cd k8s_aws_lite/terraform/instances
     b. Terraform apply
+
+# Create k8s custer and install Default Apps:
+1. cd ansible
+2. Install ansible and collections
+3. Follow REAMD.md

@@ -1,17 +1,15 @@
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMScrapeConfig
 metadata:
-  name: icmp-prob
-  namespace: blackbox-exporter
+  name: icmp-external
+  namespace: monitoring
 spec:
   scrapeInterval: 30s
-  metricsPath: /probe
-  params:
-    module: [icmp]
-  staticTargets:
+  module: icmp
+  staticConfig:
     targets:
       - 8.8.8.8       # Google DNS
-      - 13.207.12.184
+      - 13.207.12.184 # Example external IP
   relabelConfigs:
     - sourceLabels: [__address__]
       targetLabel: __param_target

@@ -1,0 +1,21 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMScrapeConfig
+metadata:
+  name: icmp-prob
+  namespace: monitoring
+spec:
+  scrapeInterval: 30s
+  metricsPath: /probe
+  params:
+    module: [icmp]
+  staticTargets:
+    targets:
+      - 8.8.8.8       # Google DNS
+      - 13.207.12.184
+  relabelConfigs:
+    - sourceLabels: [__address__]
+      targetLabel: __param_target
+    - sourceLabels: [__param_target]
+      targetLabel: instance
+    - targetLabel: __address__
+      replacement: blackbox-exporter-dev-prometheus-blackbox-exporter.blackbox-exporter.svc.cluster.local:9115

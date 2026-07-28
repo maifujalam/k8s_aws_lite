@@ -13,7 +13,7 @@ spec:
               repoURL: https://github.com/maifujalam/k8s_aws_lite.git
               revision: main
               files:
-                - path: k8s/v1.36.2/clusters/*/{{.namespace}}/appset-config.yaml
+                - path: k8s/v1.36.2/clusters/*/blackbox-exporter/appset-config.yaml
           - clusters:
               selector:
                 matchLabels:
@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: https://prometheus-community.github.io/helm-charts/
+        - repoURL: https://prometheus-community.github.io/helm-charts
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:

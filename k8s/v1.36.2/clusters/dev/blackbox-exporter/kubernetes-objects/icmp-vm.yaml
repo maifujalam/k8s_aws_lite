@@ -4,7 +4,7 @@ metadata:
   name: icmp-external
   namespace: monitoring
 spec:
-  scrapeInterval: 30s
+  scrapeInterval: 10s
   module: icmp
   staticConfig:
     targets:

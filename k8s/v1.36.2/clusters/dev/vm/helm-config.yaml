@@ -30,7 +30,7 @@ defaultDashboards:
       instanceSelector:
         matchLabels:
           dashboards: grafana
-      allowCrossNamespaceImport: false
+      allowCrossNamespaceImport: true
   # -- Per-dashboard configuration. Keys match dashboard names from JSON content.
   # Set enabled: false to skip a dashboard. Set clusterMetric to patch the cluster variable query.
   dashboards:

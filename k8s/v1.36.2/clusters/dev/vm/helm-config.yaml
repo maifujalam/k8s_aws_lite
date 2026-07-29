@@ -25,7 +25,7 @@ defaultDashboards:
   annotations: {}
   grafanaOperator:
     # -- Create GrafanaDashboard CRDs instead of ConfigMaps (requires grafana-operator)
-    enabled: true
+    enabled: false
     spec:
       instanceSelector:
         matchLabels:

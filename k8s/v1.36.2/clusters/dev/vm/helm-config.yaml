@@ -810,7 +810,7 @@ defaultDatasources:
       instanceSelector:
         matchLabels:
           dashboards: grafana
-      allowCrossNamespaceImport: false
+      allowCrossNamespaceImport: true
   victoriametrics:
     # -- List of prometheus compatible datasource configurations.
     # VM `url` will be added to each of them in templates.

@@ -6,8 +6,8 @@ metadata:
 spec:
   folder: 'dashboard'
   instanceSelector:
-  matchLabels:
-    dashboards: grafana
+    matchLabels:
+      dashboards: grafana
   json: >
     {
       "title": "as-code dashboard",

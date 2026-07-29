@@ -1,0 +1,4 @@
+---
+namespace: grafana
+chart_name: grafana
+chart_version: 12.9.0

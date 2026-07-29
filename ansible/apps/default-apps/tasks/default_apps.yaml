@@ -151,6 +151,12 @@
         nodeSelector:
           kubernetes.io/hostname: master
       repoServer:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 500Mi
+          limits:
+            memory: 700Mi
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"

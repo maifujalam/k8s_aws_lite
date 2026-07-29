@@ -7,6 +7,6 @@ metadata:
     argocd.argoproj.io/secret-type: repository
 stringData:
   name: grafana-repository
-  url: grafana-community.github.io/helm-charts
+  url: grafana.github.io/helm-charts
   type: helm
   enableOCI: "true"

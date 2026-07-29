@@ -8,7 +8,7 @@ items:
   kind: Grafana
   metadata:
     annotations:
-    generation: 1
+    generation: 2
     labels:
       dashboards: grafana
     name: grafana

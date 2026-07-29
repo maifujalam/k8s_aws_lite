@@ -1,4 +1,4 @@
 ---
 namespace: grafana
 chart_name: grafana-operator
-chart_version: 5.23.0
+chart_version: 4.9.37

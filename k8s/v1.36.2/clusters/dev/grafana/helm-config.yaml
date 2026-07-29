@@ -725,15 +725,15 @@ grafana:
   ingress:
     ## @param grafana.ingress.enabled If an ingress or OpenShift Route should be created
     ##
-    enabled: false
+    enabled: true
     ## @param grafana.ingress.ingressClassName IngressClass that will be be used to implement the Ingress (Kubernetes 1.18+)
     ## This is supported in Kubernetes 1.18+ and required if you have more than one IngressClass marked as the default for your cluster.
     ## ref: https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/
     ##
-    ingressClassName: ""
+    ingressClassName: "nginx"
     ## @param grafana.ingress.host The host under which the grafana instance should be reachable. If empty the parameter will not be set.
     ##
-    host: grafana.local
+    host: grafana.maifuj.com
     ## @param grafana.ingress.path The path for the ingress instance to forward to the grafana app
     ##
     path: /
@@ -768,7 +768,7 @@ grafana:
     ## you might also want to set `grafana.updateStrategy` to Recreate.
     ## More information can be found here: https://github.com/grafana-operator/grafana-operator/issues/453
     ##
-    enabled: false
+    enabled: true
     ## @param grafana.persistence.storageClass Define the storageClass for the persistent storage if not defined default is used
     ## If defined, storageClassName: <storageClass>
     ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -789,7 +789,7 @@ grafana:
     annotations: {}
     ## @param grafana.persistence.size Define the size of the PersistentVolumeClaim to request for
     ##
-    size: 10Gi
+    size: 1Gi
   ## @param grafana.config [object] grafana.ini configuration for the instance for this to configure please look at upstream docs
   ## This is the configuration from the grafana pod itself. Every toml section is a root key
   ## Ref: https://grafana.com/docs/grafana/latest/administration/configuration/

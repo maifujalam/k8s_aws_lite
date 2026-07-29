@@ -45,7 +45,7 @@ items:
       spec:
         ingressClassName: nginx
         rules:
-        - host: maifuj.grafana.com
+        - host: grafana.maifuj.com
           http:
             paths:
             - backend:

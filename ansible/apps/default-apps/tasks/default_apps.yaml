@@ -153,10 +153,10 @@
       repoServer:
         resources:
           requests:
-            cpu: 100m
-            memory: 500Mi
+            cpu: 300m
+            memory: 1Gi
           limits:
-            memory: 700Mi
+            memory: 1Gi
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"

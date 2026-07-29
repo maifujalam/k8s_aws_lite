@@ -299,7 +299,7 @@ hostAliases: []
 
 ingress:
   enabled: true
-  # ingressClassName: nginx
+  ingressClassName: nginx
   # Values can be templated
   annotations: {}
     # kubernetes.io/ingress.class: nginx

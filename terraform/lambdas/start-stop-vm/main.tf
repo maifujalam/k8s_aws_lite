@@ -1,11 +1,11 @@
 data "archive_file" "start-vm-zip" {
   type        = "zip"
-  source_file = "/home/alam/PycharmProjects/k8s_aws/lambdas/start-stop/start_instnce.py"
+  source_file = "start_instnce.py"
   output_path = "${path.module}/start_vm_function.zip"
 }
 data "archive_file" "stop-vm-zip" {
   type        = "zip"
-  source_file = "/home/alam/PycharmProjects/k8s_aws/lambdas/start-stop/stop_instnce.py"
+  source_file = "stop_instnce.py"
   output_path = "${path.module}/stop_vm_function.zip"
 }
 resource "aws_lambda_function" "start-vm-lambda-function" {

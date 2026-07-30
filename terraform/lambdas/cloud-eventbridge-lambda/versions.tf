@@ -8,7 +8,7 @@ terraform {
   required_version = ">= 1.6.1"
   backend "s3" {
     bucket = "terraform-s3-maifuj"
-    key    = "terraform-state/k8s_aws/"   # Hare our state files get stored for this object.
+    key    = "terraform-state/k8s_aws/cloudwatch-lambda-trigger"   # Hare our state files get stored for this object.
     region = "ap-south-1"
   }
 }

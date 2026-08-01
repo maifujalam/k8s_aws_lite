@@ -6,6 +6,7 @@ controller:
     limits:
       memory: "1300Mi"
   jenkinsUrl: https://jenkins.maifuj.com/
+  pullPolicy: "IfNotPresent"
   installPlugins:
     - kubernetes:4467.vf26561292824
     - workflow-aggregator:608.v67378e9d3db_1
@@ -42,11 +43,9 @@ agent:
     requests:
       cpu: "250m"
       memory: "256Mi"
-      # ephemeralStorage:
     limits:
       cpu: "512m"
       memory: "512Mi"
-      # ephemeralStorage:
   alwaysPullImage: false
   nodeSelector: {}
   podName: "jenkins-agent"

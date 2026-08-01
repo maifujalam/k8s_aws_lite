@@ -21,4 +21,6 @@ sudo netfilter-persistent reload
 # Lists NAT table rules with line numbers.Confirms that your POSTROUTING MASQUERADE rule is active
 sudo iptables -t nat -L --line-number
 
+# Check my public ip
+sudo curl ifconfig.me
 # Disable source destination  check for NAT instance: https://docs.aws.amazon.com/vpc/latest/userguide/work-with-nat-instances.html#EIP_Disable_SrcDestCheck

@@ -6,7 +6,12 @@ controller:
     limits:
       memory: "1300Mi"
   jenkinsUrl: https://jenkins.maifuj.com/
-  pullPolicy: "IfNotPresent"
+  image:
+    registry: "docker.io"
+    repository: "jenkins/jenkins"
+    tag:
+    tagLabel: jdk21
+    pullPolicy: "IfNotPresent"
   installPlugins:
     - kubernetes:4467.vf26561292824
     - workflow-aggregator:608.v67378e9d3db_1

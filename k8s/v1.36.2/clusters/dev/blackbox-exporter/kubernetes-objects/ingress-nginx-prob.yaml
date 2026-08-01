@@ -1,7 +1,7 @@
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMProbe
 metadata:
-  name: nodes-prob
+  name: ingress-nginx-prob
   namespace: blackbox-exporter
 spec:
   vmProberSpec:
@@ -9,8 +9,8 @@ spec:
   module: http_2xx
   targets:
     kubernetes:
-      - role: node
+      - role: service
         selector:
           matchLabels:
-            beta.kubernetes.io/os: linux
+            app.kubernetes.io/name: ingress-nginx
   interval: 10s

@@ -1,6 +1,6 @@
 sudo apt -y update
-sudp apt -y upgrade
-sudo apt install -y iptables iptables-persistent netfilter-persistent
+sudo apt -y upgrade
+sudo apt install -y iptables iptables-persistent
 
 # Forward trrafic of ipv4 between interface.
 cat <<EOF | sudo tee /etc/sysctl.d/nat.conf
@@ -16,7 +16,8 @@ sudo iptables -t nat -A POSTROUTING -o ens5 -j MASQUERADE   # WARNING: replace e
 sudo /sbin/iptables -F FORWARD
 
 # Reload to make the changes effect.
-sudo netfilter-persistent reload
+#sudo netfilter-persistent reload
+sudo service iptables save
 
 # Lists NAT table rules with line numbers.Confirms that your POSTROUTING MASQUERADE rule is active
 sudo iptables -t nat -L --line-number

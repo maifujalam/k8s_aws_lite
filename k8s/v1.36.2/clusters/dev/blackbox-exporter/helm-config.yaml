@@ -133,8 +133,7 @@ securityContext:
   allowPrivilegeEscalation: false
   capabilities:
     drop: ["ALL"]
-# Add NET_RAW to enable ICMP
-#    add: ["NET_RAW"]
+    add: ["NET_RAW"]
 
 livenessProbe:
   httpGet:

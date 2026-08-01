@@ -126,14 +126,13 @@ podSecurityContext: {}
 
 ## User and Group to run blackbox-exporter container as
 securityContext:
-  runAsUser: 1000
-  runAsGroup: 1000
+  runAsUser: 0
+  runAsGroup: 0
   readOnlyRootFilesystem: true
-  runAsNonRoot: true
   allowPrivilegeEscalation: false
   capabilities:
     drop: ["ALL"]
-    add: ["NET_RAW"]
+    add: ["NET_RAW", "SETUID", "SETGID"]
 
 livenessProbe:
   httpGet:

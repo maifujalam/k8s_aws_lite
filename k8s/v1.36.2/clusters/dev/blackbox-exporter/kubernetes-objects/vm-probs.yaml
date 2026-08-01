@@ -6,7 +6,7 @@ metadata:
 spec:
   vmProberSpec:
      url: blackbox-exporter-dev-prometheus-blackbox-exporter.blackbox-exporter.svc.cluster.local:9115
-  module: http_2xx
+  module: icmp
   targets:
     kubernetes:
       - role: node

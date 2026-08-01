@@ -1,27 +1,48 @@
+#!/bin/bash
+set -e  # Exit on error
+
+PUBLIC_INTERFACE="${1:-ens5}"
+
+echo "Setting up NAT forwarding on interface: $PUBLIC_INTERFACE"
+echo ""
+
+# Update system packages
+echo "[1/6] Updating packages..."
 sudo apt -y update
 sudo apt -y upgrade
 sudo apt install -y iptables iptables-persistent
 
-# Forward trrafic of ipv4 between interface.
+# Enable IPv4 forwarding
+echo "[2/6] Enabling IPv4 forwarding..."
 cat <<EOF | sudo tee /etc/sysctl.d/nat.conf
-  net.ipv4.ip_forward                 = 1
+net.ipv4.ip_forward = 1
 EOF
-# Apply sysctl params without reboot
 sudo sysctl --system
 
-# Any packet leaving via interface ens5 (your public NIC) will have its source IP rewritten to the public IP of that interface.
-sudo iptables -t nat -A POSTROUTING -o ens5 -j MASQUERADE   # WARNING: replace enX0 with your public interface name, e.g. eth0, ens5, etc.
+# Configure NAT with MASQUERADE
+echo "[3/6] Configuring MASQUERADE on $PUBLIC_INTERFACE..."
+sudo iptables -t nat -A POSTROUTING -o "$PUBLIC_INTERFACE" -j MASQUERADE
 
-# Flush any forwarding rule present.
-sudo /sbin/iptables -F FORWARD
+# Configure forwarding rules
+echo "[4/6] Setting up FORWARD chain rules..."
+sudo iptables -F FORWARD
+sudo iptables -P FORWARD ACCEPT
 
-# Reload to make the changes effect.
-#sudo netfilter-persistent reload
-sudo service iptables save
+# Persist rules
+echo "[5/6] Persisting iptables rules..."
+sudo netfilter-persistent save
 
-# Lists NAT table rules with line numbers.Confirms that your POSTROUTING MASQUERADE rule is active
+# Verify configuration
+echo "[6/6] Verifying configuration..."
+echo ""
+echo "NAT Rules:"
 sudo iptables -t nat -L --line-number
-
-# Check my public ip
-sudo curl ifconfig.me
-# Disable source destination  check for NAT instance: https://docs.aws.amazon.com/vpc/latest/userguide/work-with-nat-instances.html#EIP_Disable_SrcDestCheck
+echo ""
+echo "Public IP:"
+sudo curl -s ifconfig.me
+echo ""
+echo ""
+echo "✓ NAT configuration complete!"
+echo ""
+echo "IMPORTANT: Disable source/destination check on this instance:"
+echo "  https://docs.aws.amazon.com/vpc/latest/userguide/work-with-nat-instances.html#EIP_Disable_SrcDestCheck"

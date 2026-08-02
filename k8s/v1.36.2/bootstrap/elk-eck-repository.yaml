@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: elk-repository
+  namespace: argo-cd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: elk-repository
+  url: helm.elastic.co
+  type: helm
+  enableOCI: "true"

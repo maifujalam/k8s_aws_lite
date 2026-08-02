@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: elk-repository
+  namespace: argo-cd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  name: fluentd-repository
+  url: charts.bitnami.com/bitnami
+  type: helm
+  enableOCI: "true"

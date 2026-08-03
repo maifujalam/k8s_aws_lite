@@ -192,7 +192,7 @@ volumeMounts: []
 ## Fluentd persistence
 ##
 persistence:
-  enabled: true
+  enabled: false
   storageClass: ""
   accessMode: ReadWriteOnce
   size: 1Gi

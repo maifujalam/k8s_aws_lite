@@ -90,8 +90,8 @@ resources:
     memory: "300Mi"
 image:
   registry: docker.io
-  repository: bitnamilegacy/fluentd
-  tag: 1.19.0-debian-12-r1
+  repository: fluent/fluentd
+  tag: v1
   ## Specify a imagePullPolicy
   ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
   ##

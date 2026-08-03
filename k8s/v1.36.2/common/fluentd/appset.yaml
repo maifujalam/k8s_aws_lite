@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: https://charts.bitnami.com/bitnami
+        - repoURL: https://fluent.github.io/helm-charts
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:

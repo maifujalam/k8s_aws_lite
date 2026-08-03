@@ -7,6 +7,6 @@ metadata:
     argocd.argoproj.io/secret-type: repository
 stringData:
   name: fluentd-repository
-  url: charts.bitnami.com/bitnami
+  url: fluent.github.io/helm-charts
   type: helm
   enableOCI: "true"

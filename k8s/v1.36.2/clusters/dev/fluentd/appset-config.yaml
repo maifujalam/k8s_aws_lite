@@ -1,4 +1,4 @@
 ---
 namespace: elk
 chart_name: fluentd
-chart_version: 0.5.3
+chart_version: 0.5.2

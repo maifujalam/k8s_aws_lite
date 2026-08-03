@@ -24,12 +24,12 @@ controller:
       keyName: KUBECONFIG
   JCasC:
     defaultConfig: true
-  nodeSelector:
-    kubernetes.io/hostname: master
-  tolerations:
-    - key: "node-role.kubernetes.io/control-plane"
-      operator: "Exists"
-      effect: "NoSchedule"
+#  nodeSelector:
+#    kubernetes.io/hostname: master
+#  tolerations:
+#    - key: "node-role.kubernetes.io/control-plane"
+#      operator: "Exists"
+#      effect: "NoSchedule"
   ingress:
     enabled: true
     labels: {}

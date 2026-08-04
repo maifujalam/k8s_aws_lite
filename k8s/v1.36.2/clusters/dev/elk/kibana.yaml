@@ -175,7 +175,7 @@ eck-kibana:
     # ref: https://kubernetes.io/docs/concepts/services-networking/ingress/#name-based-virtual-hosting
     #
     hosts:
-      - host: kibana.maifujcom
+      - host: kibana.maifuj.com
         path: /
 
     # TLS defines whether TLS will be enabled on the Ingress resource.

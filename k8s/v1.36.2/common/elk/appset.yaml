@@ -34,6 +34,8 @@ spec:
             valueFiles:
               - $values/{{.path.path}}/helm-config.yaml
               - $values/{{.path.path}}/elastic-search.yaml
+              - $values/{{.path.path}}/logstash.yaml
+              - $values/{{.path.path}}/kibana.yaml
             skipCrds: true
         - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
           targetRevision: main

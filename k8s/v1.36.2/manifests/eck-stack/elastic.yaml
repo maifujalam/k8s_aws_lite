@@ -222,7 +222,7 @@ nodeSets:
             memory: 1Gi
           requests:
             # cpu: 1
-            memory: 2Gi
+            memory: 500Mi
 
           # Example increasing both the requests and limits values:
           # limits:
@@ -336,7 +336,7 @@ ingress:
   enabled: false
 
   # Annotations that will be applied to the Ingress resource. Note that some ingress controllers are controlled via annotations.
-  # 
+  #
   # Nginx Annotations: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/
   #
   # Common annotations:

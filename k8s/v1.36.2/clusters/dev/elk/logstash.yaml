@@ -67,7 +67,20 @@ eck-logstash:
   # Set podTemplate to customize the pod used by Logstash
   # ref: https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/customize-pods
   #
-  podTemplate: {}
+  podTemplate:
+    spec:
+      containers:
+        - name: kibana
+          env:
+            - name: NODE_OPTIONS
+              value:  "--max-old-space-size=1024"
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 0.5
+            limits:
+              memory: 1Gi
+              cpu: 2
 
   # Settings for configuring stack monitoring.
   # ref: https://www.elastic.co/docs/deploy-manage/monitor/stack-monitoring/eck-stack-monitoring

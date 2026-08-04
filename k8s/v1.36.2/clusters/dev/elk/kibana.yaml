@@ -31,7 +31,8 @@ eck-kibana:
 
   # Reference to ECK-managed Elasticsearch resource.
   #
-  elasticsearchRef: { }
+  elasticsearchRef:
+    name: elasticsearch
     # name: eck-elasticsearch
     # Optional namespace reference to Elasticsearch resource.
     # If not specified, then the namespace of the Kibana resource
@@ -67,7 +68,13 @@ eck-kibana:
 
   # The HTTP layer configuration for Kibana.
   #
-  # http:
+  http:
+    service:
+      spec:
+        # Type of service to deploy for Kibana.
+        # This deploys a load balancer in a cloud service provider, where supported.
+        #
+        type: ClusterIP
 
   # PodTemplate provides customisation options (labels, annotations, affinity rules,
   # resource requests, and so on) for the Kibana pods

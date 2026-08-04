@@ -1,0 +1,4 @@
+---
+namespace: elk
+chart_name: eck-operator
+chart_version: 0.19.1

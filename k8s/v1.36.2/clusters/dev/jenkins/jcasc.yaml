@@ -8,11 +8,6 @@ controller:
           system:
             domainCredentials:
               - credentials:
-                  - string:
-                      scope: GLOBAL
-                      id: "DOCKERHUB_TOKEN"
-                      description: "DOCKERHUB_TOKEN"
-                      secret: "${DOCKERHUB_TOKEN}"  # Injected from ENV
                   - usernamePassword:
                       scope: GLOBAL
                       id: "GIT_CRED"

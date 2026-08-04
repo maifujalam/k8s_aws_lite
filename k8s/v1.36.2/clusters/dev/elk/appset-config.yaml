@@ -1,4 +1,4 @@
 ---
 namespace: elk
 chart_name: eck-stack
-chart_version: 0.19.0
+chart_version: 0.19.1

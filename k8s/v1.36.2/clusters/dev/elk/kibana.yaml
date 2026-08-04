@@ -79,7 +79,21 @@ eck-kibana:
   # PodTemplate provides customisation options (labels, annotations, affinity rules,
   # resource requests, and so on) for the Kibana pods
   #
-  # podTemplate:
+  podTemplate:
+    spec:
+      containers:
+        - name: kibana
+          env:
+            - name: NODE_OPTIONS
+              value:  "--max-old-space-size=1024"
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 0.5
+            limits:
+              memory: 1Gi
+              cpu: 1
+
 
   # Number of revisions to retain to allow rollback in the underlying deployment.
   # By default, if not set, Kubernetes sets 10.

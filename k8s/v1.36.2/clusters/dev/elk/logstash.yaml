@@ -80,7 +80,7 @@ eck-logstash:
               cpu: 0.5
             limits:
               memory: 1Gi
-              cpu: 2
+              cpu: 1
 
   # Settings for configuring stack monitoring.
   # ref: https://www.elastic.co/docs/deploy-manage/monitor/stack-monitoring/eck-stack-monitoring

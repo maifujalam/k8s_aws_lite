@@ -33,6 +33,7 @@ spec:
           helm:
             valueFiles:
               - $values/{{.path.path}}/helm-config.yaml
+              - $values/{{.path.path}}/elastic-search.yaml
             skipCrds: true
         - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
           targetRevision: main

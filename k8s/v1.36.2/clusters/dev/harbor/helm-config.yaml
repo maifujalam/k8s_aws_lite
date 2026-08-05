@@ -511,3 +511,13 @@ registry:
     # htpasswdString: "harbor_registry_user:$2a$05$IPnI.TSgP8ek1/ESjkULVemA.A3nSXPdN80ljsmcun7FtE3ViSYUq" # example string, bcrypt is the only accepted hashing algorithm in htpasswd here.
     htpasswdString: ""
 
+trivy:
+   resources:
+     requests:
+       cpu: 100m
+       memory: 64Mi
+     limits:
+       cpu: 200m
+       memory: 256Mi
+
+

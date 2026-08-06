@@ -1,6 +1,6 @@
 image:
   repository: harbor.maifuj.com/dev-apps/ttyd-k9s
-  tag: 15
+  tag: 17
   pullPolicy: IfNotPresent
 
 service:

@@ -1,14 +1,21 @@
-FROM tsl0922/ttyd:1.7.8
+# Stage 1: Builder
+FROM python:3.13 AS builder
+
 ARG K9S_VERSION=v0.50.9
-RUN apt-get update && apt-get install -y curl
+WORKDIR /tmp
 
-# Download k9s tarball
-RUN curl -fL https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_amd64.tar.gz -o /tmp/k9s.tar.gz
+# Install curl and tar just for building
+RUN apt-get update && apt-get install -y curl tar \
+    && curl -fL https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_amd64.tar.gz -o k9s.tar.gz \
+    && tar -zxvf k9s.tar.gz \
+    && chmod +x k9s
 
-# Extract k9s binary into /usr/local/bin
-RUN tar -zxvf /tmp/k9s.tar.gz -C /usr/local/bin k9s \
-    && chmod +x /usr/local/bin/k9s \
-    && rm -vf /tmp/k9s.tar.gz
+# Stage 2: Final runtime
+FROM tsl0922/ttyd:1.7.8-alpine
+
+WORKDIR /usr/local/bin
+
+COPY --from=builder /tmp/k9s /usr/local/bin/k9s
 
 ENTRYPOINT ["ttyd"]
 CMD ["--writable","k9s"]

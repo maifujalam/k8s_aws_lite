@@ -161,12 +161,12 @@ portal:
   #    memory: 256Mi
   #    cpu: 100m
   extraEnvVars: []
-  nodeSelector:
-    kubernetes.io/hostname: master
-  tolerations:
-    - key: "node-role.kubernetes.io/control-plane"
-      operator: "Exists"
-      effect: "NoSchedule"
+#  nodeSelector:
+#    kubernetes.io/hostname: master
+#  tolerations:
+#    - key: "node-role.kubernetes.io/control-plane"
+#      operator: "Exists"
+#      effect: "NoSchedule"
   affinity: {}
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
@@ -245,12 +245,12 @@ core:
   #    memory: 256Mi
   #    cpu: 100m
   extraEnvVars: []
-  nodeSelector:
-    kubernetes.io/hostname: master
-  tolerations:
-    - key: "node-role.kubernetes.io/control-plane"
-      operator: "Exists"
-      effect: "NoSchedule"
+#  nodeSelector:
+#    kubernetes.io/hostname: master
+#  tolerations:
+#    - key: "node-role.kubernetes.io/control-plane"
+#      operator: "Exists"
+#      effect: "NoSchedule"
   affinity: {}
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []
@@ -353,12 +353,12 @@ jobservice:
     failureThreshold: 3
     successThreshold: 1
   extraEnvVars: []
-  nodeSelector:
-    kubernetes.io/hostname: master
-  tolerations:
-    - key: "node-role.kubernetes.io/control-plane"
-      operator: "Exists"
-      effect: "NoSchedule"
+#  nodeSelector:
+#    kubernetes.io/hostname: master
+#  tolerations:
+#    - key: "node-role.kubernetes.io/control-plane"
+#      operator: "Exists"
+#      effect: "NoSchedule"
   affinity: {}
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints:
@@ -464,12 +464,12 @@ registry:
     minAvailable: 1
     # maxUnavailable: 1
   revisionHistoryLimit: 10
-  nodeSelector:
-    kubernetes.io/hostname: master
-  tolerations:
-    - key: "node-role.kubernetes.io/control-plane"
-      operator: "Exists"
-      effect: "NoSchedule"
+#  nodeSelector:
+#    kubernetes.io/hostname: master
+#  tolerations:
+#    - key: "node-role.kubernetes.io/control-plane"
+#      operator: "Exists"
+#      effect: "NoSchedule"
   affinity: {}
   # Spread Pods across failure-domains like regions, availability zones or nodes
   topologySpreadConstraints: []

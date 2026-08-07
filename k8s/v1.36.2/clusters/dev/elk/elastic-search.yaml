@@ -194,7 +194,7 @@ eck-elasticsearch:
               cpu: 1
               memory: 2Gi
             requests:
-              cpu: 500m
+              cpu: 0.2
               memory: 2Gi
 
             # Example increasing both the requests and limits values:

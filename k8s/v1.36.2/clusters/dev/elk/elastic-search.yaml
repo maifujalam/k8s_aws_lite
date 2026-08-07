@@ -192,10 +192,10 @@ eck-elasticsearch:
             # Defaults used by the ECK Operator, if not specified, are below
             limits:
               cpu: 1
-              memory: 1500Mi
+              memory: 2Gi
             requests:
-              cpu: 300m
-              memory: 1500Mi
+              cpu: 500m
+              memory: 2Gi
 
             # Example increasing both the requests and limits values:
             # limits:

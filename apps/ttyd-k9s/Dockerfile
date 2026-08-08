@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y curl tar \
     && chmod +x k9s
 
 # Stage 2: Final runtime
-FROM tsl0922/ttyd:1.7.8-alpine
+FROM tsl0922/ttyd:1.7.8
 
 WORKDIR /usr/local/bin
 

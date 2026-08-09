@@ -18,8 +18,8 @@ if __name__ == '__main__':
             raise
     v1=kubernetes.client.CoreV1Api()
     while True:
-        print("Sleeping 5 sec...")
-        #sleep(5)
+        print("Sleeping 1 hr...")
+        sleep(3600)
         pods=v1.list_pod_for_all_namespaces(watch=False)
         count=0
         for pod in pods.items:

@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: skmaifujalam/evicted-pod-cleaner
+  repository: harbor.maifuj.com/dev-apps/evicted-pod-cleaner
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.

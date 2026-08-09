@@ -6,6 +6,6 @@ RUN pip3 install --no-cache-dir --prefix=/install -r requirements.txt
 FROM python:3.13-alpine AS runner
 WORKDIR /app
 COPY --from=builder /install /usr/local
-COPY . .
+COPY app.py .
 CMD ["python3", "app.py"]
 

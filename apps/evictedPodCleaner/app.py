@@ -18,12 +18,9 @@ if __name__ == '__main__':
             raise
     v1=kubernetes.client.CoreV1Api()
     while True:
-        print("Sleeping 1 hr...")
-        sleep(3600)
         pods=v1.list_pod_for_all_namespaces(watch=False)
-        count=0
         for pod in pods.items:
-            #print("Checking Pod:"+pod.metadata.name + " Namespace: " + pod.metadata.namespace + " Status: " + pod.status.phase)
+            print("Checking Pod:"+pod.metadata.name + " Namespace: " + pod.metadata.namespace + " Status: " + pod.status.phase)
             if pod.status.init_container_statuses:
                 print("Got Init container.")
                 for init_containers in pod.status.init_container_statuses:
@@ -50,3 +47,5 @@ if __name__ == '__main__':
                             print("Deleted Succeeded Pod "+pod.metadata.name)
                 except:
                     print("Failed to get pod status")
+        print("Sleeping 1 hr...")
+        sleep(3600)

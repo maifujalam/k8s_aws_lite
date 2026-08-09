@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: <sample-app>-appset
+  name: evicted-pod-cleaner-appset
   namespace: argo-cd
 spec:
   goTemplate: true
@@ -13,7 +13,7 @@ spec:
               repoURL: https://github.com/maifujalam/k8s_aws_lite.git
               revision: main
               files:
-                - path: k8s/v1.36.2/clusters/*/<sample-app>/appset-config.yaml
+                - path: k8s/v1.36.2/clusters/*/evicted-pod-cleaner/appset-config.yaml
           - clusters:
               selector:
                 matchLabels:
@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: https://<chart_url>
+        - repoURL: oci://harbor.maifuj.com/dev-apps/{{.chart_name}}
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:

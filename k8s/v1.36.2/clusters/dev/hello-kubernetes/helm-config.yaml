@@ -2,7 +2,6 @@ deployment:
   replicaCount: 3
   resources:
     limits:
-      cpu: 20m
       memory: 200Mi
     requests:
       cpu: 10m

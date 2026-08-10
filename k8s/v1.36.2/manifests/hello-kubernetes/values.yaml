@@ -38,5 +38,13 @@ autoscaling:
   minReplicas: 2
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
+  scaleUp:
+    stabilizationWindowSeconds: 10  # Wait for x seconds before scaling up.
+    pods: 1          # add up to 1 pods at a time
+    periodSeconds: 15  # Rate limit for scale out action.At ,ost 1 pod can be added at every 15 seconds.
+  scaleDown:
+    stabilizationWindowSeconds: 300
+    pods: 1          # remove 1 pod at a time
+    periodSeconds: 30
 
 

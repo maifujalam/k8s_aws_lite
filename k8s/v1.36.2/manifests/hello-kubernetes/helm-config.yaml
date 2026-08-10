@@ -1,12 +1,9 @@
 deployment:
-  replicaCount: 3
   resources:
     limits:
-      cpu: 100m
-      memory: 200Mi
-    requests:
-      cpu: 100m
       memory: 100Mi
+    requests:
+      memory: 50Mi
   topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: topology.kubernetes.io/zone
@@ -32,13 +29,8 @@ ingress:
   pathType: Prefix
   rewritePath: false
   secretName: helloworld-secret
-message: Hi Alam.
+message: Hi Alam..
 service:
   externalPort: 443
   port: 8080
   type: ClusterIP
-autoscaling:
-  enabled: true
-  minReplicas: 2
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80

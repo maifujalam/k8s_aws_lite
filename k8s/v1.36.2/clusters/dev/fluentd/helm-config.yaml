@@ -310,8 +310,8 @@ fileConfigs:
         </pattern>
         <pattern>
           format regexp
-          expression /^(?<time>.+) (?<stream>stdout|stderr)( (.))? (?<log>.*)$/
-          time_format '%Y-%m-%dT%H:%M:%S.%NZ'
+          expression /^(?<time>[^ ]+) (?<stream>stdout|stderr) [^ ]* (?<log>.*)$/
+          time_format '%Y-%m-%dT%H:%M:%S.%N%z'
           keep_time_key false
         </pattern>
       </parse>
@@ -378,16 +378,40 @@ fileConfigs:
     <label @OUTPUT>
       <match **>
         @type elasticsearch
-        host "elasticsearch-master"
+        host "elasticsearch-es-http"
         port 9200
-        path ""
+        scheme https
+        ssl_verify false
         user elastic
-        password changeme
-        # Don't wait for elastic to start up.
+        password "lQmFPWcMp3IwWz2lcrd5Hctk"
+
+        # Don't wait for elastic to start up — but pin the version,
+        # otherwise the plugin falls back to ES 5 semantics.
         verify_es_version_at_startup false
+        default_elasticsearch_version 8
+        suppress_type_name true
+
+        logstash_format true
+        logstash_prefix k8s
+        time_key time
+
+        template_overwrite false
+        enable_ilm false
+        request_timeout 30s
+        reload_connections false
+
+        <buffer>
+          @type file
+          path /var/log/fluentd-buffers/k8s.buffer
+          flush_interval 5s
+          retry_max_interval 30
+          retry_forever false
+          chunk_limit_size 8M
+          total_limit_size 2G
+          overflow_action block
+        </buffer>
       </match>
     </label>
-
 ingress:
   enabled: true
   annotations:

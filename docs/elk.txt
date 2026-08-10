@@ -1,2 +1,25 @@
 1. https://logz.io/learn/complete-guide-elk-stack/#elasticsearch
-2. 
+2.
+
+ELK Stack:-
+Create Indeces:
+Stack management -> Index management -> Creare Index.
+
+Create Kibana Data View, to visualize any index:-
+1. Stack managemnt Under the Managment Tag in Kibana home page.
+2.
+
+DevTools commands:
+
+GET /my-index/_search?q="rocky mountain"
+GET _cluster/health?filter_path=status,unassigned_shards
+GET _cat/shards?v=true&h=index,shard,prirep,state,node,unassigned.reason
+
+GET _cluster/allocation/explain?pretty
+
+PUT _all/_settings
+{
+  "index": {
+    "number_of_replicas": 0
+  }
+}

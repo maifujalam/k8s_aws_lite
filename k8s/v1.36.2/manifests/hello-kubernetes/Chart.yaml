@@ -3,4 +3,4 @@ appVersion: 1.10.0
 description: A demo application for a Kubernetes cluster.
 name: hello-kubernetes
 type: application
-version: 1.0.4
+version: 1.0.5

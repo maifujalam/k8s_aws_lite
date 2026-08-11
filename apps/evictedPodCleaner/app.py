@@ -25,13 +25,19 @@ if __name__ == '__main__':
                 print("Got Init container.")
                 for init_containers in pod.status.init_container_statuses:
                     print("Checking InitContainer: "+init_containers.name+", of Pod: "+pod.metadata.name)
-                    if init_containers.state.terminated:
+                    if init_containers.state.terminated is not None:
                         if init_containers.state.terminated.exit_code !=0:
                             print("InitContainer: " +init_containers.name+" Exit code non Zero: "+str(init_containers.state.terminated.exit_code))
                             print("Deleting whole pod to restart it.")
                             v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)
                             print("Deleted Succeeded Pod " + pod.metadata.name)
                             sleep(300)
+                    if init_containers.state.terminated is None:
+                        print("InitContainer: " + init_containers.name + " is Not Terminated Gracefully ")
+                        print("Deleting whole pod to restart it.")
+                        v1.delete_namespaced_pod(pod.metadata.name, pod.metadata.namespace)
+                        print("Deleted Succeeded Pod " + pod.metadata.name)
+                        sleep(300)
 
             if pod.status.phase != 'Running':
                 print("Non Running Pod"+pod.metadata.name+ " | "+pod.metadata.namespace+" | "+pod.status.phase)

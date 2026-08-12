@@ -7,7 +7,7 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
-#  allowCrossNamespaceImport: true
+  allowCrossNamespaceImport: true
   datasource:
     name: VictoriaMetrics
     type: prometheus

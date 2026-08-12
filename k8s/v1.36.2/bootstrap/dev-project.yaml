@@ -13,4 +13,4 @@ spec:
   - group: '*'
     kind: '*'
   orphanedResources:
-    warn: true # Disable warning
+    warn: false # Disable warning

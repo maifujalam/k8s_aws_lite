@@ -1192,9 +1192,9 @@ kubeEtcd:
     # -- Enable service for ETCD metrics scraping
     enabled: true
     # -- ETCD service port
-    port: 2379
+    port: 2381  # Client metrics expose on 2381.
     # -- ETCD service target port
-    targetPort: 2379
+    targetPort: 2381  # Client metrics expose on 2381.
     # -- ETCD service labels
     labels: {}
     # -- ETCD service pods selector

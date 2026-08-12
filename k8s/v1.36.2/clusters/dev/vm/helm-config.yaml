@@ -1113,7 +1113,7 @@ kubeControllerManager:
           port: http-metrics
           scheme: https
           tlsConfig:
-            insecureSkipVerify: true
+            insecureSkipVerify: true  # Skip tls verify.
             caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
             serverName: kubernetes
 
@@ -1214,6 +1214,7 @@ kubeEtcd:
           port: http-metrics
           scheme: https
           tlsConfig:
+            insecureSkipVerify: true  # Skip tls verify.
             caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
 # Component scraping kube scheduler
@@ -1254,6 +1255,7 @@ kubeScheduler:
           port: http-metrics
           scheme: https
           tlsConfig:
+            insecureSkipVerify: true  # Skip tls verify.
             caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 
 # Component scraping kube proxy

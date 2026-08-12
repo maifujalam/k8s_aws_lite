@@ -58,3 +58,7 @@ Enable App ROle:-
 4. Read the created role: vault read auth/approle/role/argocd-role
 5. Get a RoleID issued against the AppRole: vault read auth/approle/role/argocd-role/role-id
 6. Get a SecretID issued against the AppRole: vault write -f auth/approle/role/argocd-role/secret-id
+=======================================================================================================================
+Setup HA Vault on K8s
+Link:- https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-tls
+

@@ -1113,6 +1113,7 @@ kubeControllerManager:
           port: http-metrics
           scheme: https
           tlsConfig:
+            insecureSkipVerify: true
             caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
             serverName: kubernetes
 

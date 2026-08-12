@@ -1212,7 +1212,7 @@ kubeEtcd:
           # bearerTokenSecret:
           #   key: ""
           port: http-metrics
-          scheme: https
+          scheme: http   # Expose http metrics
           tlsConfig:
             insecureSkipVerify: true  # Skip tls verify.
             caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt

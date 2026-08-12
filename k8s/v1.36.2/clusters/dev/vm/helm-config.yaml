@@ -18,7 +18,7 @@ victoria-metrics-operator:
 
 defaultDashboards:
   # -- Enable dashboard sync via sync-job
-  enabled: true
+  enabled: false
   # -- Additional labels for dashboard resources (ConfigMaps or GrafanaDashboard CRDs)
   labels: {}
   # -- Additional annotations for dashboard resources

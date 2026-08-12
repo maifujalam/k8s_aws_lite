@@ -2,3 +2,7 @@
   edit /etc/kubernetes/manifests/etcd.yaml and other files
   and replace metrics exporter ip from 127.0.0.1 to 0.0.0.0
 
+For kube porxy: edit configmap of kube-proxy under kube-system and update as below:
+    metricsBindAddress: "0.0.0.0:10249"
+    Rollout restart kube proxy daemonset.
+

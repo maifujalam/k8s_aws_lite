@@ -1,0 +1,4 @@
+1. To enable the kubernetes core metrics:-
+  edit /etc/kubernetes/manifests/etcd.yaml and other files
+  and replace metrics exporter ip from 127.0.0.1 to 0.0.0.0
+

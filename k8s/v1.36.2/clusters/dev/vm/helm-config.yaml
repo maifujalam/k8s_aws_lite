@@ -1281,4 +1281,13 @@ kubeProxy:
     # -- Kube proxy service pod selector
     selector:
       k8s-app: kube-proxy
+  vmScrape:
+    spec:
+      endpoints:
+        - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+          port: http-metrics
+          scheme: http
+          tlsConfig:
+            insecureSkipVerify: true  # Skip tls verify.
+            caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 

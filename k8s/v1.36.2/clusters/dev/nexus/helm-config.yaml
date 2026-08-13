@@ -243,7 +243,7 @@ readinessProbe:
 
 persistence:
   # -- If `true`, persistence should be enabled for the `StatefulSet`.
-  enabled: false
+  enabled: true
   # -- Annotations for the `PersistentVolumeClaim`.
   annotations: {}
   # -- Access mode for the `PersistentVolumeClaim`.
@@ -251,7 +251,7 @@ persistence:
   # -- Storage class for the `PersistentVolumeClaim`, if not set the default will be used.
   storageClass:
   # -- Size of the `PersistentVolumeClaim`.
-  size: 8Gi
+  size: 1Gi
   # -- If `true`, keep `PersistentVolumeClaims` when the `StatefulSet` is deleted.
   retainDeleted: true
   # -- If `true`, keep `PersistentVolumeClaim` when the `StatefulSet` is scaled down.

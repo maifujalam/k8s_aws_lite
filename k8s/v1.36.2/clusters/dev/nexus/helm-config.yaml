@@ -347,7 +347,7 @@ chownDataDir: true
 
 rootPassword:
   # -- (string) Name of the secret containing the root password.
-  secret: nexus-root-password
+  secret: nexus-admin-secret
   # -- Key in the secret containing the root password.
   key: password
 

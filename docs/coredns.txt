@@ -16,3 +16,59 @@ data:
   clientID: "${GITHUB_CLIENT_ID}"
   # OAuth client secret
   clientSecret: "${GITHUB_CLIENT_SECRET}"
+
+
+Core DNS Reduse NXDOMAIN rate?
+# cat /etc/resolv.conf
+search hello-kubernetes.svc.cluster.local(1) svc.cluster.local(2) cluster.local(3) ap-south-1.compute.internal(4)
+nameserver 10.96.0.10
+options ndots:5  [5 is default]
+
+
+When done nslookup ingress-nginx-controller , it create 8 combinations as below:-
+# nslookup ingress-nginx-controller
+
+server can't find ingress-nginx-controller.cluster.local: NXDOMAIN  [ AAAA Record] (from 3)
+
+Name:	ingress-nginx-controller.ingress-nginx.svc.cluster.local [ A Record]
+Address: 10.102.179.226
+
+** server can't find ingress-nginx-controller.svc.cluster.local: NXDOMAIN  [ AAAA Record] (from 2)
+
+** server can't find ingress-nginx-controller.svc.cluster.local: NXDOMAIN [ A Record] (from 2)
+
+** server can't find ingress-nginx-controller.cluster.local: NXDOMAIN [A Record] (from 3)
+
+** server can't find ingress-nginx-controller.ap-south-1.compute.internal: NXDOMAIN [A Record] (from 4)
+
+** server can't find ingress-nginx-controller.ap-south-1.compute.internal: NXDOMAIN [AAAA Record] (from 4)
+
+
+
+SO making ndot to 2,will not create 8 combinations and will reduce NXDOMAIN rate.It will create 4 combinations as below:-
+# cat /etc/resolv.conf
+search hello-kubernetes.svc.cluster.local(1) svc.cluster.local(2) cluster.local(3)
+
+Name:	ingress-nginx-controller.ingress-nginx.svc.cluster.local [ A Record]
+Address: 10.102.179.226
+
+
+** server can't find ingress-nginx-controller.svc.cluster.local: NXDOMAIN  [ AAAA Record] (from 2)
+
+** server can't find ingress-nginx-controller.svc.cluster.local: NXDOMAIN [ A Record] (from 2)
+
+
+So the takeawayy is,
+1. Scale the deployment from 2 to n number of nodes.So that node to node hop is redused.
+2. Make all the internal communication from ingress,sc-name to fqdn of thhe service name.
+    a. If ites through ingress it creates multiple trrafic hops.
+    b. If its FQDN of service then,it will be directly router to service and reduce the NXDOMAIN rate.By lowering the query.
+    3. Monitor for the Coredns using VMServiceMonitor.
+
+
+
+
+
+
+
+

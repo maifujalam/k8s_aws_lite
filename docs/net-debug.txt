@@ -1,0 +1,7 @@
+k -n <namespace> debug <target-pod> -it --profile netadmin --image=nicolaka/netshoot:v0.16
+Example:-
+kubectl -n hello-kubernetes debug hello-kubernetes-hello-kubernetes-dev-5cf8d78fdb-dlqh7 -it --profile netadmin --image=nicolaka/netshoot:v0.16
+
+There is no way to remove the ephemeral container from the pod, so you will have to delete the pod and recreate it if you want to remove the ephemeral container.
+This is by design.
+

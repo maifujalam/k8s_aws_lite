@@ -1,0 +1,4 @@
+---
+namespace: nexus
+chart_name: nexus3
+chart_version: 5.24.1

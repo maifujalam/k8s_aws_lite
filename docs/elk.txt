@@ -1,5 +1,4 @@
 1. https://logz.io/learn/complete-guide-elk-stack/#elasticsearch
-2.
 
 ELK Stack:-
 Create Indeces:
@@ -7,19 +6,93 @@ Stack management -> Index management -> Creare Index.
 
 Create Kibana Data View, to visualize any index:-
 1. Stack managemnt Under the Managment Tag in Kibana home page.
-2.
 
 DevTools commands:
 
-GET /my-index/_search?q="rocky mountain"
-GET _cluster/health?filter_path=status,unassigned_shards
-GET _cat/shards?v=true&h=index,shard,prirep,state,node,unassigned.reason
-
 GET _cluster/allocation/explain?pretty
 
+0. Put all undex replicas to 0.
 PUT _all/_settings
 {
   "index": {
     "number_of_replicas": 0
   }
 }
+
+1. How to check the cluster health?
+GET _cluster/health
+
+2. Create an index?
+PUT /my-index
+
+3. Add data to index?
+POST /my-index/_doc
+{
+    "id": "park_rocky-mountain",
+    "title": "Rocky Mountain",
+    "description": "Bisected north to south by the Continental Divide, this portion of the Rockies has ecosystems varying from over 150 riparian lakes to montane and subalpine forests to treeless alpine tundra."
+}
+
+4. Get cluster default settings.
+GET _cluster/settings?include_defaults=true
+
+5 get all the dhars details?
+GET _cat/shards?v
+
+6. get the details of a shard.
+GET _cluster/allocation/explain
+{
+  "index": "k8s-2026.08.14",
+  "shard": 0,
+  "primary": true
+}
+
+7. How to change the threshold of disk free.
+PUT _cluster/settings
+{
+  "persistent": {
+    "cluster.routing.allocation.disk.watermark.low": "95%",
+    "cluster.routing.allocation.disk.watermark.high": "97%",
+    "cluster.routing.allocation.disk.watermark.flood_stage": "98%"
+  }
+}
+
+8. Create index life cycle (ILM) policy.
+   DElete all shards after 3 days.
+PUT _ilm/policy/delete_after_3_days
+{
+  "policy": {
+    "phases": {
+      "hot": {
+        "actions": {
+          "rollover": {
+            "max_age": "1d"
+          }
+        }
+      },
+      "delete": {
+        "min_age": "3d",
+        "actions": {
+          "delete": {}
+        }
+      }
+    }
+  }
+}
+
+9. Attch life cycle ploicy to index pattern?
+PUT _index_template/logs_template
+{
+  "index_patterns": ["k8s-*"],
+  "template": {
+    "settings": {
+      "index.lifecycle.name": "delete_after_3_days",
+      "index.lifecycle.rollover_alias": "logs-write"
+    }
+  }
+}
+It will not delete the existing indeces ,as it need pre configuration and does not reconsile.
+
+10. Delete indeces manually.
+DELETE k8s-2026.08.10,k8s-2026.08.11
+

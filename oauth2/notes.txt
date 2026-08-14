@@ -1,4 +1,10 @@
-1. Deploy oauth2 proxy.
+A. In GutHub OIDC:-
+
+1. Home page of my oauth2 url:- https://oauth2.maifuj.com
+2. Redirect URl of my oauth2: https://oauth2.maifuj.com/oauth2/callback
+3. Generate Client ID and Secret.
+
+B. Deploy oauth2 proxy.
 
 Cookey secret generator: python3 -c 'import os,base64; print(base64.urlsafe_b64encode(os.urandom(32)).decode())'
 
@@ -22,17 +28,34 @@ Cookey secret generator: python3 -c 'import os,base64; print(base64.urlsafe_b64e
 
 
 Configure:-
-1. client ID:
-2. Client Secret:
+1. client ID: from github
+2. Client Secret: forom github
 3. CookeySecret:  <randome 32 bit secret>
 4. Provider:  github
-5. Redirect URL:
+5. Redirect URL: is the callback url :  https://oauth2.maifuj.com/oauth2/callback
 
 extra args:-
  -- email-domain=*
  -- upstream=/dev/null
 
- In GutHub OIDC:-
- 1. Home page of my oauth2 url:- https://oauth2.maifuj.com
- 2. Redirect URl of my oauth2: https://oauth2.maifuj.com/oauth2/callback
- 3. Generate Client ID and Secret.
+In ingress nging configure as below:-
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.default.svc.cluster.local:4180/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://myapp.example.com/oauth2/start"
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myapp-service
+            port:
+              number: 80

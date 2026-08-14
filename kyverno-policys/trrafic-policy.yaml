@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: block-internal-traffic-local
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: disallow-local-internal-traffic
+      match:
+        resources:
+          kinds:
+            - Service
+      validate:
+        message: "Services must NOT use internalTrafficPolicy=Local"
+        deny:
+          conditions:
+            any:
+              - key: "{{ request.object.spec.internalTrafficPolicy }}"
+                operator: Equals
+                value: Local

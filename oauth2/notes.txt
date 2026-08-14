@@ -1,0 +1,38 @@
+1. Deploy oauth2 proxy.
+
+Cookey secret generator: python3 -c 'import os,base64; print(base64.urlsafe_b64encode(os.urandom(32)).decode())'
+
+  configFile: |-
+    provider = "oidc"
+    client_id = "Ov23liy9wYBhlqmHtfcq"
+    client_secret = "35fe0f45853d9af707bc89111c4c8cd961273688"
+    cookie_secret = "OQINaROshtE9TcZkNAm-5Zs2Pv3xaWytBmc5W7sPX7w="
+    oidc_issuer_url = "https://dex.maifuj.com"
+    redirect_url = "https://oauth2.maifuj.com/oauth2/callback"
+    upstreams = ["file:///dev/null","http://kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local:80"]
+    cookie_domains = [".maifuj.com"]
+    whitelist_domains = [".maifuj.com"]
+    cookie_expire = "5m"
+    email_domains = ["*"]
+    cookie_secure = "true"
+    set_xauthrequest = "true"
+    pass_access_token = "true"
+    set_authorization_header = "true"
+    skip_provider_button = "true"
+
+
+Configure:-
+1. client ID:
+2. Client Secret:
+3. CookeySecret:  <randome 32 bit secret>
+4. Provider:  github
+5. Redirect URL:
+
+extra args:-
+ -- email-domain=*
+ -- upstream=/dev/null
+
+ In GutHub OIDC:-
+ 1. Home page of my oauth2 url:- https://oauth2.maifuj.com
+ 2. Redirect URl of my oauth2: https://oauth2.maifuj.com/oauth2/callback
+ 3. Generate Client ID and Secret.

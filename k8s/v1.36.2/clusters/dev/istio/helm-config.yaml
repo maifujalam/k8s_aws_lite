@@ -20,8 +20,8 @@ _internal_defaults_do_not_set:
   # Resources for a small pilot install
   resources:
     requests:
-      cpu: 500m
-      memory: 2048Mi
+      cpu: 300m
+      memory: 1024Mi
 
   # Set to `type: RuntimeDefault` to use the default profile if available.
   seccompProfile: {}

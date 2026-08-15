@@ -953,7 +953,7 @@ ports:
     # -- The port protocol (TCP/UDP)
     protocol: TCP
     # -- (int) See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-    nodePort:  31080 # @schema type:[integer, null]; minimum:0
+    nodePort:  30080 # @schema type:[integer, null]; minimum:0
     # -- See [upstream documentation](https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/#allowacmebypass)
     allowACMEByPass: false
     http:
@@ -1013,7 +1013,7 @@ ports:
     # -- The port protocol (TCP/UDP)
     protocol: TCP
     # -- (int) See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-    nodePort: 31443 # @schema type:[integer, null]; minimum:0
+    nodePort: 30443 # @schema type:[integer, null]; minimum:0
     # -- See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol)
     appProtocol:  # @schema type:[string, null]
     # -- See [upstream documentation](https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/#allowacmebypass)
@@ -1133,7 +1133,7 @@ service:
   # -- Additional entries here will be added to the Service [spec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.35/#servicespec-v1-core).
   # Cannot contain selector or ports entries.
   spec:
-    type: LoadBalancer
+    type: NodePort
   # -- Can be used to create multiple Service.
   # See EXAMPLES.md for more details.
   additionalServices: {}

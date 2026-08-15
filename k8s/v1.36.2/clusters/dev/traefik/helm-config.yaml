@@ -953,7 +953,7 @@ ports:
     # -- The port protocol (TCP/UDP)
     protocol: TCP
     # -- (int) See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-    nodePort:  # @schema type:[integer, null]; minimum:0
+    nodePort:  31080 # @schema type:[integer, null]; minimum:0
     # -- See [upstream documentation](https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/#allowacmebypass)
     allowACMEByPass: false
     http:
@@ -1013,7 +1013,7 @@ ports:
     # -- The port protocol (TCP/UDP)
     protocol: TCP
     # -- (int) See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
-    nodePort:  # @schema type:[integer, null]; minimum:0
+    nodePort: 31443 # @schema type:[integer, null]; minimum:0
     # -- See [upstream documentation](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol)
     appProtocol:  # @schema type:[string, null]
     # -- See [upstream documentation](https://doc.traefik.io/traefik/reference/install-configuration/entrypoints/#allowacmebypass)

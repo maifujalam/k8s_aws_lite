@@ -1,4 +1,4 @@
 ---
-namespace: istio
+namespace: istio-system
 chart_name: istiod
 chart_version: 1.30.3

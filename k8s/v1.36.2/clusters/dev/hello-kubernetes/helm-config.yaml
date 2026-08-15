@@ -20,7 +20,7 @@ ingress:
   extraPaths: ''
   hosts:
   - helloworld.maifuj.com
-  ingressClassName: nginx
+  ingressClassName: traefik
   issuer:
     name: letsencrypt-prod
     scope: cluster

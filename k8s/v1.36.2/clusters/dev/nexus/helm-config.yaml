@@ -85,7 +85,6 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    kubernetes.io/ingress.class: nginx
   # -- (string) Ingress class name.
   ingressClassName: traefik
   # -- (list) Ingress hosts, do not include hosts defined in `service.additionalPorts`.

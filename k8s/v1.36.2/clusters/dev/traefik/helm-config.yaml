@@ -325,7 +325,7 @@ providers:
   # @schema additionalProperties: false
   kubernetesIngress:
     # -- Load Kubernetes Ingress provider
-    enabled: true
+    enabled: false
     # -- Allows to reference ExternalName services in Ingress
     allowExternalNameServices: false
     # -- Allows to return 503 when there are no endpoints available

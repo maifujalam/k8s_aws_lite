@@ -17,6 +17,7 @@ if __name__ == '__main__':
             print("❌ Failed to load any Kubernetes config")
             raise
     v1=kubernetes.client.CoreV1Api()
+    cycle=0
     while True:
         pods=v1.list_pod_for_all_namespaces(watch=False)
         for pod in pods.items:
@@ -55,3 +56,5 @@ if __name__ == '__main__':
                     print("Failed to get pod status")
         print("Sleeping 1 hr...")
         sleep(3600)
+        cycle+=1
+        print("------- Cycle Count:" +str(cycle)+" ---------" )

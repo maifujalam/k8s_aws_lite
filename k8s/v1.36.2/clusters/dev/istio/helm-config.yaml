@@ -71,7 +71,8 @@ _internal_defaults_do_not_set:
   # Inject initContainers into the istiod pod
   initContainers: []
 
-  nodeSelector: {}
+  nodeSelector:
+    kubernetes.io/hostname: master
   podAnnotations: {}
   serviceAnnotations: {}
   serviceAccountAnnotations: {}

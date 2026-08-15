@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: traefik-appset
+  name: istio-appset
   namespace: argo-cd
 spec:
   goTemplate: true
@@ -13,7 +13,7 @@ spec:
               repoURL: https://github.com/maifujalam/k8s_aws_lite.git
               revision: main
               files:
-                - path: k8s/v1.36.2/clusters/*/traefik/appset-config.yaml
+                - path: k8s/v1.36.2/clusters/*/istio/appset-config.yaml
           - clusters:
               selector:
                 matchLabels:
@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: https://traefik.github.io/charts
+        - repoURL: https://istio-release.storage.googleapis.com/charts
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:

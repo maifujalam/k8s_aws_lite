@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: traefik-repository
+  name: istio-repository
   namespace: argo-cd
   labels:
     argocd.argoproj.io/secret-type: repository
 stringData:
-  name: traefik-repository
-  url: traefik.github.io/charts
+  name: istio-repository
+  url: istio-release.storage.googleapis.com/charts
   type: helm
   enableOCI: "true"

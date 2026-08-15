@@ -1,4 +1,0 @@
----
-namespace: traefik
-chart_name: traefik
-chart_version: 41.1.0

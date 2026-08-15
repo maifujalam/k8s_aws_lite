@@ -1,0 +1,6 @@
+Install CRDs:
+
+helm show crds traefik/traefik | kubectl apply --server-side --force-conflicts -f -
+
+Gateway API CIDR:
+kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml

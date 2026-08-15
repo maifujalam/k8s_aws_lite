@@ -1,0 +1,4 @@
+---
+namespace: istio
+chart_name: istiod
+chart_version: 1.30.3

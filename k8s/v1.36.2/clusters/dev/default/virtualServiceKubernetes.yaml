@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: kubernetes-api
+  namespace: default
+spec:
+  hosts: ["kubernetes.maifuj.com"]
+  gateways: ["istio-ingress/gateway-tls"]
+  tls:
+    - match:
+        - port: 6443
+          sniHosts: ["kubernetes.maifuj.com"]
+      route:
+        - destination:
+            host: kubernetes.default.svc.cluster.local
+            port: {number: 443}

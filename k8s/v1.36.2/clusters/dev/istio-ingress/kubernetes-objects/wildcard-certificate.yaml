@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-certificate
+  namespace: istio-ingress
+spec:
+  secretName: wildcard-certificate-secret
+  dnsNames:
+    - "*.maifuj.com"
+    - "maifuj.com"
+  issuerRef:
+    name: letsencrypt-prod-cluster-issuer       # <-- check your actual ClusterIssuer name
+    kind: ClusterIssuer
+  privateKey:
+    rotationPolicy: Always

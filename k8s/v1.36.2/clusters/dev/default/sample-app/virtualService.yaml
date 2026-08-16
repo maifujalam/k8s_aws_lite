@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: app
+  namespace: default
+spec:
+  gateways: ["istio-ingress/gateway-https"]
+  hosts: ["app.maifuj.com"]
+  http:
+    - route:
+        - destination:
+            host: productpage
+            port: {number: 9080}

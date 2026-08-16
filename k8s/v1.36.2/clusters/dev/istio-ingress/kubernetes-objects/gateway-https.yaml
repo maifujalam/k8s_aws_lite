@@ -1,16 +1,18 @@
 apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
-  name: wildcard-gateway
+  name: gateway-https
   namespace: istio-ingress
 spec:
   selector:
     istio: ingress-dev
   servers:
+    - port: {number: 80, name: http, protocol: HTTP}
+      hosts: ["*.maifuj.com"]
+      tls:
+        httpsRedirect: true      # 301 to https, no VirtualService needed
     - port: {number: 443, name: https, protocol: HTTPS}
       hosts: ["*.maifuj.com"]
       tls:
         mode: SIMPLE
-        credentialName: wildcard-example-tls
-    - port: { number: 80, name: http, protocol: HTTP }
-      hosts: [ "*.maifuj.com" ]
+        credentialName: wildcard-certificate-secret

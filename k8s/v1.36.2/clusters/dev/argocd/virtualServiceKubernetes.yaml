@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: argocd-virtual-service
+  namespace: argo-cd
+spec:
+  hosts: ["argocd.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: argo-cd-argocd-server
+            port: {number: 80}

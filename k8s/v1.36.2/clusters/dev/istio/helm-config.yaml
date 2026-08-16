@@ -402,11 +402,11 @@ _internal_defaults_do_not_set:
       # Resources for the sidecar.
       resources:
         requests:
+          cpu: 10m
+          memory: 64Mi
+        limits:
           cpu: 100m
           memory: 128Mi
-        limits:
-          cpu: 2000m
-          memory: 1024Mi
 
       # Default port for Pilot agent health checks. A value of 0 will disable health checking.
       statusPort: 15020
@@ -416,6 +416,13 @@ _internal_defaults_do_not_set:
       tracer: "none"
 
     proxy_init:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
       # Base name for the proxy_init container, used to configure iptables.
       image: proxyv2
       # Bypasses iptables idempotency handling, and attempts to apply iptables rules regardless of table state, which may cause unrecoverable failures.
@@ -537,11 +544,11 @@ _internal_defaults_do_not_set:
       # Resources for the waypoint proxy.
       resources:
         requests:
+          cpu: 10m
+          memory: 64Mi
+        limits:
           cpu: 100m
           memory: 128Mi
-        limits:
-          cpu: "2"
-          memory: 1Gi
 
       # If specified, affinity defines the scheduling constraints of waypoint pods.
       affinity: {}

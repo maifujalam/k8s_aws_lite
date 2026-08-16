@@ -18,7 +18,7 @@ args:
   - "k9s"
 
 ingress:
-  enabled: true
+  enabled: false
   className: nginx
   hosts:
     - host: k9s.maifuj.com

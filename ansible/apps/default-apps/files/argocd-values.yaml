@@ -987,7 +987,7 @@ controller:
 
   # -- Priority class for the application controller pods
   # @default -- `""` (defaults to global.priorityClassName)
-  priorityClassName: ""
+  priorityClassName: "system-cluster-critical"
 
   # -- [Node selector]
   # @default -- `{}` (defaults to global.nodeSelector)

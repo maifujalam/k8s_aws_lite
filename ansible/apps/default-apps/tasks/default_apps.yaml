@@ -127,13 +127,14 @@
         secret:
           argocdServerAdminPassword: "{{ ARGOCD_ADMIN_PASSWORD_HASH }}"
       controller:
+        priorityClassName: "system-cluster-critical"
         resources:
-          requests:
-            cpu: 100m
-            memory: 512Mi
           limits:
             cpu: 500m
-            memory: 512Mi
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 1Gi
         service:
           type: NodePort
           nodePorts:

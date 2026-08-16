@@ -16,7 +16,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
   configured: true
-  enabled: true
+  enabled: false
   extraPaths: ''
   hosts:
   - helloworld.maifuj.com

@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: blackbox-exporter-virtual-service
+  namespace: blackbox-exporter
+spec:
+  hosts: ["blackbox.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: blackbox-exporter-dev-prometheus-blackbox-exporter.blackbox-exporter.svc.cluster.local
+            port: {number: 9115}

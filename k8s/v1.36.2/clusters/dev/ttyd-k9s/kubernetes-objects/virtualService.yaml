@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: ttyd-k9s-virtual-service
+  namespace: ttyd-k9s
+spec:
+  hosts: ["k9s.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: ttyd-k9s.ttyd-k9s.svc.cluster.local
+            port: {number: 7681}

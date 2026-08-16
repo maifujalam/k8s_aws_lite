@@ -1,0 +1,4 @@
+---
+namespace: istio-ingress
+chart_name: gateway
+chart_version: 1.30.3

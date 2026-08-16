@@ -121,9 +121,13 @@ _internal_defaults_do_not_set:
   # Annotations to apply to all resources
   annotations: {}
 
-  nodeSelector: {}
+  nodeSelector:
+    kubernetes.io/hostname: master
 
-  tolerations: []
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
 
   topologySpreadConstraints: []
 

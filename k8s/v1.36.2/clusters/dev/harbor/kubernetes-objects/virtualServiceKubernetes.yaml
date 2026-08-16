@@ -1,0 +1,64 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: harbor-virtual-service
+  namespace: harbor
+spec:
+  gateways: ["istio-ingress/gateway-https"]
+  hosts: [harbor.maifuj.com]
+  http:
+  - match:
+    - uri:
+        prefix: /api/
+    route:
+    - destination:
+        host: harbor-dev-core.harbor.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /service/
+    route:
+    - destination:
+        host: harbor-dev-core.harbor.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /chartrepo
+    route:
+    - destination:
+        host: harbor-dev-core.harbor.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /c/
+    route:
+    - destination:
+        host: harbor-dev-core.harbor.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /v1/
+    route:
+    - destination:
+        host: harbor-dev-core.harbor.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /v2/
+    route:
+    - destination:
+        host: harbor-dev-core.harbor.svc.cluster.local
+        port:
+          number: 80
+  - name: portal
+    route:
+    - destination:
+        host: harbor-dev-portal.harbor.svc.cluster.local
+        port:
+          number: 80
+    timeout: 30s

@@ -1,5 +1,5 @@
 expose:
-  type: ingress
+  type: none
   tls:
     enabled: false
     # The source of the tls certificate. Set as "auto", "secret"

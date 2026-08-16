@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: grafana-virtual-service
+  namespace: grafana
+spec:
+  hosts: ["grafana.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: grafana-service.grafana.svc.cluster.local
+            port: {number: 3000}

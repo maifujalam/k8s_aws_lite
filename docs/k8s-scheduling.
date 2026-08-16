@@ -1,0 +1,10 @@
+
+│   ----     ------            ----                  ----               -------                                                                                                                               │
+│   Warning  FailedScheduling  18s (x65 over 4h46m)  default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint(s), 2 Insufficient cpu. no new claims to deallocate, preemption: 0/3 nodes a │
+│ re available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod.
+
+Explain this:-
+1 node(s) had untolerated taint(s) — almost certainly your control-plane node carrying node-role.kubernetes.io/control-plane:NoSchedule.
+2 Insufficient cpu — the two workers don't have enough unrequested CPU left. This is about resources.requests.cpu arithmetic,
+not actual utilization: the scheduler sums the CPU requests of all pods already bound to a node and compares the remainder against your pod's request.
+

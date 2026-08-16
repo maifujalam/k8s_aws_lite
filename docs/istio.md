@@ -1,6 +1,6 @@
 Istio 
 Istio Implemnentation Modes:-
-a. Enovy Mode: 
+a. Sidecar Mode: 
 b. Ambient: Istio implements its features using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy.
      a. Ztunnel (L4 Tunnel): The ztunnel (Zero Trust tunnel) component is a purpose-built, per-node proxy that powers Istio’s ambient data plane mode.
      b. waypoint (L7 proxy): It is a lightweight proxy that runs as a sidecar to the application container. 

@@ -1,0 +1,28 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "kms:EnableKey",
+                "kms:ImportKeyMaterial",
+                "kms:DisableKey",
+                "kms:ReplicateKey",
+                "kms:UpdateAlias",
+                "kms:GetParametersForImport",
+                "kms:TagResource",
+                "kms:ScheduleKeyDeletion",
+                "kms:ListAliases",
+                "kms:CreateAlias",
+                "kms:DescribeKey",
+                "kms:CreateKey",
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:ListKeys",
+                "kms:DeleteAlias"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

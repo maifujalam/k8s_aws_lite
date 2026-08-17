@@ -1,0 +1,14 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "= 5.66.0"
+    }
+  }
+  required_version = ">= 1.6.1"
+  backend "s3" {
+    bucket = "terraform-s3-maifuj"
+    key    = "terraform-state/k8s_aws/terraform/iam/hosted-zone/vault-kms-custom-policy-ec2-full-access-policy-attachment"   # Hare our state files get stored for this object.
+    region = "ap-south-1"
+  }
+}

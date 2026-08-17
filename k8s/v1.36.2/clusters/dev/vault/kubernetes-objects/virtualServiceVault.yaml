@@ -9,5 +9,5 @@ spec:
   http:
     - route:
         - destination:
-            host: vault.vault.svc.cluster.local
+            host: vault-vev-ui.vault.svc.cluster.local
             port: {number: 8200}

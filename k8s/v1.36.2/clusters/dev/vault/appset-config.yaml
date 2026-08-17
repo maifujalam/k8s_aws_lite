@@ -1,0 +1,4 @@
+---
+namespace: vault
+chart_name: vault
+chart_version: 0.34.0

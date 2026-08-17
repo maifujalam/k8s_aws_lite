@@ -380,11 +380,11 @@ server:
   serviceCA:
     # Enable service-ca operator annotations and ConfigMap creation
     # Requires: global.openshift=true
-    enabled: true
+    enabled: false
 
     # Secret name where service-ca will store the generated certificate
     # IMPORTANT: Must match the secret name in server.volumes below
-    secretName: "vault-tls"
+    secretName: vault-tls
 
     # ConfigMap name for service-ca CA bundle injection
     # IMPORTANT: Must match the ConfigMap name in server.volumes below
@@ -665,10 +665,10 @@ server:
   # extraVolumes is a list of extra volumes to mount. These will be exposed
   # to Vault in the path `/vault/userconfig/<name>/`. The value below is
   # an array of objects, examples are shown below.
-  extraVolumes: []
-    # - type: secret (or "configMap")
-    #   name: my-secret
-    #   path: null # default is `/vault/userconfig`
+  extraVolumes:
+   - type: secret # (or "configMap")
+     name: wildcard-certificate-secret
+     path:  /vault/userconfig/vault-tls
 
   # volumes is a list of volumes made available to all containers. These are rendered
   # via toYaml rather than pre-processed like the extraVolumes value.

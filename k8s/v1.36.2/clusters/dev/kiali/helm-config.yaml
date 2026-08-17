@@ -136,5 +136,30 @@ cr:
       cluster_wide_access: true
     external_services:
       prometheus:
+        enabled: true
         url: "http://vmsingle-vm-dev-victoria-metrics-k8s-stack.vm.svc.cluster.local.:8428"
+      grafana:
+        enabled: true
+        # Grafana service name is "grafana" and is in the "telemetry" namespace.
+        internal_url: 'http://grafana-service.grafana.svc.cluster.local.:3000/'
+        # Public facing URL of Grafana
+        external_url: 'http://grafana.maifuj.com/'
+        # Grafana datasource UID when there are multiple
+        # datasource_uid: ""
+        dashboards:
+          - name: "Istio Service Dashboard"
+            variables:
+              datasource: "var-datasource"
+              namespace: "var-namespace"
+              service: "var-service"
+          - name: "Istio Workload Dashboard"
+            variables:
+              datasource: "var-datasource"
+              namespace: "var-namespace"
+              workload: "var-workload"
+            datasource: "var-datasource"
+          - name: "Istio Mesh Dashboard"
+          - name: "Istio Control Plane Dashboard"
+          - name: "Istio Performance Dashboard"
+          - name: "Istio Wasm Extension Dashboard"
 

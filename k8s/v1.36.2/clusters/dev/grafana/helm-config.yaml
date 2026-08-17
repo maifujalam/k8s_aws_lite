@@ -178,7 +178,7 @@ hostUsers: true
 resources: {}
 
 # -- pod priority class name
-priorityClassName: ""
+priorityClassName: "system-cluster-critical"
 
 # -- pod livenessProbe
 livenessProbe:

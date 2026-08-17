@@ -131,6 +131,7 @@ cr:
   # Annotations to place in the Kiali CR metadata.
   annotations: {}
 
+
   spec:
     auth:
       strategy: anonymous

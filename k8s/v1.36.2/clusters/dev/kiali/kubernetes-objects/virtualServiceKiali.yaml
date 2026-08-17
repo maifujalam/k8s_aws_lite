@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: kiali-virtual-service
+  namespace: kiali
+spec:
+  hosts: ["kiali.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: kiali
+            port: {number: 20001}

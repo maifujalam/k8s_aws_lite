@@ -4,10 +4,17 @@ metadata:
   name: vault-virtual-service
   namespace: vault
 spec:
-  hosts: ["vault.maifuj.com"]
-  gateways: ["istio-ingress/gateway-https"]
-  http:
-    - route:
+  hosts:
+    - vault.maifuj.com
+  gateways:
+    - istio-ingress/gateway-https
+  tls:
+    - match:
+        - port: 443
+          sniHosts:
+            - vault.maifuj.com
+      route:
         - destination:
             host: vault-dev-active.vault.svc.cluster.local
-            port: {number: 8200}
+            port:
+              number: 8200

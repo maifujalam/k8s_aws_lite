@@ -134,4 +134,7 @@ cr:
   spec:
     deployment:
       cluster_wide_access: true
+    external_services:
+      prometheus:
+        url: "http://vmsingle-vm-dev-victoria-metrics-k8s-stack.vm.svc.cluster.local.:8428"
 

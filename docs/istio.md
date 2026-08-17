@@ -35,3 +35,6 @@ It selects a gateway and defines how traffic should be routed to different servi
 It allows you to specify routing rules based on various criteria, such as the request path, HTTP headers, or the source of the request. 
 VirtualServices can also be used to configure policies for traffic management, security, and observability, such as retries, timeouts, and circuit breaking.
 
+Kiali:-
+1. CRD: https://raw.githubusercontent.com/kiali/kiali-operator/refs/heads/master/crd-docs/crd/kiali.io_kialis.yaml
+2. 

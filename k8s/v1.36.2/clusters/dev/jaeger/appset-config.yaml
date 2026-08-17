@@ -1,0 +1,4 @@
+---
+namespace: jaeger
+chart_name: jaeger
+chart_version: 4.11.1

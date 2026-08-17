@@ -931,8 +931,8 @@ server:
         telemetry {
           unauthenticated_metrics_access = "true"
         }
-        tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
-        tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
+        tls_cert_file = "/vault/userconfig/vault-tls/wildcard-certificate-secret/tls.crt"
+        tls_key_file  = "/vault/userconfig/vault-tls/wildcard-certificate-secret/tls.key"
         # tls_client_ca_file = "/vault/userconfig/service-ca-bundle/service-ca.crt"
       }
       storage "file" {
@@ -1014,8 +1014,8 @@ server:
 
         listener "tcp" {
           tls_disable = 0
-          tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
-          tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
+          tls_cert_file = "/vault/userconfig/vault-tls/wildcard-certificate-secret/tls.crt"
+          tls_key_file  = "/vault/userconfig/vault-tls/wildcard-certificate-secret/tls.key"
           # tls_client_ca_file = "/vault/userconfig/service-ca-bundle/service-ca.crt"
           address = "[::]:8200"
           cluster_address = "[::]:8201"

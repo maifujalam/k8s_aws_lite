@@ -314,8 +314,8 @@ injector:
   # Example:
   # nodeSelector:
   #   beta.kubernetes.io/arch: amd64
-  nodeSelector:
-    kubernetes.io/hostname: master
+#  nodeSelector:
+#    kubernetes.io/hostname: master
 
   # Priority class for injector pods
   priorityClassName: ""
@@ -718,8 +718,8 @@ server:
   # Example:
   # nodeSelector:
   #   beta.kubernetes.io/arch: amd64
-  nodeSelector:
-    kubernetes.io/hostname: master
+#  nodeSelector:
+#    kubernetes.io/hostname: master
 
   # Enables network policy for server pods
   networkPolicy:
@@ -958,7 +958,7 @@ server:
   # Helm project by default.  It is possible to manually configure Vault to use a
   # different HA backend.
   ha:
-    enabled: false
+    enabled: true
     replicas: 3
 
     # Set the api_addr configuration for Vault HA
@@ -1140,7 +1140,7 @@ ui:
   # serviceType can be used to control the type of service created. For
   # example, setting this to "LoadBalancer" will create an external load
   # balancer (for supported K8S installations) to access the UI.
-  enabled: false
+  enabled: true
   publishNotReadyAddresses: true
   # The service should only contain selectors for active Vault pod
   activeVaultPodOnly: false
@@ -1273,8 +1273,8 @@ csi:
     # Example:
     # nodeSelector:
     #   beta.kubernetes.io/arch: amd64
-    nodeSelector:
-      kubernetes.io/hostname: master
+#    nodeSelector:
+#      kubernetes.io/hostname: master
 
     # Affinity Settings
     # This should be either a multi-line string or YAML matching the PodSpec's affinity field.

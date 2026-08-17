@@ -18,7 +18,7 @@ global:
   #   - name: image-pull-secret
 
   # TLS for end-to-end encrypted transport
-  tlsDisable: true
+  tlsDisable: false
 
   # External vault server address for the injector and CSI provider to use.
   # Setting this will disable deployment of a vault server.
@@ -454,7 +454,7 @@ server:
   # If deployment is on OpenShift, the following block is ignored.
   # In order to expose the service, use the route section below
   ingress:
-    enabled: true
+    enabled: false
     labels: {}
       # traffic: external
     annotations: {}

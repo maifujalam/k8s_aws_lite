@@ -1018,7 +1018,10 @@ server:
           #  unauthenticated_metrics_access = "true"
           #}
         }
-
+        seal "awskms" {
+          region="ap-south-1"
+          kms_key_id="mrk-2f2135dfda5644e2af9d053bcc201c87"
+        }
         storage "raft" {
           path = "/vault/data"
           # Uncomment for Vault Enterprise redundancy zones (requires server.ha.raft.redundancyZones.enabled = true)
@@ -1037,7 +1040,7 @@ server:
     # https://developer.hashicorp.com/vault/docs/platform/k8s/helm/run#protecting-sensitive-vault-configurations
     config: |
       ui = true
-      
+
       listener "tcp" {
         tls_disable = 1
         address = "[::]:8200"
@@ -1047,13 +1050,12 @@ server:
         path = "vault"
         address = "HOST_IP:8500"
       }
-
-      service_registration "kubernetes" {}
       seal "awskms" {
           region="ap-south-1"
           kms_key_id="mrk-2f2135dfda5644e2af9d053bcc201c87"
       }
-      
+      service_registration "kubernetes" {}
+
       # Example configuration for using auto-unseal, using Google Cloud KMS. The
       # GKMS keys must already exist, and the cluster must have a service account
       # that is authorized to access GCP KMS.
@@ -1144,7 +1146,7 @@ ui:
   # serviceType can be used to control the type of service created. For
   # example, setting this to "LoadBalancer" will create an external load
   # balancer (for supported K8S installations) to access the UI.
-  enabled: true
+  enabled: false
   publishNotReadyAddresses: true
   # The service should only contain selectors for active Vault pod
   activeVaultPodOnly: false
@@ -1267,18 +1269,14 @@ csi:
     # Toleration Settings for provider pods
     # This should be either a multi-line string or YAML matching the Toleration array
     # in a PodSpec.
-    tolerations:
-      - key: "node-role.kubernetes.io/control-plane"
-        operator: "Exists"
-        effect: "NoSchedule"
+    tolerations: []
 
     # nodeSelector labels for csi pod assignment, formatted as a multi-line string or YAML map.
     # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
     # Example:
     # nodeSelector:
     #   beta.kubernetes.io/arch: amd64
-#    nodeSelector:
-#      kubernetes.io/hostname: master
+    nodeSelector: {}
 
     # Affinity Settings
     # This should be either a multi-line string or YAML matching the PodSpec's affinity field.
@@ -1410,7 +1408,7 @@ serverTelemetry:
     #  https://github.com/prometheus-operator/kube-prometheus
 
     # Enable deployment of the Vault Server ServiceMonitor CustomResource.
-    enabled: true
+    enabled: false
 
     # Selector labels to add to the ServiceMonitor.
     # When empty, defaults to:

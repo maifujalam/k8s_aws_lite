@@ -7,6 +7,14 @@ variable "owner" {
 variable "project" {
   default = "k8s_aws"
 }
+variable "deletion_window_in_days" {
+  default     = 7
+  description = "How many days the key will be in deletion window,after it is scheduled for deletion"
+}
 variable "kms_name" {
   description = "KMS key Name"
+}
+variable "kms_name_alias" {
+  description = "KMS key alias"
+  default     = "sample-key-alias"
 }

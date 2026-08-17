@@ -12,7 +12,7 @@ resource "aws_kms_key" "kms" {
   }
 }
 resource "aws_kms_alias" "kms-alias" {
-  name          = "alias/${var.kms_name}"
+  name          = "alias/${var.kms_name_alias}"
   target_key_id = aws_kms_key.kms.id
 
 }
@@ -22,7 +22,7 @@ resource "aws_kms_replica_key" "key-replica" {
   provider                = aws.secondary_region
 }
 resource "aws_kms_alias" "kms-replica-alias" {
-  name          = "alias/${var.kms_name}"
+  name          = "alias/${var.kms_name_alias}"
   target_key_id = aws_kms_replica_key.key-replica.id
   provider      = aws.secondary_region
 }

@@ -13,7 +13,7 @@ spec:
               repoURL: https://github.com/maifujalam/k8s_aws_lite.git
               revision: main
               files:
-                - path: k8s/v1.36.2/clusters/*/kiali/appset-config.yamll
+                - path: k8s/v1.36.2/clusters/*/kiali/appset-config.yaml
           - clusters:
               selector:
                 matchLabels:
@@ -39,7 +39,7 @@ spec:
           ref: values
         - repoURL: https://github.com/maifujalam/k8s_aws_lite.git
           targetRevision: main
-          path: k8s/v1.36.2/clusters/dev/kiali/kubernetes-objects
+          path: 'k8s/v1.36.2/clusters/dev/{{ index .path.segments 4}}/kubernetes-objects'
           directory:
             recurse: true
       destination:

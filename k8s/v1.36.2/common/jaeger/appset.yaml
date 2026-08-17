@@ -27,7 +27,7 @@ spec:
     spec:
       project: dev-project
       sources:
-        - repoURL: jaegertracing.github.io/helm-charts
+        - repoURL: https://jaegertracing.github.io/helm-charts
           targetRevision: '{{.chart_version}}'
           chart: '{{.chart_name}}'
           helm:

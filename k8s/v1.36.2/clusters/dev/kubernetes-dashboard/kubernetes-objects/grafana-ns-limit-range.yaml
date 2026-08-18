@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: default-resources
+  namespace: grafana
+spec:
+  limits:
+    - type: Container
+      defaultRequest:        # applied if requests are omitted
+        cpu: 10m
+        memory: 64Mi
+      default:               # applied if limits are omitted
+        cpu: 100m
+        memory: 512Mi
+      min:                   # optional: reject anything below this
+        cpu: 10m
+        memory: 32Mi
+      max:                   # optional: reject anything above this
+        cpu: 200m
+        memory: 1Gi

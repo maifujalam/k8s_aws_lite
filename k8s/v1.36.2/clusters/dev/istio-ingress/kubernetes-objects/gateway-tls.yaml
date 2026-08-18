@@ -13,5 +13,6 @@ spec:
         protocol: HTTPS
       hosts:
         - vault.maifuj.com
+        - dashboard.maifuj.com
       tls:
         mode: PASSTHROUGH

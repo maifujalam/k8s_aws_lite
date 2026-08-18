@@ -7,7 +7,7 @@ spec:
   hosts:
     - dashboard.maifuj.com
   gateways:
-    - istio-ingress/gateway-https
+    - istio-ingress/gateway-tls-passthrough
   tls:
     - match:
         - port: 443

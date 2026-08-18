@@ -7,14 +7,10 @@ spec:
   hosts:
     - dashboard.maifuj.com
   gateways:
-    - istio-ingress/gateway-tls-passthrough
-  tls:
-    - match:
-        - port: 443
-          sniHosts:
-            - dashboard.maifuj.com
-      route:
+    - istio-ingress/gateway-https
+  http:
+    - route:
         - destination:
             host: kubernetes-dashboard-dev-kong-proxy.kubernetes-dashboard.svc.cluster.local
             port:
-              number: 443
+              number: 80

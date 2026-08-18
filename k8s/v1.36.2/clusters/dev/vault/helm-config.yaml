@@ -396,7 +396,7 @@ server:
     volumes:
     - name: vault-tls
       secret:
-        secretName: wildcard-certificate-secret  # Must match serviceCA.secretName above
+        secretName: vault-certificate-secret # Must match serviceCA.secretName above
 #    - name: service-ca-bundle
 #      configMap:
 #       name: service-ca-bundle  # Must match serviceCA.configMapName above
@@ -667,7 +667,7 @@ server:
   # an array of objects, examples are shown below.
   extraVolumes:
    - type: secret # (or "configMap")
-     name: wildcard-certificate-secret
+     name: vault-certificate-secret
      path:  /vault/userconfig/vault-tls
 
   # volumes is a list of volumes made available to all containers. These are rendered
@@ -931,8 +931,8 @@ server:
         telemetry {
           unauthenticated_metrics_access = "true"
         }
-        tls_cert_file = "/vault/userconfig/vault-tls/wildcard-certificate-secret/tls.crt"
-        tls_key_file  = "/vault/userconfig/vault-tls/wildcard-certificate-secret/tls.key"
+        tls_cert_file = "/vault/userconfig/vault-tls/vault-certificate-secret/tls.crt"
+        tls_key_file  = "/vault/userconfig/vault-tls/vault-certificate-secret/tls.key"
         # tls_client_ca_file = "/vault/userconfig/service-ca-bundle/service-ca.crt"
       }
       storage "file" {
@@ -1014,8 +1014,8 @@ server:
 
         listener "tcp" {
           tls_disable = 0
-          tls_cert_file = "/vault/userconfig/vault-tls/wildcard-certificate-secret/tls.crt"
-          tls_key_file  = "/vault/userconfig/vault-tls/wildcard-certificate-secret/tls.key"
+          tls_cert_file = "/vault/userconfig/vault-tls/vault-certificate-secret/tls.crt"
+          tls_key_file  = "/vault/userconfig/vault-tls/vault-certificate-secret/tls.key"
           # tls_client_ca_file = "/vault/userconfig/service-ca-bundle/service-ca.crt"
           address = "[::]:8200"
           cluster_address = "[::]:8201"

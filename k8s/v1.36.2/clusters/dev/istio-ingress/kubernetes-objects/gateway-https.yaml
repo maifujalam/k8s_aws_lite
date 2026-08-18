@@ -22,19 +22,3 @@ spec:
       hosts: [ "*.maifuj.com" ]
       tls:
         httpsRedirect: true      # 301 to https, no VirtualService needed
-    - port:
-        number: 443
-        name: https-vault-passthrough
-        protocol: HTTPS
-      hosts:
-        - vault.maifuj.com
-      tls:
-        mode: PASSTHROUGH
-#    - port:
-#        number: 443
-#        name: https-dashboard-passthrough
-#        protocol: HTTPS
-#      hosts:
-#        - dashboard.maifuj.com
-#      tls:
-#        mode: PASSTHROUGH

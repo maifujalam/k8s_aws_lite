@@ -1,4 +1,4 @@
-apiVersion: networking.istio.io/v1
+apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: kubernetes-dashboard-virtual-service
@@ -8,9 +8,13 @@ spec:
     - dashboard.maifuj.com
   gateways:
     - istio-ingress/gateway-https
-  http:
-    - route:
+  tls:
+    - match:
+        - port: 443
+          sniHosts:
+            - dashboard.maifuj.com
+      route:
         - destination:
             host: kubernetes-dashboard-dev-kong-proxy.kubernetes-dashboard.svc.cluster.local
             port:
-              number: 80
+              number: 443

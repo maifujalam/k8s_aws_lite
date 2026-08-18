@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vault-certificate
+  namespace: vault
+spec:
+  secretName: vault-certificate-secret
+  dnsNames:
+    - "vault.maifuj.com"
+  issuerRef:
+    name: letsencrypt-prod-cluster-issuer       # <-- check your actual ClusterIssuer name
+    kind: ClusterIssuer
+  privateKey:
+    rotationPolicy: Always

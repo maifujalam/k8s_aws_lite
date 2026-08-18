@@ -1,11 +1,11 @@
-apiVersion: networking.istio.io/v1
-kind: VirtualService
-metadata:
-  name: wildcard-apps
-  namespace: istio-ingress
-spec:
-  hosts: ["*.maifuj.com"]
-  gateways: ["istio-ingress/wildcard-gateway"]
-  http:
-    - route:
-        - destination: {host: default-app.default.svc.cluster.local, port: {number: 80}}
+#apiVersion: networking.istio.io/v1
+#kind: VirtualService
+#metadata:
+#  name: wildcard-apps
+#  namespace: istio-ingress
+#spec:
+#  hosts: ["*.maifuj.com"]
+#  gateways: ["istio-ingress/wildcard-gateway"]
+#  http:
+#    - route:
+#        - destination: {host: default-app.default.svc.cluster.local, port: {number: 80}}

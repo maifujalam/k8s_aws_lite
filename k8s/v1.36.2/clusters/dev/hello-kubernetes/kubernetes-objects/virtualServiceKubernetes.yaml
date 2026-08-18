@@ -9,5 +9,6 @@ spec:
   http:
     - route:
         - destination:
-            host: hello-kubernetes-hello-kubernetes-dev
-            port: {number: 8080}
+            host: hello-kubernetes-hello-kubernetes-dev.hello-kubernetes.svc.cluster.local
+            port:
+              number: 8080

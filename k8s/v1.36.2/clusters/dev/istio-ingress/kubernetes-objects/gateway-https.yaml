@@ -30,11 +30,11 @@ spec:
         - vault.maifuj.com
       tls:
         mode: PASSTHROUGH
-    - port:
-        number: 443
-        name: https-dashboard-passthrough
-        protocol: HTTPS
-      hosts:
-        - dashboard.maifuj.com
-      tls:
-        mode: PASSTHROUGH
+#    - port:
+#        number: 443
+#        name: https-dashboard-passthrough
+#        protocol: HTTPS
+#      hosts:
+#        - dashboard.maifuj.com
+#      tls:
+#        mode: PASSTHROUGH

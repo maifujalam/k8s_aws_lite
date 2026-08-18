@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: jenkins-virtual-service
+  namespace: jenkins
+spec:
+  hosts: ["jenkins.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: jenkins-dev.jenkins.svc.cluster.local
+            port:
+              number: 8080

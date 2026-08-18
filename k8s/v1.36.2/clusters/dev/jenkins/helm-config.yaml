@@ -1,7 +1,7 @@
 controller:
   resources:
     requests:
-      cpu: "300m"
+      cpu: "100m"
       memory: "1000Mi"
     limits:
       memory: "1300Mi"
@@ -46,10 +46,10 @@ agent:
     enabled: true
   resources:
     requests:
-      cpu: "250m"
+      cpu: "50m"
       memory: "256Mi"
     limits:
-      cpu: "512m"
+      cpu: "200m"
       memory: "512Mi"
   alwaysPullImage: false
   nodeSelector: {}

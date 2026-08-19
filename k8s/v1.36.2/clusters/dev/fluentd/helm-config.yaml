@@ -322,7 +322,7 @@ fileConfigs:
       </parse>
       emit_unmatched_lines true
     </source>
-
+  
     # expose metrics in prometheus format
     <source>
       @type prometheus
@@ -337,12 +337,7 @@ fileConfigs:
         @type relabel
         @label @FLUENT_LOG
       </match>
-
-      # <match kubernetes.var.log.containers.**_kube-system_**>
-      #   @type null
-      #   @id ignore_kube_system_logs
-      # </match>
-
+  
       <filter kubernetes.**>
         @type kubernetes_metadata
         @id filter_kube_metadata
@@ -353,7 +348,30 @@ fileConfigs:
         de_dot true
         de_dot_separator _
       </filter>
-
+  
+      # Flatten nested docker/kubernetes objects
+      <filter kubernetes.**>
+        @type record_transformer
+        enable_ruby true
+        <record>
+          docker_id ${record["docker"]["container_id"]}
+          kubernetes_container ${record["kubernetes"]["container_name"]}
+          kubernetes_namespace ${record["kubernetes"]["namespace_name"]}
+          kubernetes_pod ${record["kubernetes"]["pod_name"]}
+          kubernetes_host ${record["kubernetes"]["host"]}
+        </record>
+        remove_keys docker,kubernetes
+      </filter>
+  
+      # Normalize timestamp to ISO8601 without nanoseconds
+      <filter kubernetes.**>
+        @type record_transformer
+        enable_ruby true
+        <record>
+          @timestamp ${Time.at(time.to_i).utc.iso8601}
+        </record>
+      </filter>
+  
       <match **>
         @type relabel
         @label @DISPATCH
@@ -391,22 +409,19 @@ fileConfigs:
         ssl_verify false
         user elastic
         password "lQmFPWcMp3IwWz2lcrd5Hctk"
-
-        # Don't wait for elastic to start up — but pin the version,
-        # otherwise the plugin falls back to ES 5 semantics.
+  
         verify_es_version_at_startup false
         default_elasticsearch_version 8
         suppress_type_name true
-
+  
         logstash_format true
         logstash_prefix k8s
-        time_key time
-
+        time_key @timestamp
+  
         template_overwrite false
         enable_ilm false
         request_timeout 30s
         reload_connections false
-
         <buffer>
           @type file
           path /var/log/fluentd-buffers/k8s.buffer

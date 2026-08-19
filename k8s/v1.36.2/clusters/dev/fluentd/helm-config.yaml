@@ -329,6 +329,8 @@ fileConfigs:
       pos_file /var/log/fluentd-containers.log.pos
       tag kubernetes.*
       read_from_head true
+      enable_watch_timer false
+      refresh_interval 60
       <parse>
         @type multi_format
         <pattern>
@@ -379,21 +381,21 @@ fileConfigs:
         @type record_transformer
         enable_ruby true
         <record>
-          docker_id ${record["docker"]["container_id"]}
-          kubernetes_container ${record["kubernetes"]["container_name"]}
-          kubernetes_namespace ${record["kubernetes"]["namespace_name"]}
-          kubernetes_pod ${record["kubernetes"]["pod_name"]}
-          kubernetes_host ${record["kubernetes"]["host"]}
+          docker_id ${record["docker"] && record["docker"]["container_id"]}
+          kubernetes_container ${record["kubernetes"] && record["kubernetes"]["container_name"]}
+          kubernetes_namespace ${record["kubernetes"] && record["kubernetes"]["namespace_name"]}
+          kubernetes_pod ${record["kubernetes"] && record["kubernetes"]["pod_name"]}
+          kubernetes_host ${record["kubernetes"] && record["kubernetes"]["host"]}
         </record>
         remove_keys docker,kubernetes
       </filter>
   
-      # Normalize timestamp to ISO8601 without nanoseconds
+      # Normalize timestamp to ISO8601 without nanoseconds, fallback if missing
       <filter kubernetes.**>
         @type record_transformer
         enable_ruby true
         <record>
-          @timestamp ${Time.at(time.to_i).utc.iso8601}
+          @timestamp ${record["@timestamp"] || Time.now.utc.iso8601}
         </record>
       </filter>
   
@@ -445,20 +447,21 @@ fileConfigs:
   
         template_overwrite false
         enable_ilm false
-        request_timeout 30s
+        request_timeout 60s
         reload_connections true
         <buffer>
           @type file
           path /var/log/fluentd-buffers/k8s.buffer
-          flush_interval 5s
+          flush_interval 2s
           retry_max_interval 30
-          retry_forever false
+          retry_forever true
           chunk_limit_size 2M
-          total_limit_size 2G
-          overflow_action block
+          total_limit_size 4G
+          overflow_action drop_oldest_chunk
         </buffer>
       </match>
     </label>
+
 ingress:
   enabled: true
   annotations:

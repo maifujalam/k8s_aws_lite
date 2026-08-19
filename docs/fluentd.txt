@@ -1,0 +1,19 @@
+Increase ulimit for node:
+1. SSH to each node.
+2. FInd the contanerd service file.
+   sudo systemctl status containerd
+
+3. Edit the service file.
+    sudo su
+    vi service file
+    add below lines after [Service] section.
+    LimitNOFILE=65536
+    LimitNPROC=65536
+4. Save and exit.
+5. Reload the systemd manager configuration.
+    sudo systemctl daemon-reload
+6. Restart the containerd service.
+    sudo systemctl restart containerd
+
+
+

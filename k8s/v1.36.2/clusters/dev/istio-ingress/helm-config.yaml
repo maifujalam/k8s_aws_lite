@@ -222,6 +222,9 @@ _internal_defaults_do_not_set:
 
   # When enabled, a default NetworkPolicy for gateways will be created
   global:
+    proxy:
+      logLevel: debug
+      componentLogLevel: misc:debug
     networkPolicy:
       enabled: false
 

@@ -270,10 +270,10 @@ resources:
 # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
    limits:
      cpu: 200m
-     memory: 500Mi
+     memory: 300Mi
    requests:
      cpu: 10m
-     memory: 100Mi
+     memory: 300Mi
 
 # -- Resources for the init containers (not sidecars).
 initResources: {}
@@ -328,7 +328,7 @@ tailLogs:
   resources: {}
 
 # -- Env configuration for the _Nexus3_ container.
-install4jAddVmParams: -Xms256m -Xmx256m -XX:MaxDirectMemorySize=200m
+install4jAddVmParams: -Xms256m -Xmx256m -XX:MaxDirectMemorySize=256m
 
 caCerts:
   # -- If `true`, add the CA certificates in the provided secret to the JVM cacerts key store.

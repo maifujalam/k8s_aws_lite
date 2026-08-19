@@ -195,7 +195,7 @@ persistence:
   enabled: false
   storageClass: ""
   accessMode: ReadWriteOnce
-  size: 10Gi
+  size: 1Gi
 
 ## Fluentd service
 ##

@@ -16,5 +16,5 @@ spec:
         cpu: 10m
         memory: 32Mi
       max:                   # optional: reject anything above this
-        cpu: 200m
+        cpu: 500m
         memory: 1Gi

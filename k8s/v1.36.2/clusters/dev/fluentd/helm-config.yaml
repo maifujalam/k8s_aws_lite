@@ -446,11 +446,11 @@ fileConfigs:
         <buffer>
           @type file
           path /var/log/fluentd-buffers/k8s.buffer
-          flush_interval 10s
-          retry_max_interval 60
+          flush_interval 5s
+          retry_max_interval 30
           retry_forever false
-          chunk_limit_size 4M
-          total_limit_size 1G
+          chunk_limit_size 2M
+          total_limit_size 2G
           overflow_action block
         </buffer>
       </match>

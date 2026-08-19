@@ -37,4 +37,11 @@ VirtualServices can also be used to configure policies for traffic management, s
 
 Kiali:-
 1. CRD: https://raw.githubusercontent.com/kiali/kiali-operator/refs/heads/master/crd-docs/crd/kiali.io_kialis.yaml
-2. 
+
+In Istion,why the TLS termination does not work when backend in htttps?
+In TLS termiation,gateway decrypts the https trafic to http.
+And then it fowrd the http trafic to the backend service.
+So,backed has tbe http listener to accept the http trafic from the gateway.
+But,if its https listener,then it will not accept the http trafic from the gateway and TLS termination will not work.
+It will give error of code 503 Service Unavailable.Or client sent http request to https server.
+

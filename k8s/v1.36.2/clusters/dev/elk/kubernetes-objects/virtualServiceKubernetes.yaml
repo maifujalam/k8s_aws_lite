@@ -1,0 +1,44 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: elk-virtual-service
+  namespace: elk
+spec:
+  hosts: ["elastic.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: elasticsearch-es-http.elk.svc.cluster.local
+            port:
+              number: 9200
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: kibana-virtual-service
+  namespace: elk
+spec:
+  hosts: ["kibana.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: elk-dev-eck-kibana-kb-http.elk.svc.cluster.local
+            port:
+              number: 5601
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: fluentd-virtual-service
+  namespace: elk
+spec:
+  hosts: ["fluentd.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: fluentd-dev.elk.svc.cluster.local
+            port:
+              number: 9880

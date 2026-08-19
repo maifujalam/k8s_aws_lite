@@ -36,7 +36,12 @@ podSecurityPolicy:
 ## See https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/ for
 ## notes on enabling and using sysctls
 ##
-podSecurityContext: {}
+podSecurityContext:
+  runAsUser: 0
+  fsGroup: 0
+
+containerSecurityContext:
+  privileged: true
   # seLinuxOptions:
   #   type: "spc_t"
 
@@ -192,6 +197,22 @@ mountDockerContainersDirectory: true
 volumes: []
 
 volumeMounts: []
+
+
+extraVolumeMounts:
+  - name: varlog
+    mountPath: /var/log
+  - name: varlibdockercontainers
+    mountPath: /var/lib/docker/containers
+    readOnly: true
+
+extraVolumes:
+  - name: varlog
+    hostPath:
+      path: /var/log
+  - name: varlibdockercontainers
+    hostPath:
+      path: /var/lib/docker/containers
 
 ## Only available if kind is StatefulSet
 ## Fluentd persistence
@@ -421,15 +442,15 @@ fileConfigs:
         template_overwrite false
         enable_ilm false
         request_timeout 30s
-        reload_connections false
+        reload_connections true
         <buffer>
           @type file
           path /var/log/fluentd-buffers/k8s.buffer
-          flush_interval 5s
-          retry_max_interval 30
+          flush_interval 10s
+          retry_max_interval 60
           retry_forever false
-          chunk_limit_size 8M
-          total_limit_size 2G
+          chunk_limit_size 4M
+          total_limit_size 1G
           overflow_action block
         </buffer>
       </match>

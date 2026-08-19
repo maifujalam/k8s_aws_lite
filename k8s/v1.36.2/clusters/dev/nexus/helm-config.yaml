@@ -270,10 +270,10 @@ resources:
 # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
    limits:
      cpu: 200m
-     memory: 1300Mi
+     memory: 500Mi
    requests:
      cpu: 10m
-     memory: 1300Mi
+     memory: 100Mi
 
 # -- Resources for the init containers (not sidecars).
 initResources: {}

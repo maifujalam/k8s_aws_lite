@@ -328,7 +328,7 @@ tailLogs:
   resources: {}
 
 # -- Env configuration for the _Nexus3_ container.
-install4jAddVmParams: -Xms1024m -Xmx1024m -XX:MaxDirectMemorySize=2048m
+install4jAddVmParams: -Xms256m -Xmx256m -XX:MaxDirectMemorySize=200m
 
 caCerts:
   # -- If `true`, add the CA certificates in the provided secret to the JVM cacerts key store.

@@ -55,10 +55,10 @@ securityContext: {}
 
 # Configure the livecycle
 # Ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
-lifecycle:
-  preStart:
-    exec:
-      command: [ "sh", "-c", "ulimit -n 65536" ]
+lifecycle: {}
+#  preStart:
+#    exec:
+#      command: [ "sh", "-c", "ulimit -n 65536" ]
 
   # preStop:
   #   exec:

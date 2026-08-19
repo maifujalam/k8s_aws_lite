@@ -463,13 +463,7 @@ fileConfigs:
     </label>
 
 ingress:
-  enabled: true
-  annotations:
-     kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: fluentd.maifuj.com
-      port: 9880
+  enabled: false
 
 #  tls: []
   # - secretName: fluentd-tls

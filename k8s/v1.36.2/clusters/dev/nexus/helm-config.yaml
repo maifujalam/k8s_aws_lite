@@ -80,7 +80,7 @@ service:
 
 ingress:
   # -- If `true`, create an `Ingress` resource.
-  enabled: true
+  enabled: false
   # -- Ingress annotations.
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"

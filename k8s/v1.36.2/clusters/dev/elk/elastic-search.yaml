@@ -306,7 +306,7 @@ eck-elasticsearch:
   # - Nginx: https://kubernetes.github.io/ingress-nginx/
   #
   ingress:
-    enabled: true
+    enabled: false
 
     # Annotations that will be applied to the Ingress resource. Note that some ingress controllers are controlled via annotations.
     #

@@ -143,7 +143,7 @@ eck-kibana:
   #
 
   ingress:
-    enabled: true
+    enabled: false
 
     # Annotations that will be applied to the Ingress resource. Note that some ingress controllers are controlled via annotations.
     #

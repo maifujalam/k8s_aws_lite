@@ -345,6 +345,8 @@ fileConfigs:
         skip_container_metadata false
         skip_namespace_metadata true
         skip_master_url true
+        de_dot true
+        de_dot_separator _
       </filter>
 
       <match **>

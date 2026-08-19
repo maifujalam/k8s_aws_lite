@@ -55,7 +55,11 @@ securityContext: {}
 
 # Configure the livecycle
 # Ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
-lifecycle: {}
+lifecycle:
+  preStart:
+    exec:
+      command: [ "sh", "-c", "ulimit -n 65536" ]
+
   # preStop:
   #   exec:
   #     command: ["/bin/sh", "-c", "sleep 20"]
@@ -177,12 +181,12 @@ env: []
 
 envFrom: []
 
-initContainers:
-  - name: increase-fd-limit
-    image: busybox
-    command: [ "sh", "-c", "sysctl -w fs.file-max=1000000 && sysctl -w fs.inotify.max_user_instances=8192" ]
-    securityContext:
-      privileged: true
+#initContainers:
+#  - name: increase-fd-limit
+#    image: busybox
+#    command: [ "sh", "-c", "sysctl -w fs.file-max=1000000 && sysctl -w fs.inotify.max_user_instances=8192" ]
+#    securityContext:
+#      privileged: true
 
 ## Name of the configMap containing a custom fluentd.conf configuration file to use instead of the default.
 # mainConfigMapNameOverride: ""

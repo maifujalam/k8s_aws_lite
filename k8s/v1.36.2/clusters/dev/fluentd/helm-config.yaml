@@ -172,7 +172,12 @@ env: []
 
 envFrom: []
 
-initContainers: []
+initContainers:
+  - name: increase-fd-limit
+    image: busybox
+    command: [ "sh", "-c", "sysctl -w fs.file-max=1000000 && sysctl -w fs.inotify.max_user_instances=8192" ]
+    securityContext:
+      privileged: true
 
 ## Name of the configMap containing a custom fluentd.conf configuration file to use instead of the default.
 # mainConfigMapNameOverride: ""

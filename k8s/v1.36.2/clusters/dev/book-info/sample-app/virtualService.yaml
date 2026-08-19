@@ -2,10 +2,10 @@ apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: app
-  namespace: default
+  namespace: book-info
 spec:
   gateways: ["istio-ingress/gateway-https"]
-  hosts: ["app.maifuj.com"]
+  hosts: ["bookinfo.maifuj.com"]
   http:
     - route:
         - destination:

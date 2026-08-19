@@ -269,11 +269,11 @@ resources:
 # resources, such as Minikube. If you do want to specify resources, uncomment the following
 # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
    limits:
-     cpu: 500m
-     memory: 750Mi
+     cpu: 750m
+     memory: 1100Mi
    requests:
      cpu: 50m
-     memory: 700Mi
+     memory: 1050Mi
 
 # -- Resources for the init containers (not sidecars).
 initResources: {}
@@ -328,7 +328,7 @@ tailLogs:
   resources: {}
 
 # -- Env configuration for the _Nexus3_ container.
-install4jAddVmParams: -Xms512m -Xmx512m -XX:MaxDirectMemorySize=600m
+install4jAddVmParams: -Xms1024m -Xmx1024m -XX:MaxDirectMemorySize=1024m
 
 caCerts:
   # -- If `true`, add the CA certificates in the provided secret to the JVM cacerts key store.

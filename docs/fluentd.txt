@@ -8,7 +8,6 @@ Increase ulimit for node:
     vi service file
     add below lines after [Service] section.
     LimitNOFILE=65536
-    LimitNPROC=65536
 4. Save and exit.
 5. Reload the systemd manager configuration.
     sudo systemctl daemon-reload

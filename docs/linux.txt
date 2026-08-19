@@ -1,0 +1,2 @@
+1. Linux commands:
+https://www.ibm.com/docs/el/aix/7.1.0?topic=u-ulimit-command

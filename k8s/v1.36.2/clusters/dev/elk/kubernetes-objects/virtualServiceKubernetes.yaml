@@ -4,10 +4,16 @@ metadata:
   name: elk-virtual-service
   namespace: elk
 spec:
-  hosts: ["elastic.maifuj.com"]
-  gateways: ["istio-ingress/gateway-https"]
-  http:
-    - route:
+  hosts:
+    - "elastic.maifuj.com"
+  gateways:
+    - "istio-ingress/gateway-tls-passthrough"
+  tls:
+    - match:
+        - port: 443
+          sniHosts:
+            - elastic.maifuj.com
+      route:
         - destination:
             host: elasticsearch-es-http.elk.svc.cluster.local
             port:

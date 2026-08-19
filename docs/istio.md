@@ -45,3 +45,7 @@ So,backed has tbe http listener to accept the http trafic from the gateway.
 But,if its https listener,then it will not accept the http trafic from the gateway and TLS termination will not work.
 It will give error of code 503 Service Unavailable.Or client sent http request to https server.
 
+In IStio TLS SIMPLE vs TLS PASS-THROUGH vs TLS MUTUAL?
+TLS SIMPLE: In this mode, the gateway terminates the TLS connection and forwards the decrypted traffic to the backend service over HTTP. The backend service does not need to handle TLS, as it receives plain HTTP traffic.
+TLS PASS-THROUGH: In this mode, the gateway does not terminate the TLS connection. Instead, it forwards the encrypted traffic to the backend service, which is responsible for handling the TLS termination.
+TLS MUTUAL: In this mode, both the client and server authenticate each other using certificates. The gateway terminates the TLS connection and forwards the decrypted traffic to the backend service over HTTP.

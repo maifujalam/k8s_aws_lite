@@ -175,10 +175,10 @@
         priorityClassName: "system-cluster-critical"
         resources:
           requests:
-            cpu: 300m
-            memory: 1Gi
+            cpu: 100m
+            memory: 700Mi
           limits:
-            memory: 1Gi
+            memory: 750Mi
             cpu: 500m
         tolerations:
           - key: "node-role.kubernetes.io/control-plane"
@@ -190,10 +190,10 @@
         priorityClassName: "system-cluster-critical"
         resources:
           requests:
-            cpu: 300m
-            memory: 500Mi
+            cpu: 50m
+            memory: 128Mi
           limits:
-            memory: 500Mi
+            memory: 150Mi
             cpu: 500m
         ingress:
           enabled: true

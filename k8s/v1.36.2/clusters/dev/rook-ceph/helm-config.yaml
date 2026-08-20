@@ -588,7 +588,7 @@ cephFileSystems:
             memory: "1Gi"
           requests:
             cpu: "100m"
-            memory: "256i"
+            memory: "256Mi"
         priorityClassName: system-cluster-critical
     storageClass:
       enabled: true

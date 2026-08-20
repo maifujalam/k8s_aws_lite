@@ -1,4 +1,4 @@
-galaxy_info:
+galaxy_info: # noqa: meta-incorrect
   author: your name
   description: your role description
   company: your company (optional)

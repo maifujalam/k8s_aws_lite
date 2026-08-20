@@ -75,11 +75,11 @@
 #    src: templates/wildcard-certificate.yaml.j2
 #    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/wildcard-certificate.yaml
 
-- name: Kubernertes create cluster issuer # noqa: no-changed-when
-  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/prod-cluster-issuer-llt.yaml
-
-- name: Kubernertes create wildcard certificate
-  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/wildcard-certificate.yaml
+#- name: Kubernertes create cluster issuer # noqa: no-changed-when
+#  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/prod-cluster-issuer-llt.yaml
+#
+#- name: Kubernertes create wildcard certificate
+#  shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/wildcard-certificate.yaml
 
 #- name: Check if ingress-nginx already installed
 #  shell: helm list -A | grep ingress-nginx
@@ -217,7 +217,10 @@
           kubernetes.io/hostname: master
 
 - name: Copy kubeconfig file
-  shell: cp -v ~/.kube/config {{KUBECONFIG_PATH}}
+  ansible.builtin.copy:
+    src: ~/.kube/config
+    dest: "{{ KUBECONFIG_PATH }}"
+    mode: '0644'
 
 - name: Update kubeconfig with MASTER_IP
   ansible.builtin.replace:

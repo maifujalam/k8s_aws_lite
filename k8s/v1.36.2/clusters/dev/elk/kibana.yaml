@@ -91,10 +91,10 @@ eck-kibana:
               value:  "--max-old-space-size=1024"
           resources:
             requests:
-              memory: 1300Mi
-              cpu: 0.2
+              memory: 1100Mi
+              cpu: 50m
             limits:
-              memory: 1300Mi
+              memory: 1200Mi
               cpu: 1
 
 

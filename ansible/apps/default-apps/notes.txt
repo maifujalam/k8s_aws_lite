@@ -1,0 +1,10 @@
+ArgoCD
+
+run from the root of the repo:
+cd k8s_aws_lite
+
+Write vault data to a file:
+ansible-vault view ansible/apps/default-apps/group_vars/all/vault.yml > ~/vault_data.yaml
+
+
+helm upgrade -i argo-cd -n argocd --namespace argo-cd -f ansible/apps/default-apps/files/argocd-helm-values.yaml -f ~/vault_data.yaml argo/argo-cd --version 10.1.3

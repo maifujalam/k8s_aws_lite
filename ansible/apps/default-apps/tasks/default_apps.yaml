@@ -224,6 +224,7 @@
 
 - name: Update kubeconfig with MASTER_IP
   ansible.builtin.replace:
+    remote_src: yes
     path: "{{ KUBECONFIG_PATH }}"
     regexp: 'https://master:6443'
     replace: "https://{{ MASTER_NODE_IP }}:6443"

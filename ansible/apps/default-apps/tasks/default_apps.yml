@@ -28,21 +28,21 @@
     chart_version: v3.32.1
   when: r2.rc != 0
 
-- name: Install cert-manager
-  kubernetes.core.helm:
-    name: cert-manager
-    chart_ref: cert-manager/cert-manager
-    release_namespace: cert-manager
-    create_namespace: true
-    chart_version: v1.21.0
-    values:
-      global:
-        tolerations:
-          - key: "node-role.kubernetes.io/control-plane"
-            operator: "Exists"
-            effect: "NoSchedule"
-      crds:
-        enabled: true
+#- name: Install cert-manager
+#  kubernetes.core.helm:
+#    name: cert-manager
+#    chart_ref: cert-manager/cert-manager
+#    release_namespace: cert-manager
+#    create_namespace: true
+#    chart_version: v1.21.0
+#    values:
+#      global:
+#        tolerations:
+#          - key: "node-role.kubernetes.io/control-plane"
+#            operator: "Exists"
+#            effect: "NoSchedule"
+#      crds:
+#        enabled: true
 #
 # - name: Install self signed certs
 #   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/manifests/cert-manager/self-sign-issuer.yaml
@@ -65,17 +65,17 @@
         access-key-id: "{{ ACCESS_KEY_ID }}"
         secret-access-key: "{{ SECRET_ACCESS_KEY }}"
 
-- name: Copy the cluster issuer template
-  template:
-    src: templates/prod-cluster-issuer-llt.yaml.j2
-    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/prod-cluster-issuer-llt.yaml
+#- name: Copy the cluster issuer template
+#  template:
+#    src: templates/prod-cluster-issuer-llt.yaml.j2
+#    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/prod-cluster-issuer-llt.yaml
+#
+#- name: Copy the wildcard certificate template
+#  template:
+#    src: templates/wildcard-certificate.yaml.j2
+#    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/wildcard-certificate.yaml
 
-- name: Copy the wildcard certificate template
-  template:
-    src: templates/wildcard-certificate.yaml.j2
-    dest: /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/wildcard-certificate.yaml
-
-- name: Kubernertes create cluster issuer
+- name: Kubernertes create cluster issuer # noqa: no-changed-when
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/prod-cluster-issuer-llt.yaml
 
 - name: Kubernertes create wildcard certificate
@@ -225,7 +225,7 @@
     regexp: 'https://master:6443'
     replace: "https://{{ MASTER_NODE_IP }}:6443"
 
-- name: ArgoCD login
+- name: ArgoCD login # noqa: no-changed-when
   shell: "argocd login argocd.maifuj.com --username admin --password {{ ADMIN_PASSWORD }} --insecure"
 
 

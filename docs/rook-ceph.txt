@@ -1,0 +1,3 @@
+Ceph Cluster Setup:
+1. Create disk for same AZ and attach to each node.
+2. Create a storage class for Ceph.

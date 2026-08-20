@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: rook-ceph-virtual-service
+  namespace: hello-kubernetes
+spec:
+  hosts: ["ceph.maifuj.com"]
+  gateways: ["istio-ingress/gateway-https"]
+  http:
+    - route:
+        - destination:
+            host: rook-ceph
+            port: {number: 8080}

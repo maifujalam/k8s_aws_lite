@@ -1,0 +1,18 @@
+1. Cretae a namespace:
+   ```bash
+   kubectl create namespace rook-ceph
+   ```
+2. Get the default values for the Rook Ceph,which is ceph cluster operator :
+   ```bash
+   helm show values rook/rook-ceph --version  v1.20.5 > values-operator.yaml
+   ```
+2. Install the Rook Ceph operator:
+   ```bash
+   helm upgrade -i --create-namespace --namespace rook-ceph rook-ceph rook/rook-ceph --version v1.20.5 -f values-operator.yaml
+   ```
+3. Create a Ceph cluster:
+a. Get the default values for the Ceph cluster:
+   ```bash
+   helm show values rook/rook-ceph-cluster --version v1.20.5 > values.yaml
+   ```
+   Installl with argocd.

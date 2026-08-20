@@ -9,5 +9,5 @@ spec:
   http:
     - route:
         - destination:
-            host: jenkins.jenkins-dev.svc.cluster.local
+            host: jenkins-dev.jenkins.svc.cluster.local
             port: {number: 8080}

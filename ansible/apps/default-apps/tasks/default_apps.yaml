@@ -217,7 +217,6 @@
           kubernetes.io/hostname: master
 
 - name: Copy kubeconfig file
-  become: true
   ansible.builtin.copy:
     src: ~/.kube/config
     dest: "{{ KUBECONFIG_PATH }}"

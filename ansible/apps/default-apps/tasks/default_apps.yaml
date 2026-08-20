@@ -124,7 +124,7 @@
 
 - name: Copy kubeconfig file
   ansible.builtin.copy:
-    src: ~/.kube/config
+    src: /home/ubuntu/.kube/config
     dest: "{{ KUBECONFIG_PATH }}"
     mode: '0644'
 

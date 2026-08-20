@@ -327,13 +327,13 @@ cephClusterSpec:
         memory: "256Mi"
     mon:
       limits:
-        memory: "2Gi"
+        memory: "1Gi"
       requests:
         cpu: "100m"
         memory: "256Mi"
     osd:
       limits:
-        memory: "4Gi"
+        memory: "1Gi"
       requests:
         cpu: "100m"
         memory: "256Mi"
@@ -664,7 +664,7 @@ cephObjectStores:
         port: 80
         resources:
           limits:
-            memory: "2Gi"
+            memory: "1Gi"
           requests:
             cpu: "1000m"
             memory: "1Gi"

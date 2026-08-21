@@ -1,0 +1,6 @@
+1. Login to vault with root token: vault login <root_token>
+2. Create a policy file named `admin-policy.hcl` with the following content:
+   cd tmp
+   Write admin policy: vi admin-policy.hcl
+3. Create admin policy: vault policy write admin admin-policy.hcl
+4. Create a token with the admin policy: vault token create -policy=admin -display-name=admin-token

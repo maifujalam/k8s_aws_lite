@@ -48,3 +48,44 @@ Vault reset:
 5. Login to
 
 =======================================================================================================================
+Vault Status check:
+1. Exec into vault pod: kubectl -n vault exec -it vault-0 -- /bin/sh
+2. export VAULT_ADDR="https://vault.maifuj.com"
+3. vault login
+4. paste the root token from cluster-keys.json
+5. vault status
+6. vault operator raft list-peers
+
+====== Enable K8s demo vault auth method and create role ======
+1. Enable K8s auth method: vault auth enable --path=kubernetes kubernetes
+2. Create k8s authentication methode: vault write auth/kubernetes/config \
+    token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+    kubernetes_host="https://${KUBERNETES_PORT_443_TCP_ADDR}:443" \
+    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+3. Enable secret engine: vault secrets enable -path=secrets kv-v2
+4. Create json file for vault policy: cd tmp
+cat <<EOF > demo-policy.json
+path "secrets/data/demo/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+}
+EOF
+5. Create vault policy: vault policy write demo-policy demo-policy.json
+6. Create role in vault to access secrets with key-value engine: vault write auth/kubernetes/role/demo \
+    bound_service_account_names=demo \
+    bound_service_account_namespaces=default \
+    policies=demo-policy \
+    ttl=24h
+
+    Here, service account name is demo and namespace is default,is bound with policy demo-policy
+    which has access to secrets engine with path secrets/data/demo/*
+    Whats vaut role is doing:
+    a. path where to store secrets: secrets/data/demo/*
+    b. bound k8s cluster service account name: demo
+    c. bound k8s cluster service account namespace: default
+    d. policies to implement: demo-policy
+    e. ttl, i.e time to live: 24h
+
+7. Test write secret in vault: vault kv put secrets/demo/foo value=bar
+8. Test read secret in vault: vault kv get secrets/demo/foo
+==========================================================================

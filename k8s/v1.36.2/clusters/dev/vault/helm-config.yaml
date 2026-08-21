@@ -718,8 +718,8 @@ server:
   # Example:
   # nodeSelector:
   #   beta.kubernetes.io/arch: amd64
-#  nodeSelector:
-#    kubernetes.io/hostname: master
+  nodeSelector:
+    kubernetes.io/hostname: master
 
   # Enables network policy for server pods
   networkPolicy:

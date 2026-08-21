@@ -2,7 +2,7 @@ apiVersion: v1
 kind: LimitRange
 metadata:
   name: vault-secret-operator-resources
-  namespace: vault-secret-operator
+  namespace: vault-secret-operators
 spec:
   limits:
     - type: Container

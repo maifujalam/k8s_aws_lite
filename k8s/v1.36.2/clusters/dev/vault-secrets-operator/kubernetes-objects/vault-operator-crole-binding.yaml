@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vault-readonly-secrets-binding
+subjects:
+- kind: ServiceAccount
+  name: vault-operator
+  namespace: vault-secrets-operator   # only this SA in this namespace
+roleRef:
+  kind: ClusterRole
+  name: vault-readonly-secrets
+  apiGroup: rbac.authorization.k8s.io

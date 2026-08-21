@@ -653,7 +653,7 @@ defaultVaultConnection:
   # Address of the Vault Server
   # @type: string
   # Example: http://vault.default.svc.cluster.local:8200
-  address: "https://vault-dev.vault.svc.cluster.local:8201"
+  address: "https://vault.maifuj.com"
 
   # CACertSecret is the name of a Kubernetes secret containing the trusted PEM encoded CA certificate chain as `ca.crt`.
   # Note: This secret must exist prior to deploying the CR.
@@ -662,7 +662,7 @@ defaultVaultConnection:
 
   # TLSServerName to use as the SNI host for TLS connections.
   # @type: string
-  tlsServerName: "vault-dev.vault.svc.cluster.local"
+  tlsServerName: "vault.maifuj.com"
 
   # SkipTLSVerify for TLS connections.
   # @type: boolean

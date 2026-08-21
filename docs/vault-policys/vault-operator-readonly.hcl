@@ -1,4 +1,3 @@
-# operator.hcl
 path "secret/*" {
   capabilities = ["read", "list"]
 }

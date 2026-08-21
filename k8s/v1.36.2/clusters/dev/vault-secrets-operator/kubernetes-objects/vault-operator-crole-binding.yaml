@@ -4,7 +4,7 @@ metadata:
   name: vault-readonly-secrets-binding
 subjects:
 - kind: ServiceAccount
-  name: vault-operator
+  name: vault-secrets-operator
   namespace: vault-secrets-operator   # only this SA in this namespace
 roleRef:
   kind: ClusterRole

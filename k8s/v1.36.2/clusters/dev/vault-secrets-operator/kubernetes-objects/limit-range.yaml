@@ -13,8 +13,8 @@ spec:
         cpu: 300m
         memory: 512Mi
       min:                   # optional: reject anything below this
-        cpu: 10m
-        memory: 32Mi
+        cpu: 5m
+        memory: 8Mi
       max:                   # optional: reject anything above this
         cpu: 1
         memory: 1536Mi

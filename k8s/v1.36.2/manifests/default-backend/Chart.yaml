@@ -1,0 +1,12 @@
+apiVersion: v2
+name: default-backend
+description: Default backend for Istio ingress
+maintainers:
+- email: sk.maifujalam@gmail.com
+  name: SK Maifuj Alam
+  url: https://maifuj.com
+sources:
+- https://github.com/k8s_aws_lite/apps/default-backend
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

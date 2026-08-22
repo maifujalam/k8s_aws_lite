@@ -1,0 +1,24 @@
+#apiVersion: secrets.hashicorp.com/v1beta1
+#kind: VaultAuth
+#metadata:
+#  name: static-auth
+#  namespace: vault-secrets-operator  # Its a namespace based,all namespace consume VSO need it.
+#spec:
+#  vaultConnectionRef: default    # Which connection to use (see VaultConnection CRD)
+#  method: kubernetes             # Auth method to use (kubernetes, approle, etc.)
+#  mount: kubernetes              # Mount path of the auth method in Vault (default is "kubernetes")
+#  kubernetes:                    # Kubernetes auth method configuration
+#    role: vault-operator-readonly # The Vault role that this auth method will use
+#    serviceAccount: vault-secrets-operator
+#    audiences:
+#      - vault                   # The expected audience for the JWT token (default is "vault")
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: static-auth
+  namespace: vault-secrets-operator  # Its a namespace based,all namespace consume VSO need it.
+spec:
+  vaultAuthGlobalRef:
+    name: default                     # reference the VaultAuthGlobal named "default"
+    allowDefault: true               # The expected audience for the JWT token (default is "vault")

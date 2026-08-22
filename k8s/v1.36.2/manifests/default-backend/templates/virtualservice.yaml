@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "default-backend.fullname" . }}-vs
+  namespace: {{ .Release.Namespace }}
+spec:
+  hosts:
+{{ toYaml .Values.gateway.hosts | indent 4 }}
+  gateways:
+{{ toYaml .Values.gateway.names | indent 4 }}
+  http:
+    - route:
+        - destination:
+            host: {{ .Values.service.name }}
+            port:
+              number: {{ .Values.service.port }}

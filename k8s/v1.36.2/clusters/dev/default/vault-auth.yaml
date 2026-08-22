@@ -1,0 +1,9 @@
+#apiVersion: secrets.hashicorp.com/v1beta1
+#kind: VaultAuth
+#metadata:
+#  name: static-auth-default-ns
+#  namespace: default  # Its a namespace based,all namespace consume VSO need it.
+#spec:
+#  vaultAuthGlobalRef:
+#    name: default                     # reference the VaultAuthGlobal named "default"
+#    allowDefault: true

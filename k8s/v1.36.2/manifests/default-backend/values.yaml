@@ -1,0 +1,33 @@
+replicaCount: 1
+
+image:
+  repository: docker pull harbor.maifuj.com/dev-apps/default-backend
+  tag: 2
+  pullPolicy: IfNotPresent
+
+service:
+  name: default-backend
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: 50m
+    memory: 32Mi
+  requests:
+    cpu: 10m
+    memory: 16Mi
+
+gateway:
+  names:
+    - gateway-https
+    - gateway-tls-passthrough
+  hosts:
+    - "*"
+
+nodeSelector:
+  kubernetes.io/hostname: master
+tolerations:
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"

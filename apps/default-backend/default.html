@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maintenance in Progress</title>
+    <title>Service Status</title>
     <style>
         * {
             margin: 0;
@@ -17,9 +17,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Dark teal gradient over an office background */
             background: linear-gradient(rgba(22, 54, 66, 0.85), rgba(22, 54, 66, 0.9)),
                         url('img.png') no-repeat center center / cover;
+            position: relative;
         }
 
         /* Glassmorphism Card */
@@ -39,16 +39,24 @@
             align-items: center;
         }
 
-        /* Maintenance Icon */
         .maintenance-icon {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 25px;
-            fill: #7cd0d6; /* Teal color matching the theme */
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+            fill: #7cd0d6;
             filter: drop-shadow(0 0 10px rgba(124, 208, 214, 0.4));
         }
 
         /* Typography */
+        .error-code {
+            font-size: 3.5rem;
+            color: #7cd0d6;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
         h1 {
             font-size: 1.8rem;
             color: #f8fafc;
@@ -104,31 +112,144 @@
             transform: translateY(-2px);
         }
 
+        /* Bottom Right Corner Info */
+        .bottom-corner {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            text-align: right;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 18px;
+            border-radius: 8px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .bottom-corner a {
+            color: #7cd0d6;
+            text-decoration: none;
+        }
+
+        .bottom-corner a:hover {
+            text-decoration: underline;
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             .glass-card { padding: 40px 30px; }
             .btn-group { flex-direction: column; }
             .btn { width: 100%; }
+            .error-code { font-size: 2.8rem; }
+
+            .bottom-corner {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                text-align: center;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="glass-card">
-        <!-- SVG Maintenance Icon (Gears) -->
         <svg class="maintenance-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             <circle cx="12" cy="12" r="3" fill="none" stroke="#7cd0d6" stroke-width="2"></circle>
         </svg>
 
-        <h1>Server Maintenance in Progress</h1>
-        <p>Our services are temporarily offline. <br>Please try again after some time. <br> Default Maintenance Time: 08:00 PM to 08:00 AM (IST) </p>
+        <!-- Dynamic Error Code -->
+        <div class="error-code" id="display-error-code">503</div>
+
+        <!-- Dynamic Title and Description -->
+        <h1 id="display-error-title">Server Maintenance in Progress</h1>
+        <p id="display-error-desc">Our services are temporarily offline. <br>Please try again after some time. <br> Default Maintenance Time: 08:00 PM to 08:00 AM (IST) </p>
 
         <div class="btn-group">
-            <a href="/" class="btn btn-primary">Home Page</a>
+            <a href="https://www.maifuj.com/projects" class="btn btn-primary">Home Page</a>
             <button onclick="window.location.reload()" class="btn btn-secondary">Retry</button>
         </div>
     </div>
+
+    <!-- Bottom Right Corner Information -->
+    <div class="bottom-corner">
+        <div>Your IP Address: <span id="user-ip" style="color: #e2e8f0;">Loading...</span></div>
+        <div>Maintainer: SK Maifuj Alam</div>
+        <div>Email: <a href="mailto:sk.maifujalam@gmail.com">sk.maifujalam@gmail.com</a></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // --- 1. Dynamic Error Code Parsing ---
+            function detectErrorCode() {
+                const urlParams = new URLSearchParams(window.location.search);
+
+                // Priority 1: Query parameters (?code=XXX or ?status=XXX or ?err=XXX)
+                if (urlParams.get('code')) return urlParams.get('code');
+                if (urlParams.get('status')) return urlParams.get('status');
+                if (urlParams.get('err')) return urlParams.get('err');
+
+                // Priority 2: Hash parameter (e.g., /#404)
+                if (window.location.hash) {
+                    const hashMatch = window.location.hash.match(/\d{3}/);
+                    if (hashMatch) return hashMatch[0];
+                }
+
+                // Priority 3: Path segment matching 3-digit HTTP status (e.g., /502 or /502.html)
+                const pathMatch = window.location.pathname.match(/\b([45]\d{2})\b/);
+                if (pathMatch) return pathMatch[1];
+
+                // Fallback default
+                return '503';
+            }
+
+            const code = detectErrorCode();
+
+            // Error code reference dictionary
+            const errorDetails = {
+                '400': { title: 'Bad Request', desc: 'The server could not understand the request due to invalid syntax.' },
+                '401': { title: 'Unauthorized Access', desc: 'Authentication is required to access this resource.' },
+                '403': { title: 'Access Forbidden', desc: 'You do not have permission to view or access this resource.' },
+                '404': { title: 'Page Not Found', desc: 'The requested resource could not be found on the server.' },
+                '408': { title: 'Request Timeout', desc: 'The server timed out waiting for the request.' },
+                '500': { title: 'Internal Server Error', desc: 'The server encountered an unexpected condition that prevented it from fulfilling the request.' },
+                '502': { title: 'Bad Gateway', desc: 'The server received an invalid response from the upstream server.' },
+                '503': {
+                    title: 'Server Maintenance in Progress',
+                    desc: 'Our services are temporarily offline. <br>Please try again after some time. <br> Default Maintenance Time: 08:00 PM to 08:00 AM (IST)'
+                },
+                '504': { title: 'Gateway Timeout', desc: 'The upstream server failed to send a request in time.' }
+            };
+
+            // Apply updates to UI
+            const currentDetail = errorDetails[code] || {
+                title: 'Unexpected Error Occurred',
+                desc: 'An unexpected issue occurred while processing your request. Please try again later.'
+            };
+
+            document.getElementById('display-error-code').textContent = code;
+            document.getElementById('display-error-title').textContent = currentDetail.title;
+            document.getElementById('display-error-desc').innerHTML = currentDetail.desc;
+            document.title = `${code} -${currentDetail.title}`;
+
+            // --- 2. Fetch and Display User's IP ---
+            fetch('https://api.ipify.org?format=json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network error');
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('user-ip').textContent = data.ip;
+                })
+                .catch(() => {
+                    document.getElementById('user-ip').textContent = 'Unavailable';
+                });
+        });
+    </script>
 
 </body>
 </html>

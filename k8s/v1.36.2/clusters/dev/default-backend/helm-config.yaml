@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: harbor.maifuj.com/dev-apps/default-backend
-  tag: 3
+  tag: 4
   pullPolicy: IfNotPresent
 
 service:
@@ -23,7 +23,7 @@ gateway:
     - istio-ingress/gateway-https
     - istio-ingress/gateway-tls-passthrough
   hosts:
-    - "*"
+    - "*.maifuj.com"
 
 nodeSelector:
   kubernetes.io/hostname: master

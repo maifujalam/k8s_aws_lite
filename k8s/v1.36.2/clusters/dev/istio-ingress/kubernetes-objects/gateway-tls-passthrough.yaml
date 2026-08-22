@@ -12,7 +12,6 @@ spec:
         name: tls-passthrough
         protocol: HTTPS
       hosts:
-        - vault.maifuj.com
         - elastic.maifuj.com
       tls:
         mode: PASSTHROUGH

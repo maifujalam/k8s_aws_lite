@@ -9,9 +9,18 @@ spec:
   servers:
     - port:
         number: 443
+        name: tls-vault-passthrough
+        protocol: TLS
+      hosts:
+        - vault.maifuj.com
+      tls:
+        mode: PASSTHROUGH
+    - port:
+        number: 443
         name: https
         protocol: HTTPS
-      hosts: [ "*.maifuj.com" ]
+      hosts:
+        - "*.maifuj.com"
       tls:
         mode: SIMPLE
         credentialName: wildcard-certificate-secret
@@ -19,6 +28,8 @@ spec:
         number: 80
         name: http
         protocol: HTTP
-      hosts: [ "*.maifuj.com" ]
+      hosts:
+        - "*.maifuj.com"
       tls:
-        httpsRedirect: true      # 301 to https, no VirtualService needed
+        httpsRedirect: true   # 301 to https, no VirtualService needed
+

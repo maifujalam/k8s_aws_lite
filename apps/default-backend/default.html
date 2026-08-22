@@ -163,11 +163,11 @@
         </svg>
 
         <!-- Dynamic Error Code -->
-        <div class="error-code" id="display-error-code">503</div>
+        <div class="error-code" id="display-error-code">Loading...</div>
 
         <!-- Dynamic Title and Description -->
         <h1 id="display-error-title">Server Maintenance in Progress</h1>
-        <p id="display-error-desc">Our services are temporarily offline. <br>Please try again after some time. <br> Default Maintenance Time: 08:00 PM to 08:00 AM (IST) </p>
+        <p id="display-error-desc">Our services are temporarily offline. <br>Please try again after some time.</p>
 
         <div class="btn-group">
             <a href="https://www.maifuj.com/projects" class="btn btn-primary">Home Page</a>
@@ -183,33 +183,8 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // --- 1. Dynamic Error Code Parsing ---
-            function detectErrorCode() {
-                const urlParams = new URLSearchParams(window.location.search);
+        document.addEventListener("DOMContentLoaded", async () => {
 
-                // Priority 1: Query parameters (?code=XXX or ?status=XXX or ?err=XXX)
-                if (urlParams.get('code')) return urlParams.get('code');
-                if (urlParams.get('status')) return urlParams.get('status');
-                if (urlParams.get('err')) return urlParams.get('err');
-
-                // Priority 2: Hash parameter (e.g., /#404)
-                if (window.location.hash) {
-                    const hashMatch = window.location.hash.match(/\d{3}/);
-                    if (hashMatch) return hashMatch[0];
-                }
-
-                // Priority 3: Path segment matching 3-digit HTTP status (e.g., /502 or /502.html)
-                const pathMatch = window.location.pathname.match(/\b([45]\d{2})\b/);
-                if (pathMatch) return pathMatch[1];
-
-                // Fallback default
-                return '503';
-            }
-
-            const code = detectErrorCode();
-
-            // Error code reference dictionary
             const errorDetails = {
                 '400': { title: 'Bad Request', desc: 'The server could not understand the request due to invalid syntax.' },
                 '401': { title: 'Unauthorized Access', desc: 'Authentication is required to access this resource.' },
@@ -225,16 +200,35 @@
                 '504': { title: 'Gateway Timeout', desc: 'The upstream server failed to send a request in time.' }
             };
 
-            // Apply updates to UI
-            const currentDetail = errorDetails[code] || {
-                title: 'Unexpected Error Occurred',
-                desc: 'An unexpected issue occurred while processing your request. Please try again later.'
-            };
+            function setUI(code) {
+                const currentDetail = errorDetails[code] || errorDetails['503'];
+                document.getElementById('display-error-code').textContent = code;
+                document.getElementById('display-error-title').textContent = currentDetail.title;
+                document.getElementById('display-error-desc').innerHTML = currentDetail.desc;
+                document.title = `${code} - ${currentDetail.title}`;
+            }
 
-            document.getElementById('display-error-code').textContent = code;
-            document.getElementById('display-error-title').textContent = currentDetail.title;
-            document.getElementById('display-error-desc').innerHTML = currentDetail.desc;
-            document.title = `${code} -${currentDetail.title}`;
+            // --- 1. Dynamic Error Code Parsing ---
+            const urlParams = new URLSearchParams(window.location.search);
+            let finalCode = urlParams.get('code') || urlParams.get('status');
+
+            if (finalCode) {
+                // If it's explicitly passed in the URL (e.g. ?code=404), use it
+                setUI(finalCode);
+            } else {
+                // MAGIC HACK: If there's no URL parameter, make the browser ping the exact same URL it's on right now.
+                // It will read the actual Nginx status code (404, 502, 503) from the headers!
+                try {
+                    const response = await fetch(window.location.href, { method: 'HEAD' });
+                    // If the page returns a standard error code (400 or above), display it.
+                    // Otherwise (like if it returns 200 during local testing), default to 503.
+                    finalCode = (response.status >= 400) ? response.status.toString() : '503';
+                    setUI(finalCode);
+                } catch (err) {
+                    // If the fetch fails entirely, default to 503
+                    setUI('503');
+                }
+            }
 
             // --- 2. Fetch and Display User's IP ---
             fetch('https://api.ipify.org?format=json')

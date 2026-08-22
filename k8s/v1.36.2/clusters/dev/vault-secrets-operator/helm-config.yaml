@@ -683,11 +683,11 @@ defaultVaultConnection:
 defaultAuthMethod:
   # toggles the deployment of the VaultAuthMethod CR
   # @type: boolean
-  enabled: false
+  enabled: true
 
   # Vault namespace for the VaultAuthMethod CR
   # @type: string
-  namespace: ""
+  namespace: "vault-secrets-operator"
 
   # Kubernetes namespace glob patterns which are allow-listed for use with the default AuthMethod.
   # @type: array<string>
@@ -707,15 +707,15 @@ defaultAuthMethod:
     # This is a required field and must be setup in Vault prior to deploying the helm chart
     # if `defaultAuthMethod.enabled=true`
     # @type: string
-    role: ""
+    role: "vault-operator-readonly"
 
     # Kubernetes ServiceAccount associated with the default Vault Auth Role
     # @type: string
-    serviceAccount: default
+    serviceAccount: vault-secrets-operator
 
     # Token Audience should match the audience of the vault kubernetes auth role.
     # @type: array<string>
-    tokenAudiences: []
+    tokenAudiences: ["vault"]
 
   # Vault JWT auth method specific configuration
   jwt:

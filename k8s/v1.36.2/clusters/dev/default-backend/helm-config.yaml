@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: docker pull harbor.maifuj.com/dev-apps/default-backend
+  repository: harbor.maifuj.com/dev-apps/default-backend
   tag: 2
   pullPolicy: IfNotPresent
 

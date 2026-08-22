@@ -166,8 +166,8 @@
         <div class="error-code" id="display-error-code">Loading...</div>
 
         <!-- Dynamic Title and Description -->
-        <h1 id="display-error-title">Server Maintenance in Progress</h1>
-        <p id="display-error-desc">Our services are temporarily offline. <br>Please try again after some time.</p>
+        <h1 id="display-error-title">Page Not Found</h1>
+        <p id="display-error-desc">The requested resource could not be found on the server.</p>
 
         <div class="btn-group">
             <a href="https://www.maifuj.com/projects" class="btn btn-primary">Home Page</a>
@@ -216,17 +216,14 @@
                 // If it's explicitly passed in the URL (e.g. ?code=404), use it
                 setUI(finalCode);
             } else {
-                // MAGIC HACK: If there's no URL parameter, make the browser ping the exact same URL it's on right now.
-                // It will read the actual Nginx status code (404, 502, 503) from the headers!
                 try {
                     const response = await fetch(window.location.href, { method: 'HEAD' });
-                    // If the page returns a standard error code (400 or above), display it.
-                    // Otherwise (like if it returns 200 during local testing), default to 503.
-                    finalCode = (response.status >= 400) ? response.status.toString() : '503';
+                    // FIXED: Default to 404 instead of 503
+                    finalCode = (response.status >= 400) ? response.status.toString() : '404';
                     setUI(finalCode);
                 } catch (err) {
-                    // If the fetch fails entirely, default to 503
-                    setUI('503');
+                    // FIXED: If the fetch fails entirely, default to 404
+                    setUI('404');
                 }
             }
 

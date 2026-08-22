@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: harbor.maifuj.com/dev-apps/default-backend
-  tag: 6
+  tag: 7
   pullPolicy: IfNotPresent
 
 service:

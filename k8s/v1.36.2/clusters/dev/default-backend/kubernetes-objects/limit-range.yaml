@@ -10,8 +10,8 @@ spec:
         cpu: 10m
         memory: 64Mi
       default:               # applied if limits are omitted
-        cpu: 300m
-        memory: 512Mi
+        cpu: 50m
+        memory: 64Mi
       min:                   # optional: reject anything below this
         cpu: 10m
         memory: 16Mi

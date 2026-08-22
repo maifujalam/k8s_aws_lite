@@ -201,7 +201,7 @@
             };
 
             function setUI(code) {
-                const currentDetail = errorDetails[code] || errorDetails['503'];
+                const currentDetail = errorDetails[code] || errorDetails['404'];
                 document.getElementById('display-error-code').textContent = code;
                 document.getElementById('display-error-title').textContent = currentDetail.title;
                 document.getElementById('display-error-desc').innerHTML = currentDetail.desc;

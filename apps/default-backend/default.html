@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance in Progress</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Dark teal gradient over an office background */
+            background: linear-gradient(rgba(22, 54, 66, 0.85), rgba(22, 54, 66, 0.9)),
+                        url('img.png') no-repeat center center / cover;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 60px 80px;
+            text-align: center;
+            max-width: 650px;
+            width: 90%;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Maintenance Icon */
+        .maintenance-icon {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 25px;
+            fill: #7cd0d6; /* Teal color matching the theme */
+            filter: drop-shadow(0 0 10px rgba(124, 208, 214, 0.4));
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 1.8rem;
+            color: #f8fafc;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        /* Buttons Container */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        .btn-primary:hover {
+            background-color: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: rgba(30, 80, 105, 0.6);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(30, 80, 105, 0.9);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .glass-card { padding: 40px 30px; }
+            .btn-group { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-card">
+        <!-- SVG Maintenance Icon (Gears) -->
+        <svg class="maintenance-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            <circle cx="12" cy="12" r="3" fill="none" stroke="#7cd0d6" stroke-width="2"></circle>
+        </svg>
+
+        <h1>Server Maintenance in Progress</h1>
+        <p>Our services are temporarily offline. <br>Please try again after some time. <br> Default Maintenance Time: 08:00 PM to 08:00 AM (IST) </p>
+
+        <div class="btn-group">
+            <a href="/" class="btn btn-primary">Home Page</a>
+            <button onclick="window.location.reload()" class="btn btn-secondary">Retry</button>
+        </div>
+    </div>
+
+</body>
+</html>

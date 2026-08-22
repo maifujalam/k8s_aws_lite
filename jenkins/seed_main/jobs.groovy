@@ -89,3 +89,18 @@ pipelineJob('jnlp-agent.build') {
         }
     }
 }
+pipelineJob('default-backend.build') {
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/maifujalam/k8s_aws_lite.git')
+                    }
+                    branch('main')
+                }
+                scriptPath('app-build-pipeline/default-backend/Jenkinsfile') // Path to your pipeline script
+            }
+        }
+    }
+}

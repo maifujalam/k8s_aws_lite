@@ -1,4 +1,4 @@
-path "secret/*" {
+path "secrets/*" {
   capabilities = ["read", "list"]
 }
 path "kubernetes/*" {

@@ -20,8 +20,8 @@ resources:
 
 gateway:
   names:
-    - gateway-https
-    - gateway-tls-passthrough
+    - istio-ingress/gateway-https
+    - istio-ingress/gateway-tls-passthrough
   hosts:
     - "*"
 

@@ -189,13 +189,16 @@
                 '400': { title: 'Bad Request', desc: 'The server could not understand the request due to invalid syntax.' },
                 '401': { title: 'Unauthorized Access', desc: 'Authentication is required to access this resource.' },
                 '403': { title: 'Access Forbidden', desc: 'You do not have permission to view or access this resource.' },
-                '404': { title: 'Page Not Found', desc: 'The requested resource could not be found on the server.' },
+                '404': {
+                    title: 'Server Maintenance in Progress',
+                    desc: 'Please try again after some time. <br> Default Maintenance Time: 08:00 PM to 08:00 AM (IST)'
+                },
                 '408': { title: 'Request Timeout', desc: 'The server timed out waiting for the request.' },
                 '500': { title: 'Internal Server Error', desc: 'The server encountered an unexpected condition that prevented it from fulfilling the request.' },
                 '502': { title: 'Bad Gateway', desc: 'The server received an invalid response from the upstream server.' },
                 '503': {
                     title: 'Server Maintenance in Progress',
-                    desc: 'Our services are temporarily offline. <br>Please try again after some time. <br> Default Maintenance Time: 08:00 PM to 08:00 AM (IST)'
+                    desc: 'Please try again after some time. <br> Default Maintenance Time: 08:00 PM to 08:00 AM (IST)'
                 },
                 '504': { title: 'Gateway Timeout', desc: 'The upstream server failed to send a request in time.' }
             };
@@ -213,16 +216,13 @@
             let finalCode = urlParams.get('code') || urlParams.get('status');
 
             if (finalCode) {
-                // If it's explicitly passed in the URL (e.g. ?code=404), use it
                 setUI(finalCode);
             } else {
                 try {
                     const response = await fetch(window.location.href, { method: 'HEAD' });
-                    // FIXED: Default to 404 instead of 503
                     finalCode = (response.status >= 400) ? response.status.toString() : '404';
                     setUI(finalCode);
                 } catch (err) {
-                    // FIXED: If the fetch fails entirely, default to 404
                     setUI('404');
                 }
             }

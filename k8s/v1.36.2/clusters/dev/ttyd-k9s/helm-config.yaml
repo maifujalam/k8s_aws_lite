@@ -10,8 +10,12 @@ service:
 command:
   - "ttyd"
 args:
-  - -c
-  - ttyd -c "$USERNAME:$PASSWORD" --writable -p 7681 k9s
+  - "-c"
+  - "$(USERNAME):$(PASSWORD)"
+  - "--writable"
+  - "-p"
+  - "7681"
+  - "k9s"
 
 extraEnvSecrets:
   - name: USERNAME

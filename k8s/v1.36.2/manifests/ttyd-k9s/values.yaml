@@ -13,6 +13,14 @@ args:
   - "--writable"
   - "k9s"
 
+extraEnvSecrets:
+  - name: USERNAME
+    secretName: default-ttyd-k9s-secret
+    key: user
+  - name: PASSWORD
+    secretName: default-ttyd-k9s-secret
+    key: password
+
 ingress:
   enabled: true
   className: nginx

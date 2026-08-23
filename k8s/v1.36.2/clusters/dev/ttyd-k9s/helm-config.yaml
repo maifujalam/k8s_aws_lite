@@ -11,11 +11,20 @@ command:
   - "ttyd"
 args:
   - "-c"
-  - "admin:alam"
+  - "$USERNAME:$PASSWORD"
   - "--writable"
   - "-p"
   - "7681"
   - "k9s"
+
+extraEnvSecrets:
+  - name: USERNAME
+    secretName: default-ttyd-k9s-secret
+    key: user
+  - name: PASSWORD
+    secretName: default-ttyd-k9s-secret
+    key: password
+
 
 ingress:
   enabled: false

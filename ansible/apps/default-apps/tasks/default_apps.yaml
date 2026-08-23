@@ -221,7 +221,7 @@
   ansible.builtin.fetch:
     src: /home/ubuntu/.kube/config
     dest: "{{ KUBECONFIG_PATH }}/config"
-    mode: '0644'
+    flat: yes
   tags: [kubeconfig]
 
 - name: Update kubeconfig with MASTER_IP

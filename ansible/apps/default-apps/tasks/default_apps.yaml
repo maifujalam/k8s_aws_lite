@@ -220,7 +220,7 @@
 - name: Copy kubeconfig file
   ansible.builtin.fetch:
     src: /home/ubuntu/.kube/config
-    dest: "{{ KUBECONFIG_PATH }}/config"
+    dest: "{{ lookup('env','HOME') }}/.kube/config"
     flat: yes
   tags: [kubeconfig]
 

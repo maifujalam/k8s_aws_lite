@@ -226,7 +226,7 @@
 
 - name: Update kubeconfig with MASTER_IP
   ansible.builtin.replace:
-    path: "{{ KUBECONFIG_PATH }}"
+    path: "{{ KUBECONFIG_PATH }}/config"
     regexp: 'https://master:6443'
     replace: "https://{{ MASTER_NODE_IP }}:6443"
   tags: [kubeconfig]
@@ -236,7 +236,7 @@
   tags: [kubeconfig]
 
 - name: Add argocd node to the cluster
-  ansible.builtin.shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
+  ansible.builtin.shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig {{ KUBECONFIG_PATH }}/config  --grpc-web
   tags: [kubeconfig]
 
 - name: Install Default Apps

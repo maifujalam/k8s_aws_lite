@@ -222,20 +222,23 @@
     src: /home/ubuntu/.kube/config
     dest: "{{ KUBECONFIG_PATH }}"
     mode: '0644'
+  tags: [kubeconfig]
 
 - name: Update kubeconfig with MASTER_IP
   ansible.builtin.replace:
-    remote_src: yes
     path: "{{ KUBECONFIG_PATH }}"
     regexp: 'https://master:6443'
     replace: "https://{{ MASTER_NODE_IP }}:6443"
+  tags: [kubeconfig]
 
 - name: ArgoCD login # noqa: no-changed-when
-  shell: "argocd login argocd.maifuj.com --username admin --password {{ ADMIN_PASSWORD }} --insecure"
+  ansible.builtin.shell: "argocd login argocd.maifuj.com --username admin --password {{ ADMIN_PASSWORD }} --insecure"
+  tags: [kubeconfig]
 
 
 - name: Add argocd node to the cluster
-  shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
-
+  ansible.builtin.shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
+  tags: [kubeconfig]
 - name: Install Default Apps
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/bootstrap/
+  tags: [kubeconfig]

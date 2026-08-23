@@ -68,6 +68,7 @@ Architecture:-
     bound_service_account_names=vault-secrets-operator \
     bound_service_account_namespaces='*' \
     policies=vault-operator-readonly \
+    audience=vault \
     ttl=24h
 
     Note: Very relaxed. Any SA in any namespace can access to vault with read-only policy.
@@ -123,3 +124,4 @@ items:
     caCertSecretRef: vault-certificate-secret
     skipTLSVerify: false
     tlsServerName: vault.maifuj.com
+

@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-secrets-operator   # NOTE: DO NOT CHANGE THIS NAME, IT IS REFERENCED IN THE VaultAuth CRD.ITS SAME FOR ALL NAMESPACES.
+  namespace: ttyd-k9s
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-auth   # NOTE: DO NOT CHANGE THIS NAME, IT IS REFERENCED IN THE VaultAuth CRD.ITS SAME FOR ALL NAMESPACES.
+  namespace: ttyd-k9s
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: vault-operator-readonly  # NOTE: DO NOT CHANGE THIS NAME, IT IS REFERENCED IN THE VaultAuth CRD.ITS SAME FOR ALL NAMESPACES.
+    serviceAccount: vault-secrets-operator   # NOTE: DO NOT CHANGE THIS NAME, IT IS REFERENCED IN THE VaultAuth CRD.ITS SAME FOR ALL NAMESPACES.
+    audiences:
+      - vault

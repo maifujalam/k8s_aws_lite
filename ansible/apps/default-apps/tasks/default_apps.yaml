@@ -220,7 +220,7 @@
 - name: Copy kubeconfig file
   ansible.builtin.fetch:
     src: /home/ubuntu/.kube/config
-    dest: "{{ KUBECONFIG_PATH }}"
+    dest: "{{ KUBECONFIG_PATH }}/config"
     mode: '0644'
   tags: [kubeconfig]
 
@@ -235,10 +235,10 @@
   ansible.builtin.shell: "argocd login argocd.maifuj.com --username admin --password {{ ADMIN_PASSWORD }} --insecure"
   tags: [kubeconfig]
 
-
 - name: Add argocd node to the cluster
   ansible.builtin.shell: argocd cluster add kubernetes-admin@local-k8s --upsert --insecure --yes --label cluster-name=dev --name dev --kubeconfig ~/config  --grpc-web
   tags: [kubeconfig]
+
 - name: Install Default Apps
   shell: kubectl apply -f /home/{{USER}}/{{PROJECT_PATH}}/k8s/{{KUBERNETES_VERSION}}/bootstrap/
   tags: [kubeconfig]

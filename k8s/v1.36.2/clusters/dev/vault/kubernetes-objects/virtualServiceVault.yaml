@@ -7,7 +7,7 @@ spec:
   hosts:
     - vault.maifuj.com
   gateways:
-    - istio-ingress/gateway-https
+    - istio-ingress/vault-gateway-tls-passthrough
   tls:
     - match:
         - port: 443

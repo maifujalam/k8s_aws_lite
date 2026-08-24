@@ -8,10 +8,6 @@ items:
   kind: Grafana
   metadata:
     annotations:
-      vault.security.banzaicloud.io/vault-addr: "https://vault-dev.vault.svc.cluster.local:8200"
-      vault.security.banzaicloud.io/vault-role: "vault-init-readonly"
-      vault.security.banzaicloud.io/vault-path: "kubernetes-insecure"
-      vault.security.banzaicloud.io/vault-skip-verify: "true"
     labels:
       dashboards: grafana
     name: grafana
@@ -37,6 +33,13 @@ items:
         strategy:
           type: Recreate
         template:
+          metadata:
+            annotations:
+              vault.security.banzaicloud.io/vault-addr: https://vault-dev.vault.svc.cluster.local:8200
+              vault.security.banzaicloud.io/vault-role: grafana-readonly
+              vault.security.banzaicloud.io/vault-path: kubernetes
+              vault.security.banzaicloud.io/vault-skip-verify: "true"
+              vault.security.banzaicloud.io/vault-env: "true"
           spec:
             containers:
             - name: grafana

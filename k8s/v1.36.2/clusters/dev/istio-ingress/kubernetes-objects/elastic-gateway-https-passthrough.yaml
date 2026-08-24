@@ -9,7 +9,7 @@ spec:
   servers:
     - port:
         number: 443
-        name: tls-passthrough
+        name: elastic-https-passthrough
         protocol: HTTPS
       hosts:
         - elastic.maifuj.com

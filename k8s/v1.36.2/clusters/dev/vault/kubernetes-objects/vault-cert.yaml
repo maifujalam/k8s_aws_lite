@@ -11,7 +11,6 @@ spec:
   emailAddresses:
     - sk.maifujalam@gmail.com
   dnsNames:
-    - vault-dev-active.vault.svc.cluster.local
     - vault.maifuj.com
   issuerRef:
     name: letsencrypt-prod-cluster-issuer       # <-- check your actual ClusterIssuer name

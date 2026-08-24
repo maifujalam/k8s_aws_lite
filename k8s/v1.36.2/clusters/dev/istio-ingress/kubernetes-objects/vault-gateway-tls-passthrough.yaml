@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: vault-gateway-tls-passthrough
+  namespace: istio-ingress
+spec:
+  selector:
+    istio: ingress-dev
+  servers:
+    - port:
+        number: 443
+        name: tls-passthrough
+        protocol: HTTPS
+      hosts:
+        - vault.maifuj.com
+      tls:
+        mode: PASSTHROUGH

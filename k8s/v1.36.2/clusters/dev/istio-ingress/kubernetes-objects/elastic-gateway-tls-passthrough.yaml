@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
-  name: gateway-tls-passthrough
+  name: elastic-gateway-tls-passthrough
   namespace: istio-ingress
 spec:
   selector:

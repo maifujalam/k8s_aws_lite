@@ -9,14 +9,6 @@ spec:
   servers:
     - port:
         number: 443
-        name: tls-vault-passthrough
-        protocol: TLS
-      hosts:
-        - vault.maifuj.com
-      tls:
-        mode: PASSTHROUGH
-    - port:
-        number: 443
         name: https
         protocol: HTTPS
       hosts:

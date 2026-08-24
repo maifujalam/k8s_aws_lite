@@ -8,7 +8,10 @@ items:
   kind: Grafana
   metadata:
     annotations:
-    generation: 2
+      vault.security.banzaicloud.io/vault-addr: "https://vault-dev.vault.svc.cluster.local:8200"
+      vault.security.banzaicloud.io/vault-role: "vault-init-readonly"
+      vault.security.banzaicloud.io/vault-path: "kubernetes-insecure"
+      vault.security.banzaicloud.io/vault-skip-verify: "true"
     labels:
       dashboards: grafana
     name: grafana
@@ -25,7 +28,8 @@ items:
       log:
         mode: console
       security:
-        admin_user: admin
+        admin_password: vault:secrets/data/dev/grafana/default#password
+        admin_user: vault:secrets/data/dev/grafana/default#user
         disable_gravatar: "false"
     deployment:
       spec:

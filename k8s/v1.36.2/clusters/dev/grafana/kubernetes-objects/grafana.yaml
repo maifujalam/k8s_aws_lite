@@ -24,8 +24,6 @@ items:
       log:
         mode: console
       security:
-        admin_password: vault:secrets/data/dev/grafana/default#password
-        admin_user: vault:secrets/data/dev/grafana/default#user
         disable_gravatar: "false"
     deployment:
       spec:
@@ -39,12 +37,16 @@ items:
               vault.security.banzaicloud.io/vault-role: vault-init-readonly
               vault.security.banzaicloud.io/vault-path: kubernetes-insecure
               vault.security.banzaicloud.io/vault-skip-verify: "true"
-
           spec:
             containers:
             - name: grafana
               securityContext:
                 readOnlyRootFilesystem: false
+              env:
+                - name: GF_SECURITY_ADMIN_USER
+                  value: vault:secrets/data/dev/grafana/default#user
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  value: vault:secrets/data/dev/grafana/default#password
     ingress:
       spec:
         ingressClassName: nginx

@@ -8,8 +8,6 @@ spec:
   usages:
     - server auth
     - client auth
-  emailAddresses:
-    - sk.maifujalam@gmail.com
   dnsNames:
     - vault.maifuj.com
   issuerRef:

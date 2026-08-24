@@ -76,12 +76,20 @@ spec:
       labels:
         app: details
         version: v1
+      annotations:
+        vault.security.banzaicloud.io/vault-addr: https://vault-dev-active.vault.svc.cluster.local:8200
+        vault.security.banzaicloud.io/vault-path: secrets
+        vault.security.banzaicloud.io/vault-role: vault-init-readonly
     spec:
       serviceAccountName: bookinfo-details
       containers:
       - name: details
         image: registry.istio.io/release/examples-bookinfo-details-v1:1.20.3
         imagePullPolicy: IfNotPresent
+        env:
+          # Assuming you are using KV-v2, the path usually includes /data/
+          - name: MY_ENV
+            value: vault:secrets/dev/ttyd-k9s/default#password
         ports:
         - containerPort: 9080
         resources:

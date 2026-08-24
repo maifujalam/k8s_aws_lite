@@ -174,7 +174,7 @@ topologySpreadConstraints: {}
 
 # -- Assign a PriorityClassName to pods if set.
 # Check: <https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/>
-priorityClassName: "cluster-node-critical"
+priorityClassName: "system-cluster-critical"
 
 # -- Liveness and readiness probes for the webhook container
 livenessProbe:

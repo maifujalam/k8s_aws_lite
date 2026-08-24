@@ -77,11 +77,12 @@ spec:
         app: details
         version: v1
       annotations:
-        vault.security.banzaicloud.io/vault-addr: https://vault-dev-active.vault.svc.cluster.local:8200
-        vault.security.banzaicloud.io/vault-path: secrets
-        vault.security.banzaicloud.io/vault-role: vault-init-readonly
+        vault.security.banzaicloud.io/vault-addr: "https://vault-dev.vault.svc.cluster.local:8200"
+        vault.security.banzaicloud.io/vault-role: "vault-init-readonly"
+        vault.security.banzaicloud.io/vault-path: "kubernetes-insecure"
+        vault.security.banzaicloud.io/vault-skip-verify: "true"
     spec:
-      serviceAccountName: bookinfo-details
+      serviceAccountName: default
       containers:
       - name: details
         image: registry.istio.io/release/examples-bookinfo-details-v1:1.20.3
@@ -89,7 +90,9 @@ spec:
         env:
           # Assuming you are using KV-v2, the path usually includes /data/
           - name: MY_ENV
-            value: vault:secrets/dev/ttyd-k9s/default#password
+            value: vault:secrets/data/dev/ttyd-k9s/default#user
+          - name: MY_ENV2
+            value: vault:secrets/data/dev/ttyd-k9s/default#password
         ports:
         - containerPort: 9080
         resources:
@@ -146,7 +149,7 @@ spec:
         app: ratings
         version: v1
     spec:
-      serviceAccountName: bookinfo-ratings
+      serviceAccountName: default
       containers:
       - name: ratings
         image: registry.istio.io/release/examples-bookinfo-ratings-v1:1.20.3
@@ -207,7 +210,7 @@ spec:
         app: reviews
         version: v1
     spec:
-      serviceAccountName: bookinfo-reviews
+      serviceAccountName: default
       containers:
       - name: reviews
         image: registry.istio.io/release/examples-bookinfo-reviews-v1:1.20.3
@@ -255,7 +258,7 @@ spec:
         app: reviews
         version: v2
     spec:
-      serviceAccountName: bookinfo-reviews
+      serviceAccountName: default
       containers:
       - name: reviews
         image: registry.istio.io/release/examples-bookinfo-reviews-v2:1.20.3

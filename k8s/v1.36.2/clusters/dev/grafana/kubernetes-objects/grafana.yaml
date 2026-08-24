@@ -25,7 +25,6 @@ items:
       log:
         mode: console
       security:
-        admin_password: alam
         admin_user: admin
         disable_gravatar: "false"
     deployment:

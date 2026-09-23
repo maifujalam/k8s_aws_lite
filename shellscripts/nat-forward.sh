@@ -25,8 +25,8 @@ sudo iptables -t nat -A POSTROUTING -o "$PUBLIC_INTERFACE" -j MASQUERADE
 
 # Configure forwarding rules
 echo "[4/6] Setting up FORWARD chain rules..."
-sudo iptables -F FORWARD
-sudo iptables -P FORWARD ACCEPT
+sudo iptables -F FORWARD # here F: Flush all rules in the FORWARD chain
+sudo iptables -P FORWARD ACCEPT # here P: Set default policy to ACCEPT for the FORWARD chain
 
 # Persist rules
 echo "[5/6] Persisting iptables rules..."
